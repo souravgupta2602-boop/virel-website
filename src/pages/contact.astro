@@ -1,0 +1,400 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Contact — Virel" description="Get in touch with the Virel team. We're here to help.">
+
+  <section class="page-hero">
+    <div class="container">
+      <div class="section-label">Get in touch</div>
+      <h1 class="section-title">We'd love to <span class="gradient-text">hear from you</span></h1>
+      <p class="section-sub" style="margin: 0 auto; text-align: center;">
+        Questions, feedback, or partnership inquiries — drop us a line.
+      </p>
+    </div>
+  </section>
+
+  <section class="contact-section">
+    <div class="container">
+      <div class="contact-grid">
+
+        <!-- CONTACT INFO -->
+        <div class="contact-info">
+          <h2 class="info-title">Reach us directly</h2>
+
+          <div class="contact-card">
+            <div class="contact-icon">✉️</div>
+            <div>
+              <div class="contact-label">Support</div>
+              <a href="mailto:support@getvirel.co" class="contact-value">support@getvirel.co</a>
+            </div>
+          </div>
+
+          <div class="contact-card">
+            <div class="contact-icon">🌐</div>
+            <div>
+              <div class="contact-label">Website</div>
+              <a href="https://www.getvirel.co" class="contact-value">www.getvirel.co</a>
+            </div>
+          </div>
+
+          <div class="contact-card">
+            <div class="contact-icon">📱</div>
+            <div>
+              <div class="contact-label">App</div>
+              <a href="https://play.google.com/store" class="contact-value" target="_blank" rel="noopener">Google Play Store</a>
+            </div>
+          </div>
+
+          <div class="faq-block">
+            <h3 class="faq-title">Frequently asked</h3>
+            {[
+              { q: 'Is Virel free?', a: 'Yes, Virel is completely free to download and use on Android.' },
+              { q: 'Is my data safe?', a: 'Your financial data stays on your device. We never share or sell your data.' },
+              { q: 'When is iOS coming?', a: 'We\'re working on it! Sign up to be notified when it launches.' },
+              { q: 'Which banks are supported?', a: 'We support 50+ cards from HDFC, SBI, ICICI, Axis, Kotak, AmEx, and more.' },
+            ].map(f => (
+              <div class="faq-item">
+                <div class="faq-q">{f.q}</div>
+                <div class="faq-a">{f.a}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <!-- CONTACT FORM -->
+        <div class="contact-form-wrap">
+          <h2 class="form-title">Send us a message</h2>
+          <form class="contact-form" name="contact" method="POST" data-netlify="true">
+            <input type="hidden" name="form-name" value="contact" />
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" placeholder="Your name" required />
+              </div>
+              <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" placeholder="you@example.com" required />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="subject">Subject</label>
+              <select id="subject" name="subject">
+                <option value="support">Support / Bug report</option>
+                <option value="feedback">App feedback</option>
+                <option value="ios">iOS waitlist</option>
+                <option value="partnership">Partnership / Business</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="message">Message</label>
+              <textarea id="message" name="message" rows="5" placeholder="Tell us how we can help..." required></textarea>
+            </div>
+
+            <button type="submit" class="btn-primary submit-btn">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m22 2-7 20-4-9-9-4 20-7z"/></svg>
+              Send Message
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- iOS WAITLIST -->
+  <section class="ios-section">
+    <div class="container">
+      <div class="ios-inner">
+        <div class="ios-text">
+          <div class="ios-badge">Coming soon</div>
+          <h2>Virel for iOS</h2>
+          <p>We're bringing Virel to iPhone. Leave your email and we'll notify you the moment it's ready.</p>
+        </div>
+        <form class="ios-form" name="ios-waitlist" method="POST" data-netlify="true">
+          <input type="hidden" name="form-name" value="ios-waitlist" />
+          <div class="ios-input-row">
+            <input type="email" name="email" placeholder="your@email.com" required />
+            <button type="submit">Notify me</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+</Layout>
+
+<style>
+  .page-hero {
+    padding: 80px 0 60px;
+    text-align: center;
+  }
+
+  .contact-section {
+    padding: 60px 0 100px;
+  }
+
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 64px;
+    align-items: start;
+  }
+
+  .info-title, .form-title {
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: #111827;
+    margin-bottom: 28px;
+  }
+
+  .contact-card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px;
+    background: #FAFAFA;
+    border: 1px solid #F3F4F6;
+    border-radius: 14px;
+    margin-bottom: 12px;
+  }
+
+  .contact-icon {
+    font-size: 1.5rem;
+    flex-shrink: 0;
+  }
+
+  .contact-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #9CA3AF;
+    margin-bottom: 2px;
+  }
+
+  .contact-value {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #4F46E5;
+    transition: opacity 0.15s;
+  }
+
+  .contact-value:hover { opacity: 0.75; }
+
+  .faq-block {
+    margin-top: 36px;
+  }
+
+  .faq-title {
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #9CA3AF;
+    margin-bottom: 16px;
+  }
+
+  .faq-item {
+    padding: 14px 0;
+    border-bottom: 1px solid #F3F4F6;
+  }
+
+  .faq-item:last-child { border-bottom: none; }
+
+  .faq-q {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #111827;
+    margin-bottom: 4px;
+  }
+
+  .faq-a {
+    font-size: 0.85rem;
+    color: #6B7280;
+    line-height: 1.55;
+  }
+
+  /* FORM */
+  .contact-form-wrap {
+    background: white;
+    border-radius: 24px;
+    padding: 36px;
+    box-shadow: 0 8px 40px rgba(79, 70, 229, 0.08);
+    border: 1px solid rgba(79, 70, 229, 0.06);
+  }
+
+  .contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .form-group label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #374151;
+  }
+
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    border: 1.5px solid #E5E7EB;
+    border-radius: 10px;
+    padding: 12px 14px;
+    font-size: 0.9rem;
+    font-family: inherit;
+    color: #111827;
+    background: #FAFAFA;
+    outline: none;
+    transition: border-color 0.15s, box-shadow 0.15s;
+    resize: vertical;
+  }
+
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus {
+    border-color: #4F46E5;
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+    background: white;
+  }
+
+  .form-group input::placeholder,
+  .form-group textarea::placeholder {
+    color: #9CA3AF;
+  }
+
+  .submit-btn {
+    align-self: flex-start;
+    width: auto;
+  }
+
+  /* iOS SECTION */
+  .ios-section {
+    padding: 80px 0;
+    background: linear-gradient(135deg, #0F0F1A 0%, #1a1040 100%);
+    margin-top: 0;
+  }
+
+  .ios-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 48px;
+    flex-wrap: wrap;
+  }
+
+  .ios-badge {
+    display: inline-block;
+    background: rgba(255,255,255,0.1);
+    color: #A5B4FC;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 5px 12px;
+    border-radius: 100px;
+    margin-bottom: 12px;
+  }
+
+  .ios-text h2 {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: white;
+    margin-bottom: 8px;
+  }
+
+  .ios-text p {
+    font-size: 0.95rem;
+    color: rgba(255,255,255,0.6);
+    max-width: 420px;
+  }
+
+  .ios-form {
+    flex-shrink: 0;
+  }
+
+  .ios-input-row {
+    display: flex;
+    gap: 0;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .ios-input-row input {
+    background: transparent;
+    border: none;
+    padding: 14px 18px;
+    font-size: 0.9rem;
+    color: white;
+    font-family: inherit;
+    outline: none;
+    min-width: 220px;
+  }
+
+  .ios-input-row input::placeholder {
+    color: rgba(255,255,255,0.4);
+  }
+
+  .ios-input-row button {
+    background: linear-gradient(135deg, #4F46E5, #7C3AED);
+    color: white;
+    border: none;
+    padding: 14px 24px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: opacity 0.2s;
+  }
+
+  .ios-input-row button:hover {
+    opacity: 0.9;
+  }
+
+  @media (max-width: 900px) {
+    .contact-grid {
+      grid-template-columns: 1fr;
+    }
+    .ios-inner {
+      text-align: center;
+      justify-content: center;
+    }
+    .ios-text p {
+      margin: 0 auto;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .form-row {
+      grid-template-columns: 1fr;
+    }
+    .contact-form-wrap {
+      padding: 24px;
+    }
+    .ios-input-row {
+      flex-direction: column;
+    }
+    .ios-input-row input {
+      min-width: unset;
+    }
+  }
+</style>

@@ -1,0 +1,779 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Virel — The Smarter Way to Use Your Credit Cards">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-content">
+        <div class="hero-badge">
+          <span class="badge-dot"></span>
+          Now available on Android
+        </div>
+        <h1 class="hero-title">
+          Stop leaving<br />
+          <span class="gradient-text">rewards on the table</span>
+        </h1>
+        <p class="hero-sub">
+          Virel tells you which card to swipe at every purchase, tracks your spend, and helps you earn maximum rewards across flights, food, cabs, and more.
+        </p>
+        <div class="hero-ctas">
+          <a href="https://play.google.com/store" class="btn-primary" target="_blank" rel="noopener">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M3 20.5v-17c0-.83 1-.97 1.27-.38l13 8.5c.27.17.27.59 0 .76l-13 8.5C3.97 21.47 3 21.33 3 20.5z"/></svg>
+            Download Free
+          </a>
+          <a href="/features" class="btn-secondary">See Features</a>
+        </div>
+        <div class="hero-stats">
+          <div class="stat">
+            <span class="stat-num">50+</span>
+            <span class="stat-label">Credit Cards</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat">
+            <span class="stat-num">10+</span>
+            <span class="stat-label">Categories</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat">
+            <span class="stat-num">6</span>
+            <span class="stat-label">Countries</span>
+          </div>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="phone-mockup">
+          <div class="phone-screen">
+            <div class="app-header">
+              <div class="app-greeting">Good morning, Sourav</div>
+              <div class="app-coins">🪙 2,450 coins</div>
+            </div>
+            <div class="app-card">
+              <div class="card-name">HDFC Regalia</div>
+              <div class="card-num">•••• •••• •••• 4821</div>
+              <div class="card-spent">₹18,240 spent this month</div>
+            </div>
+            <div class="best-card-tip">
+              <div class="tip-icon">✦</div>
+              <div class="tip-text">
+                <div class="tip-title">Best card for Swiggy</div>
+                <div class="tip-sub">Axis Flipkart — 5% cashback</div>
+              </div>
+            </div>
+            <div class="quick-actions">
+              <div class="action">✈️<span>Travel</span></div>
+              <div class="action">🍕<span>Food</span></div>
+              <div class="action">🚖<span>Cabs</span></div>
+              <div class="action">🎯<span>Smart</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="floating-card card-1">
+          <div class="fc-icon">🏆</div>
+          <div>
+            <div class="fc-title">₹3,200 saved</div>
+            <div class="fc-sub">this month</div>
+          </div>
+        </div>
+        <div class="floating-card card-2">
+          <div class="fc-icon">⚡</div>
+          <div>
+            <div class="fc-title">Best Card</div>
+            <div class="fc-sub">Auto-detected</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRUSTED BY -->
+  <section class="trusted">
+    <div class="container">
+      <p class="trusted-label">Works with cards from leading banks</p>
+      <div class="bank-logos">
+        {['HDFC', 'SBI', 'ICICI', 'Axis', 'AmEx', 'Kotak', 'IndusInd', 'YES Bank'].map(bank => (
+          <div class="bank-chip">{bank}</div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES OVERVIEW -->
+  <section class="features-overview">
+    <div class="container">
+      <div class="section-header center">
+        <div class="section-label">What Virel does</div>
+        <h2 class="section-title">Everything you need to <span class="gradient-text">spend smarter</span></h2>
+        <p class="section-sub" style="margin: 0 auto;">
+          From choosing the right card to booking travel — Virel is your financial co-pilot.
+        </p>
+      </div>
+      <div class="features-grid">
+        {[
+          {
+            icon: '💳',
+            title: 'Best Card, Every Time',
+            desc: 'Pick any category — Virel instantly shows which of your cards gives the highest reward. Swiggy, petrol, flights — no guessing.',
+          },
+          {
+            icon: '🤖',
+            title: 'AI Voice Assistant',
+            desc: 'Ask Virel anything: "Which card for Amazon?" or "How much did I spend on food?" — powered by Gemini AI.',
+          },
+          {
+            icon: '🪙',
+            title: 'Virel Coins & Rewards',
+            desc: 'Earn coins on every spend, daily check-ins, and tasks. Spin the wheel to win vouchers and cashback.',
+          },
+          {
+            icon: '📊',
+            title: 'Smart Spend Insights',
+            desc: 'See missed savings by category, detect recurring charges, and get personalized tips to maximize your card benefits.',
+          },
+          {
+            icon: '✈️',
+            title: 'Travel in One Place',
+            desc: 'Compare flights, trains, and buses across platforms. See card offers and convenience fees side-by-side before booking.',
+          },
+          {
+            icon: '📨',
+            title: 'Auto Transaction Import',
+            desc: 'Import your transactions from Gmail or SMS automatically. No manual entry — Virel keeps your spend log up to date.',
+          },
+        ].map(f => (
+          <div class="feature-card">
+            <div class="feature-icon">{f.icon}</div>
+            <h3 class="feature-title">{f.title}</h3>
+            <p class="feature-desc">{f.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="how-it-works">
+    <div class="container">
+      <div class="hiw-inner">
+        <div class="hiw-text">
+          <div class="section-label">Simple by design</div>
+          <h2 class="section-title">Get started in <span class="gradient-text">3 steps</span></h2>
+          <div class="steps">
+            {[
+              { num: '01', title: 'Add your cards', desc: 'Add your credit cards manually or let Virel scan your Gmail to import them automatically.' },
+              { num: '02', title: 'Log your spends', desc: 'Tap, pick a category, and Virel shows the best card before you even pay.' },
+              { num: '03', title: 'Watch rewards grow', desc: 'Earn Virel Coins, hit milestones, and see exactly how much you\'ve saved.' },
+            ].map(s => (
+              <div class="step">
+                <div class="step-num">{s.num}</div>
+                <div class="step-body">
+                  <h4 class="step-title">{s.title}</h4>
+                  <p class="step-desc">{s.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+          <a href="/features" class="btn-primary" style="margin-top: 32px;">See all features</a>
+        </div>
+        <div class="hiw-visual">
+          <div class="insight-card">
+            <div class="insight-header">
+              <span>Missed Savings This Month</span>
+              <span class="insight-badge">₹1,840</span>
+            </div>
+            <div class="insight-row">
+              <div class="insight-category">🍕 Food</div>
+              <div class="insight-detail">Switch to Axis Flipkart → save ₹680</div>
+            </div>
+            <div class="insight-row">
+              <div class="insight-category">⛽ Petrol</div>
+              <div class="insight-detail">Switch to BPCL SBI → save ₹520</div>
+            </div>
+            <div class="insight-row">
+              <div class="insight-category">🛒 Shopping</div>
+              <div class="insight-detail">Switch to Amazon Pay ICICI → save ₹640</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA BANNER -->
+  <section class="cta-banner">
+    <div class="container">
+      <div class="cta-inner">
+        <div class="cta-text">
+          <h2>Ready to earn more from every swipe?</h2>
+          <p>Download Virel free and start maximizing your card rewards today.</p>
+        </div>
+        <div class="cta-buttons">
+          <a href="https://play.google.com/store" class="btn-white" target="_blank" rel="noopener">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M3 20.5v-17c0-.83 1-.97 1.27-.38l13 8.5c.27.17.27.59 0 .76l-13 8.5C3.97 21.47 3 21.33 3 20.5z"/></svg>
+            Get on Android
+          </a>
+          <a href="/contact" class="btn-outline-white">Request iOS</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</Layout>
+
+<style>
+  /* HERO */
+  .hero {
+    padding: 80px 0 60px;
+    overflow: hidden;
+  }
+
+  .hero .container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    align-items: center;
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(79, 70, 229, 0.08);
+    color: #4F46E5;
+    border: 1px solid rgba(79, 70, 229, 0.2);
+    border-radius: 100px;
+    padding: 6px 14px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 24px;
+  }
+
+  .badge-dot {
+    width: 7px;
+    height: 7px;
+    background: #10B981;
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  .hero-title {
+    font-size: clamp(2.2rem, 5vw, 3.6rem);
+    font-weight: 900;
+    line-height: 1.1;
+    margin-bottom: 20px;
+    color: #111827;
+  }
+
+  .hero-sub {
+    font-size: 1.1rem;
+    color: #6B7280;
+    line-height: 1.7;
+    margin-bottom: 36px;
+    max-width: 480px;
+  }
+
+  .hero-ctas {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .hero-stats {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    margin-top: 48px;
+    padding-top: 36px;
+    border-top: 1px solid #F3F4F6;
+  }
+
+  .stat {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .stat-num {
+    font-size: 1.6rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #4F46E5, #7C3AED);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .stat-label {
+    font-size: 0.8rem;
+    color: #9CA3AF;
+    font-weight: 500;
+  }
+
+  .stat-divider {
+    width: 1px;
+    height: 36px;
+    background: #E5E7EB;
+  }
+
+  /* PHONE MOCKUP */
+  .hero-visual {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    padding: 20px 0;
+  }
+
+  .phone-mockup {
+    width: 260px;
+    background: #0F0F1A;
+    border-radius: 36px;
+    padding: 24px 16px;
+    box-shadow: 0 40px 80px rgba(79, 70, 229, 0.25), 0 0 0 1px rgba(255,255,255,0.08);
+  }
+
+  .phone-screen {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .app-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .app-greeting {
+    font-size: 0.7rem;
+    color: #9CA3AF;
+    font-weight: 500;
+  }
+
+  .app-coins {
+    font-size: 0.7rem;
+    color: #F59E0B;
+    font-weight: 600;
+    background: rgba(245, 158, 11, 0.12);
+    padding: 3px 8px;
+    border-radius: 100px;
+  }
+
+  .app-card {
+    background: linear-gradient(135deg, #4F46E5, #7C3AED);
+    border-radius: 16px;
+    padding: 16px;
+    color: white;
+  }
+
+  .card-name {
+    font-size: 0.75rem;
+    opacity: 0.8;
+    margin-bottom: 4px;
+  }
+
+  .card-num {
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    margin-bottom: 12px;
+  }
+
+  .card-spent {
+    font-size: 0.7rem;
+    opacity: 0.7;
+  }
+
+  .best-card-tip {
+    background: rgba(13, 148, 136, 0.15);
+    border: 1px solid rgba(13, 148, 136, 0.3);
+    border-radius: 12px;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .tip-icon {
+    font-size: 1rem;
+    color: #0D9488;
+  }
+
+  .tip-title {
+    font-size: 0.65rem;
+    color: #E5E7EB;
+    font-weight: 600;
+  }
+
+  .tip-sub {
+    font-size: 0.6rem;
+    color: #0D9488;
+  }
+
+  .quick-actions {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6px;
+  }
+
+  .action {
+    background: rgba(255,255,255,0.05);
+    border-radius: 10px;
+    padding: 8px 4px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    font-size: 1rem;
+  }
+
+  .action span {
+    font-size: 0.55rem;
+    color: #9CA3AF;
+  }
+
+  .floating-card {
+    position: absolute;
+    background: white;
+    border-radius: 14px;
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+    font-size: 0.8rem;
+  }
+
+  .fc-icon {
+    font-size: 1.4rem;
+  }
+
+  .fc-title {
+    font-weight: 700;
+    color: #111827;
+  }
+
+  .fc-sub {
+    color: #9CA3AF;
+    font-size: 0.7rem;
+  }
+
+  .card-1 {
+    left: -10px;
+    bottom: 60px;
+    animation: float 4s ease-in-out infinite;
+  }
+
+  .card-2 {
+    right: -10px;
+    top: 80px;
+    animation: float 4s ease-in-out infinite 2s;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+
+  /* TRUSTED */
+  .trusted {
+    padding: 40px 0;
+    border-top: 1px solid #F3F4F6;
+    border-bottom: 1px solid #F3F4F6;
+  }
+
+  .trusted-label {
+    text-align: center;
+    font-size: 0.85rem;
+    color: #9CA3AF;
+    font-weight: 500;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .bank-logos {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .bank-chip {
+    background: #F9FAFB;
+    border: 1px solid #E5E7EB;
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #374151;
+  }
+
+  /* FEATURES OVERVIEW */
+  .features-overview {
+    padding: 100px 0;
+  }
+
+  .section-header.center {
+    text-align: center;
+    margin-bottom: 60px;
+  }
+
+  .section-header.center .section-sub {
+    margin: 0 auto;
+  }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  .feature-card {
+    background: #FAFAFA;
+    border: 1px solid #F3F4F6;
+    border-radius: 20px;
+    padding: 28px;
+    transition: all 0.2s;
+  }
+
+  .feature-card:hover {
+    border-color: rgba(79, 70, 229, 0.2);
+    box-shadow: 0 8px 24px rgba(79, 70, 229, 0.08);
+    transform: translateY(-2px);
+  }
+
+  .feature-icon {
+    font-size: 2rem;
+    margin-bottom: 16px;
+  }
+
+  .feature-title {
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: #111827;
+  }
+
+  .feature-desc {
+    font-size: 0.9rem;
+    color: #6B7280;
+    line-height: 1.65;
+  }
+
+  /* HOW IT WORKS */
+  .how-it-works {
+    padding: 100px 0;
+    background: linear-gradient(180deg, #FAFBFF 0%, #F0F0FF 100%);
+  }
+
+  .hiw-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+
+  .steps {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+    margin-top: 40px;
+  }
+
+  .step {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+  }
+
+  .step-num {
+    font-size: 0.75rem;
+    font-weight: 800;
+    color: #4F46E5;
+    background: rgba(79, 70, 229, 0.1);
+    border-radius: 8px;
+    padding: 6px 10px;
+    flex-shrink: 0;
+    letter-spacing: 0.02em;
+  }
+
+  .step-title {
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 6px;
+    color: #111827;
+  }
+
+  .step-desc {
+    font-size: 0.9rem;
+    color: #6B7280;
+    line-height: 1.65;
+  }
+
+  .insight-card {
+    background: white;
+    border-radius: 20px;
+    padding: 24px;
+    box-shadow: 0 20px 60px rgba(79, 70, 229, 0.12);
+    border: 1px solid rgba(79, 70, 229, 0.08);
+  }
+
+  .insight-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #374151;
+  }
+
+  .insight-badge {
+    background: linear-gradient(135deg, #4F46E5, #7C3AED);
+    color: white;
+    padding: 4px 12px;
+    border-radius: 100px;
+    font-size: 0.85rem;
+    font-weight: 700;
+  }
+
+  .insight-row {
+    padding: 14px 0;
+    border-bottom: 1px solid #F3F4F6;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .insight-row:last-child {
+    border-bottom: none;
+  }
+
+  .insight-category {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #374151;
+    min-width: 100px;
+  }
+
+  .insight-detail {
+    font-size: 0.8rem;
+    color: #6B7280;
+  }
+
+  /* CTA BANNER */
+  .cta-banner {
+    padding: 80px 0;
+    background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%);
+    margin-top: 100px;
+  }
+
+  .cta-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+    flex-wrap: wrap;
+  }
+
+  .cta-text h2 {
+    font-size: clamp(1.5rem, 3vw, 2.2rem);
+    font-weight: 800;
+    color: white;
+    margin-bottom: 8px;
+  }
+
+  .cta-text p {
+    font-size: 1rem;
+    color: rgba(255,255,255,0.75);
+  }
+
+  .cta-buttons {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .btn-white {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: white;
+    color: #4F46E5;
+    padding: 14px 28px;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 1rem;
+    transition: all 0.2s;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+  }
+
+  .btn-white:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+  }
+
+  .btn-outline-white {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: transparent;
+    color: white;
+    padding: 13px 28px;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 1rem;
+    border: 2px solid rgba(255,255,255,0.5);
+    transition: all 0.2s;
+  }
+
+  .btn-outline-white:hover {
+    border-color: white;
+    background: rgba(255,255,255,0.1);
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    .hero .container {
+      grid-template-columns: 1fr;
+      text-align: center;
+    }
+    .hero-sub, .hero-ctas, .hero-stats {
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .hero-ctas {
+      justify-content: center;
+    }
+    .hero-visual {
+      display: none;
+    }
+    .features-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .hiw-inner {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .features-grid {
+      grid-template-columns: 1fr;
+    }
+    .cta-inner {
+      text-align: center;
+      justify-content: center;
+    }
+    .cta-buttons {
+      justify-content: center;
+    }
+  }
+</style>

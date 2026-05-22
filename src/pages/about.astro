@@ -1,0 +1,369 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="About — Virel" description="Learn about Virel's mission to help every Indian make the most of their credit cards.">
+
+  <section class="page-hero">
+    <div class="container">
+      <div class="section-label">Our story</div>
+      <h1 class="section-title">Built by card nerds, <br/><span class="gradient-text">for card nerds</span></h1>
+      <p class="section-sub" style="margin: 0 auto; text-align: center;">
+        We spent too much time figuring out which card to use where. So we built an app that does it for us.
+      </p>
+    </div>
+  </section>
+
+  <!-- MISSION -->
+  <section id="mission" class="mission-section">
+    <div class="container">
+      <div class="mission-grid">
+        <div class="mission-text">
+          <div class="section-label">Our mission</div>
+          <h2 class="section-title">Make every rupee <span class="gradient-text">work harder</span></h2>
+          <p class="section-sub">
+            Indians hold over 100 million credit cards — but most people only use one or two, and rarely optimize for rewards. Virel changes that.
+          </p>
+          <p class="section-sub" style="margin-top: 16px;">
+            We built Virel to be the financial co-pilot that sits between you and every purchase — silently ensuring you always earn the maximum reward.
+          </p>
+        </div>
+        <div class="mission-stats">
+          <div class="mission-stat">
+            <div class="mission-num">50+</div>
+            <div class="mission-label">Credit cards supported across 6 countries</div>
+          </div>
+          <div class="mission-stat">
+            <div class="mission-num">10+</div>
+            <div class="mission-label">Spend categories with real reward multipliers</div>
+          </div>
+          <div class="mission-stat">
+            <div class="mission-num">₹3K+</div>
+            <div class="mission-label">Average monthly savings for active users</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VALUES -->
+  <section class="values-section">
+    <div class="container">
+      <div class="section-header center">
+        <div class="section-label">What we stand for</div>
+        <h2 class="section-title">Our <span class="gradient-text">values</span></h2>
+      </div>
+      <div class="values-grid">
+        {[
+          { icon: '🔒', title: 'Privacy first', desc: 'Your financial data stays on your device. We never sell your data or share it with third parties.' },
+          { icon: '⚡', title: 'Speed matters', desc: 'The best card recommendation should take milliseconds — not making you dig through reward terms.' },
+          { icon: '🎯', title: 'Accuracy over hype', desc: 'Real multipliers from real card terms. We don\'t inflate numbers or make vague promises.' },
+          { icon: '🌍', title: 'Built for India', desc: 'Designed around Indian banks, Indian spend patterns, and Indian platforms — not a Western clone.' },
+        ].map(v => (
+          <div class="value-card">
+            <div class="value-icon">{v.icon}</div>
+            <h3 class="value-title">{v.title}</h3>
+            <p class="value-desc">{v.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- THE APP -->
+  <section class="app-section">
+    <div class="container">
+      <div class="app-inner">
+        <div class="app-text">
+          <div class="section-label">The product</div>
+          <h2 class="section-title">Built on <span class="gradient-text">Flutter</span></h2>
+          <p class="section-sub">Virel is a native Android app built with Flutter, designed to be fast, lightweight, and beautiful. iOS support is coming soon.</p>
+          <div class="tech-tags">
+            <span class="tech-tag">Flutter</span>
+            <span class="tech-tag">Gemini AI</span>
+            <span class="tech-tag">Gmail API</span>
+            <span class="tech-tag">Google Maps</span>
+            <span class="tech-tag">Firebase</span>
+          </div>
+        </div>
+        <div class="app-timeline">
+          {[
+            { date: 'Jan 2026', event: 'CardTrip founded — credit card tracker built' },
+            { date: 'Mar 2026', event: 'Gmail import + best card recommendations added' },
+            { date: 'May 2026', event: 'AI assistant, Travel, Food, Cabs, Virel Coins launched' },
+            { date: 'May 2026', event: 'Rebranded to Virel. getvirel.co goes live' },
+            { date: 'Coming soon', event: 'iOS app + UPI integration' },
+          ].map((t, i) => (
+            <div class="timeline-item">
+              <div class="timeline-dot" class:list={[{ last: i === 4 }]}></div>
+              <div class="timeline-content">
+                <div class="timeline-date">{t.date}</div>
+                <div class="timeline-event">{t.event}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-banner">
+    <div class="container">
+      <div class="cta-inner">
+        <div class="cta-text">
+          <h2>Join thousands of smarter spenders</h2>
+          <p>Download Virel free on Android today.</p>
+        </div>
+        <a href="https://play.google.com/store" class="btn-white" target="_blank" rel="noopener">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M3 20.5v-17c0-.83 1-.97 1.27-.38l13 8.5c.27.17.27.59 0 .76l-13 8.5C3.97 21.47 3 21.33 3 20.5z"/></svg>
+          Download Free
+        </a>
+      </div>
+    </div>
+  </section>
+
+</Layout>
+
+<style>
+  .page-hero {
+    padding: 80px 0 60px;
+    text-align: center;
+  }
+
+  .mission-section {
+    padding: 100px 0;
+  }
+
+  .mission-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+
+  .mission-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .mission-stat {
+    padding: 28px;
+    border-bottom: 1px solid #F3F4F6;
+  }
+
+  .mission-stat:first-child {
+    border-top: 1px solid #F3F4F6;
+  }
+
+  .mission-num {
+    font-size: 2.4rem;
+    font-weight: 900;
+    background: linear-gradient(135deg, #4F46E5, #7C3AED);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 6px;
+  }
+
+  .mission-label {
+    font-size: 0.9rem;
+    color: #6B7280;
+    line-height: 1.5;
+  }
+
+  .values-section {
+    padding: 100px 0;
+    background: linear-gradient(180deg, #FAFBFF 0%, #F0F0FF 100%);
+  }
+
+  .section-header.center {
+    text-align: center;
+    margin-bottom: 60px;
+  }
+
+  .values-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+  }
+
+  .value-card {
+    background: white;
+    border-radius: 20px;
+    padding: 28px;
+    box-shadow: 0 4px 20px rgba(79, 70, 229, 0.06);
+    border: 1px solid rgba(79, 70, 229, 0.06);
+  }
+
+  .value-icon {
+    font-size: 2rem;
+    margin-bottom: 16px;
+  }
+
+  .value-title {
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: #111827;
+  }
+
+  .value-desc {
+    font-size: 0.875rem;
+    color: #6B7280;
+    line-height: 1.65;
+  }
+
+  .app-section {
+    padding: 100px 0;
+  }
+
+  .app-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: start;
+  }
+
+  .tech-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 24px;
+  }
+
+  .tech-tag {
+    background: rgba(79, 70, 229, 0.08);
+    color: #4F46E5;
+    border-radius: 8px;
+    padding: 6px 14px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    border: 1px solid rgba(79, 70, 229, 0.15);
+  }
+
+  .app-timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    position: relative;
+    padding-left: 28px;
+  }
+
+  .app-timeline::before {
+    content: '';
+    position: absolute;
+    left: 7px;
+    top: 8px;
+    bottom: 8px;
+    width: 2px;
+    background: linear-gradient(to bottom, #4F46E5, #7C3AED);
+    border-radius: 2px;
+  }
+
+  .timeline-item {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    position: relative;
+    padding-bottom: 28px;
+  }
+
+  .timeline-item:last-child {
+    padding-bottom: 0;
+  }
+
+  .timeline-dot {
+    width: 16px;
+    height: 16px;
+    background: linear-gradient(135deg, #4F46E5, #7C3AED);
+    border-radius: 50%;
+    flex-shrink: 0;
+    position: absolute;
+    left: -28px;
+    top: 3px;
+    border: 3px solid white;
+    box-shadow: 0 0 0 2px #4F46E5;
+  }
+
+  .timeline-date {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #4F46E5;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 4px;
+  }
+
+  .timeline-event {
+    font-size: 0.9rem;
+    color: #374151;
+    font-weight: 500;
+  }
+
+  .cta-banner {
+    padding: 80px 0;
+    background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%);
+    margin-top: 100px;
+  }
+
+  .cta-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+    flex-wrap: wrap;
+  }
+
+  .cta-text h2 {
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-weight: 800;
+    color: white;
+    margin-bottom: 8px;
+  }
+
+  .cta-text p { color: rgba(255,255,255,0.75); }
+
+  .btn-white {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: white;
+    color: #4F46E5;
+    padding: 14px 28px;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 1rem;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+
+  .btn-white:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+  }
+
+  @media (max-width: 1024px) {
+    .values-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 900px) {
+    .mission-grid, .app-inner {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+    .cta-inner {
+      text-align: center;
+      justify-content: center;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .values-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

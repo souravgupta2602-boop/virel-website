@@ -1,0 +1,639 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Features — Virel" description="Explore all Virel features: best card recommendations, AI assistant, travel booking, smart insights, and Virel Coins rewards.">
+
+  <!-- PAGE HERO -->
+  <section class="page-hero">
+    <div class="container">
+      <div class="section-label">Everything Virel does</div>
+      <h1 class="section-title">Built for <span class="gradient-text">smart spenders</span></h1>
+      <p class="section-sub" style="margin: 0 auto; text-align: center;">
+        Every feature is designed to make sure you never miss a reward or pay more than you should.
+      </p>
+    </div>
+  </section>
+
+  <!-- BEST CARD -->
+  <section id="best-card" class="feature-section">
+    <div class="container">
+      <div class="feature-row">
+        <div class="feature-text">
+          <div class="section-label">Core feature</div>
+          <h2 class="section-title">Know the <span class="gradient-text">right card</span> instantly</h2>
+          <p class="section-sub">Type in a merchant — Swiggy, Amazon, or any petrol pump — and Virel ranks all your cards by reward multiplier for that category. No mental math.</p>
+          <ul class="feature-list">
+            <li>🎯 Auto-detects category from merchant name</li>
+            <li>📊 Ranks all your cards by actual reward rate</li>
+            <li>⚡ Quick chips: Swiggy, Amazon, Petrol, Flight…</li>
+            <li>💡 "Better card" badge in your spend log</li>
+          </ul>
+        </div>
+        <div class="feature-demo">
+          <div class="demo-card">
+            <div class="demo-title">Best Card for Swiggy</div>
+            <div class="card-rank">
+              <div class="rank-item rank-1">
+                <div class="rank-badge">1st</div>
+                <div class="rank-name">Axis Flipkart</div>
+                <div class="rank-rate">5% cashback</div>
+              </div>
+              <div class="rank-item">
+                <div class="rank-badge rank-2nd">2nd</div>
+                <div class="rank-name">HDFC Millennia</div>
+                <div class="rank-rate">3% cashback</div>
+              </div>
+              <div class="rank-item">
+                <div class="rank-badge rank-3rd">3rd</div>
+                <div class="rank-name">SBI SimplySave</div>
+                <div class="rank-rate">1% cashback</div>
+              </div>
+            </div>
+            <div class="demo-tip">Use Axis Flipkart to save ₹75 on ₹1,500 order</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- AI ASSISTANT -->
+  <section id="ai" class="feature-section bg-light">
+    <div class="container">
+      <div class="feature-row reverse">
+        <div class="feature-text">
+          <div class="section-label">Powered by Gemini AI</div>
+          <h2 class="section-title">Your personal <span class="gradient-text">finance co-pilot</span></h2>
+          <p class="section-sub">Ask questions in plain English. Virel uses Gemini 2.0 to answer with your actual card data and spend history.</p>
+          <ul class="feature-list">
+            <li>🎤 Voice input — just tap and speak</li>
+            <li>💬 Text input fallback always available</li>
+            <li>📈 Answers based on your real spend data</li>
+            <li>🔒 Personalised — your data stays on-device</li>
+          </ul>
+        </div>
+        <div class="feature-demo">
+          <div class="chat-demo">
+            <div class="chat-msg user">Which card should I use for Amazon today?</div>
+            <div class="chat-msg ai">
+              <span class="ai-label">Virel AI</span>
+              Your <strong>Amazon Pay ICICI</strong> gives 5% cashback on Amazon (Prime members). You've spent ₹8,200 there this month — you're on track for the accelerated 2% tier on other spends too.
+            </div>
+            <div class="chat-msg user">How much have I spent on food this month?</div>
+            <div class="chat-msg ai">
+              <span class="ai-label">Virel AI</span>
+              ₹4,640 on food so far — Swiggy ₹2,800, Zomato ₹1,400, other ₹440. That's 23% of your total spend.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- REWARDS -->
+  <section id="rewards" class="feature-section">
+    <div class="container">
+      <div class="feature-row">
+        <div class="feature-text">
+          <div class="section-label">Virel Coins</div>
+          <h2 class="section-title">Earn coins, <span class="gradient-text">win rewards</span></h2>
+          <p class="section-sub">Every action on Virel earns you coins — daily check-ins, logging spends, completing tasks. Redeem for vouchers and cashback.</p>
+          <ul class="feature-list">
+            <li>🪙 Earn coins on every logged spend</li>
+            <li>📅 Daily check-in streak bonuses</li>
+            <li>🎡 Spin the wheel to win vouchers</li>
+            <li>🏆 Milestones unlock bigger rewards</li>
+          </ul>
+        </div>
+        <div class="feature-demo">
+          <div class="rewards-demo">
+            <div class="coins-display">
+              <span class="coins-icon">🪙</span>
+              <span class="coins-amount">4,250</span>
+              <span class="coins-label">Virel Coins</span>
+            </div>
+            <div class="streak-row">
+              {[1,2,3,4,5].map(d => (
+                <div class="streak-day completed">
+                  <div class="streak-dot"></div>
+                  <div class="streak-label">Day {d}</div>
+                </div>
+              ))}
+              <div class="streak-day today">
+                <div class="streak-dot today-dot"></div>
+                <div class="streak-label">Today</div>
+              </div>
+              <div class="streak-day">
+                <div class="streak-dot inactive"></div>
+                <div class="streak-label">Day 7</div>
+              </div>
+            </div>
+            <div class="voucher-row">
+              <div class="voucher">🍕 Swiggy ₹100</div>
+              <div class="voucher">✈️ MakeMyTrip ₹250</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRAVEL -->
+  <section id="travel" class="feature-section bg-light">
+    <div class="container">
+      <div class="feature-row reverse">
+        <div class="feature-text">
+          <div class="section-label">Travel & Cabs</div>
+          <h2 class="section-title">Book smarter, <span class="gradient-text">save more</span></h2>
+          <p class="section-sub">Compare flights, trains, buses, and cab fares across platforms — with card offers and convenience fees shown side-by-side.</p>
+          <ul class="feature-list">
+            <li>✈️ Flights: 10+ platforms with offer comparison</li>
+            <li>🚂 Trains: IRCTC, ixigo, RailYatri, and more</li>
+            <li>🚌 Bus: RedBus, Abhibus, IntrCity SmartBus</li>
+            <li>🚖 Cabs: 6 countries, fare estimation, instant booking</li>
+          </ul>
+        </div>
+        <div class="feature-demo">
+          <div class="travel-demo">
+            <div class="travel-header">✈️ BOM → DEL · 1 Adult</div>
+            <div class="platform-row best">
+              <div class="platform-name">EaseMyTrip</div>
+              <div class="platform-tags">
+                <span class="tag green">₹0 conv. fee</span>
+                <span class="tag indigo">₹450 card offer</span>
+                <span class="tag gold">Best Deal</span>
+              </div>
+            </div>
+            <div class="platform-row">
+              <div class="platform-name">MakeMyTrip</div>
+              <div class="platform-tags">
+                <span class="tag red">₹499 conv. fee</span>
+                <span class="tag indigo">₹600 card offer</span>
+              </div>
+            </div>
+            <div class="platform-row">
+              <div class="platform-name">Cleartrip</div>
+              <div class="platform-tags">
+                <span class="tag red">₹350 conv. fee</span>
+                <span class="tag indigo">₹300 card offer</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SPEND & INSIGHTS -->
+  <section id="insights" class="feature-section">
+    <div class="container">
+      <div class="feature-row">
+        <div class="feature-text">
+          <div class="section-label">Smart Screen</div>
+          <h2 class="section-title">Insights that <span class="gradient-text">actually matter</span></h2>
+          <p class="section-sub">See exactly where you missed rewards this month, detect recurring charges you forgot about, and get personalised tips.</p>
+          <ul class="feature-list">
+            <li>📊 Missed savings by category + card</li>
+            <li>🔁 Recurring charge detector</li>
+            <li>🎯 Goal tracking with progress bars</li>
+            <li>📥 Auto-import from Gmail or SMS</li>
+          </ul>
+        </div>
+        <div class="feature-demo">
+          <div class="insights-demo">
+            <div class="insights-title">Recurring Charges Detected</div>
+            <div class="recurring-row">
+              <div class="recurring-icon">🎵</div>
+              <div class="recurring-info">
+                <div class="recurring-name">Spotify Premium</div>
+                <div class="recurring-amount">₹119 / month</div>
+              </div>
+              <div class="recurring-tip">Use HDFC Millennia for 5% back</div>
+            </div>
+            <div class="recurring-row">
+              <div class="recurring-icon">📺</div>
+              <div class="recurring-info">
+                <div class="recurring-name">Netflix</div>
+                <div class="recurring-amount">₹649 / month</div>
+              </div>
+              <div class="recurring-tip">Use Axis Magnus for 12x rewards</div>
+            </div>
+            <div class="recurring-row">
+              <div class="recurring-icon">☁️</div>
+              <div class="recurring-info">
+                <div class="recurring-name">Google One</div>
+                <div class="recurring-amount">₹130 / month</div>
+              </div>
+              <div class="recurring-tip">Amazon Pay ICICI — 2% cashback</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-banner">
+    <div class="container">
+      <div class="cta-inner">
+        <div class="cta-text">
+          <h2>Start earning more from every card swipe</h2>
+          <p>Free to download. No credit card required.</p>
+        </div>
+        <div class="cta-buttons">
+          <a href="https://play.google.com/store" class="btn-white" target="_blank" rel="noopener">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M3 20.5v-17c0-.83 1-.97 1.27-.38l13 8.5c.27.17.27.59 0 .76l-13 8.5C3.97 21.47 3 21.33 3 20.5z"/></svg>
+            Get on Android
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</Layout>
+
+<style>
+  .page-hero {
+    padding: 80px 0 60px;
+    text-align: center;
+  }
+
+  .feature-section {
+    padding: 100px 0;
+  }
+
+  .feature-section.bg-light {
+    background: linear-gradient(180deg, #FAFBFF 0%, #F0F0FF 100%);
+  }
+
+  .feature-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+
+  .feature-row.reverse {
+    direction: rtl;
+  }
+
+  .feature-row.reverse > * {
+    direction: ltr;
+  }
+
+  .feature-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 24px;
+  }
+
+  .feature-list li {
+    font-size: 0.95rem;
+    color: #374151;
+    font-weight: 500;
+  }
+
+  /* DEMO CARDS */
+  .feature-demo {
+    display: flex;
+    justify-content: center;
+  }
+
+  .demo-card, .chat-demo, .rewards-demo, .travel-demo, .insights-demo {
+    background: white;
+    border-radius: 20px;
+    padding: 24px;
+    box-shadow: 0 20px 60px rgba(79, 70, 229, 0.1);
+    border: 1px solid rgba(79, 70, 229, 0.08);
+    width: 100%;
+    max-width: 400px;
+  }
+
+  .demo-title {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #374151;
+    margin-bottom: 16px;
+  }
+
+  .card-rank {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .rank-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    border-radius: 12px;
+    background: #FAFAFA;
+  }
+
+  .rank-item.rank-1 {
+    background: rgba(79, 70, 229, 0.06);
+    border: 1px solid rgba(79, 70, 229, 0.15);
+  }
+
+  .rank-badge {
+    background: linear-gradient(135deg, #4F46E5, #7C3AED);
+    color: white;
+    font-size: 0.65rem;
+    font-weight: 800;
+    padding: 3px 8px;
+    border-radius: 6px;
+    flex-shrink: 0;
+  }
+
+  .rank-badge.rank-2nd { background: #6B7280; }
+  .rank-badge.rank-3rd { background: #9CA3AF; }
+
+  .rank-name {
+    flex: 1;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #111827;
+  }
+
+  .rank-rate {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #0D9488;
+  }
+
+  .demo-tip {
+    margin-top: 14px;
+    background: rgba(13, 148, 136, 0.08);
+    border-radius: 10px;
+    padding: 10px 14px;
+    font-size: 0.8rem;
+    color: #0D9488;
+    font-weight: 500;
+  }
+
+  /* CHAT */
+  .chat-demo {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .chat-msg {
+    padding: 12px 16px;
+    border-radius: 14px;
+    font-size: 0.85rem;
+    line-height: 1.55;
+  }
+
+  .chat-msg.user {
+    background: rgba(79, 70, 229, 0.08);
+    color: #4F46E5;
+    font-weight: 500;
+    border-radius: 14px 14px 4px 14px;
+    align-self: flex-end;
+    max-width: 85%;
+  }
+
+  .chat-msg.ai {
+    background: #F9FAFB;
+    color: #374151;
+    border-radius: 14px 14px 14px 4px;
+    position: relative;
+  }
+
+  .ai-label {
+    display: block;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: #4F46E5;
+    margin-bottom: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  /* REWARDS */
+  .coins-display {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    background: linear-gradient(135deg, rgba(79,70,229,0.08), rgba(124,58,237,0.08));
+    padding: 16px;
+    border-radius: 14px;
+  }
+
+  .coins-icon { font-size: 1.8rem; }
+
+  .coins-amount {
+    font-size: 1.8rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #4F46E5, #7C3AED);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .coins-label {
+    font-size: 0.75rem;
+    color: #9CA3AF;
+    font-weight: 500;
+  }
+
+  .streak-row {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+
+  .streak-day {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    flex: 1;
+  }
+
+  .streak-dot {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: #4F46E5;
+  }
+
+  .streak-dot.today-dot {
+    background: linear-gradient(135deg, #0D9488, #4F46E5);
+    box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.3);
+  }
+
+  .streak-dot.inactive {
+    background: #E5E7EB;
+  }
+
+  .streak-label {
+    font-size: 0.55rem;
+    color: #9CA3AF;
+    text-align: center;
+  }
+
+  .voucher-row {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .voucher {
+    background: rgba(79, 70, 229, 0.08);
+    border: 1px solid rgba(79, 70, 229, 0.15);
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #4F46E5;
+  }
+
+  /* TRAVEL */
+  .travel-header {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #374151;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #F3F4F6;
+  }
+
+  .platform-row {
+    padding: 12px;
+    border-radius: 12px;
+    margin-bottom: 8px;
+    background: #FAFAFA;
+  }
+
+  .platform-row.best {
+    background: rgba(79, 70, 229, 0.05);
+    border: 1px solid rgba(79, 70, 229, 0.15);
+  }
+
+  .platform-name {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #111827;
+    margin-bottom: 6px;
+  }
+
+  .platform-tags {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  .tag {
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 6px;
+  }
+
+  .tag.green { background: rgba(16, 185, 129, 0.1); color: #059669; }
+  .tag.red { background: rgba(239, 68, 68, 0.1); color: #DC2626; }
+  .tag.indigo { background: rgba(79, 70, 229, 0.1); color: #4F46E5; }
+  .tag.gold { background: rgba(245, 158, 11, 0.15); color: #D97706; }
+
+  /* INSIGHTS */
+  .insights-title {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #374151;
+    margin-bottom: 16px;
+  }
+
+  .recurring-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid #F3F4F6;
+  }
+
+  .recurring-row:last-child { border-bottom: none; }
+
+  .recurring-icon { font-size: 1.4rem; flex-shrink: 0; }
+
+  .recurring-info { flex: 1; }
+
+  .recurring-name {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #111827;
+  }
+
+  .recurring-amount {
+    font-size: 0.75rem;
+    color: #6B7280;
+  }
+
+  .recurring-tip {
+    font-size: 0.7rem;
+    color: #0D9488;
+    font-weight: 500;
+    text-align: right;
+    max-width: 100px;
+  }
+
+  /* CTA */
+  .cta-banner {
+    padding: 80px 0;
+    background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%);
+    margin-top: 100px;
+  }
+
+  .cta-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+    flex-wrap: wrap;
+  }
+
+  .cta-text h2 {
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-weight: 800;
+    color: white;
+    margin-bottom: 8px;
+  }
+
+  .cta-text p { color: rgba(255,255,255,0.75); }
+
+  .btn-white {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: white;
+    color: #4F46E5;
+    padding: 14px 28px;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 1rem;
+    transition: all 0.2s;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+  }
+
+  .btn-white:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+  }
+
+  @media (max-width: 900px) {
+    .feature-row, .feature-row.reverse {
+      grid-template-columns: 1fr;
+      direction: ltr;
+      gap: 40px;
+    }
+    .cta-inner {
+      text-align: center;
+      justify-content: center;
+    }
+  }
+</style>
