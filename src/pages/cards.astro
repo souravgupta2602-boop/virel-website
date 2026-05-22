@@ -5,679 +5,527 @@ const cardsJson = JSON.stringify(cards);
 const categoriesJson = JSON.stringify(categories);
 ---
 
-<Layout title="Browse Credit Cards — Virel" description="Browse and compare 40+ credit cards from India and US. Filter by bank, category, annual fee, and more.">
+<Layout title="Browse Credit Cards — Virel" description="Compare 40+ credit cards. Find the best rewards, lowest fees, and apply online.">
 
-  <section class="page-hero">
-    <div class="container">
-      <div class="section-label">Card database</div>
-      <h1 class="section-title">Browse <span class="gradient-text">all cards</span></h1>
-      <p class="section-sub" style="margin:0 auto;text-align:center;">
-        Compare {cards.length}+ credit cards. See annual fees, fee waivers, rewards, and benefits side by side.
-      </p>
+  <!-- HERO -->
+  <section class="cards-hero">
+    <div class="container hero-inner">
+      <div class="hero-left">
+        <div class="section-label">Card marketplace</div>
+        <h1 class="hero-title">Apply for the <span class="gradient-text">right card</span> online</h1>
+        <ul class="hero-perks">
+          <li><span class="perk-check">✓</span> Exclusive signup bonuses for new cardholders</li>
+          <li><span class="perk-check">✓</span> Compare rewards, fees & lounge access</li>
+          <li><span class="perk-check">✓</span> Fee waiver conditions shown clearly</li>
+          <li><span class="perk-check">✓</span> See which card earns most in your top categories</li>
+        </ul>
+        <div class="hero-actions">
+          <a href="#card-grid" class="btn-primary">Browse All Cards</a>
+          <a href="/my-cards" class="btn-secondary">My Cards Analysis →</a>
+        </div>
+      </div>
+      <div class="hero-right">
+        <div class="card-fan">
+          <div class="fan-card fc1" style="--c1:#1a237e;--c2:#3949ab">
+            <div class="fc-chip"></div><div class="fc-num">•••• •••• •••• 4821</div>
+            <div class="fc-bottom"><span>HDFC Bank</span><span class="fc-name">Regalia</span></div>
+          </div>
+          <div class="fan-card fc2" style="--c1:#00695c;--c2:#00897b">
+            <div class="fc-chip"></div><div class="fc-num">•••• •••• •••• 7732</div>
+            <div class="fc-bottom"><span>HDFC Bank</span><span class="fc-name">Millennia</span></div>
+          </div>
+          <div class="fan-card fc3" style="--c1:#880e4f;--c2:#ad1457">
+            <div class="fc-chip"></div><div class="fc-num">•••• •••• •••• 2291</div>
+            <div class="fc-bottom"><span>Axis Bank</span><span class="fc-name">Magnus</span></div>
+          </div>
+          <div class="fan-card fc4" style="--c1:#1a1a1a;--c2:#37474f">
+            <div class="fc-chip"></div><div class="fc-num">•••• •••• •••• 9910</div>
+            <div class="fc-bottom"><span>HDFC Bank</span><span class="fc-name">Infinia</span></div>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
-  <section class="browse-section">
+  <!-- FILTERS -->
+  <section class="browse-section" id="card-grid">
     <div class="container">
-
-      <!-- Filters -->
       <div class="filters-bar">
         <div class="filter-row">
           <div class="filter-group">
-            <div class="filter-label">Country</div>
-            <div class="filter-chips">
+            <span class="filter-label">Country</span>
+            <div class="chips">
               <button class="fchip active" data-filter="country" data-val="IN">🇮🇳 India</button>
               <button class="fchip" data-filter="country" data-val="US">🇺🇸 US</button>
               <button class="fchip" data-filter="country" data-val="ALL">All</button>
             </div>
           </div>
           <div class="filter-group">
-            <div class="filter-label">Annual Fee</div>
-            <div class="filter-chips">
+            <span class="filter-label">Annual Fee</span>
+            <div class="chips">
               <button class="fchip active" data-filter="fee" data-val="ALL">All</button>
               <button class="fchip" data-filter="fee" data-val="free">Free forever</button>
               <button class="fchip" data-filter="fee" data-val="waivable">Fee waivable</button>
-              <button class="fchip" data-filter="fee" data-val="paid">Paid only</button>
+              <button class="fchip" data-filter="fee" data-val="paid">Paid</button>
             </div>
           </div>
         </div>
         <div class="filter-row">
           <div class="filter-group">
-            <div class="filter-label">Best for</div>
-            <div class="filter-chips">
+            <span class="filter-label">Best for</span>
+            <div class="chips">
               <button class="fchip active" data-filter="category" data-val="ALL">All</button>
-              {categories.map(c => (
-                <button class="fchip" data-filter="category" data-val={c}>{c}</button>
-              ))}
+              {categories.map(c => <button class="fchip" data-filter="category" data-val={c}>{c}</button>)}
             </div>
           </div>
         </div>
-        <div class="search-filter">
-          <span class="search-icon-input">🔍</span>
-          <input type="text" id="searchInput" placeholder="Search by bank or card name…" />
+        <div class="search-row">
+          <div class="search-wrap">
+            <span>🔍</span>
+            <input type="text" id="searchInput" placeholder="Search by bank or card name…" />
+          </div>
+          <div class="count-badge"><span id="cardCount">Loading…</span></div>
         </div>
       </div>
 
-      <div class="stats-bar">
-        <span id="cardCount" class="card-count">Loading…</span>
-        <span class="sort-hint">Sorted by best reward rate</span>
+      <!-- GRID -->
+      <div id="cardGrid" class="card-grid"></div>
+
+      <!-- AFFILIATE NOTE -->
+      <div class="affiliate-note">
+        <span>💡 Virel may earn a commission when you apply via these links — at no extra cost to you.</span>
+        <a href="/about" class="aff-learn">Learn more</a>
       </div>
-
-      <div id="cardList" class="card-list"></div>
-
     </div>
   </section>
 
 </Layout>
 
 <script define:vars={{ cardsJson, categoriesJson }}>
-  const cards = JSON.parse(cardsJson);
-  let filters = { country: 'IN', category: 'ALL', fee: 'ALL', search: '' };
+const cards = JSON.parse(cardsJson);
+let filters = { country:'IN', category:'ALL', fee:'ALL', search:'' };
 
-  const cardList = document.getElementById('cardList');
-  const cardCount = document.getElementById('cardCount');
-  const searchInput = document.getElementById('searchInput');
+const grid = document.getElementById('cardGrid');
+const countEl = document.getElementById('cardCount');
 
-  function feeLabel(card) {
-    if (card.fee === 0) return { text: 'Free forever', cls: 'fee-free' };
-    const curr = card.country === 'US' ? '$' : '₹';
-    const feeStr = `${curr}${card.fee.toLocaleString()}/yr`;
-    if (card.feeWaiverSpend > 0) {
-      const waiverStr = card.country === 'US'
-        ? `$${(card.feeWaiverSpend/1000).toFixed(0)}K`
-        : card.feeWaiverSpend >= 100000 ? `₹${card.feeWaiverSpend/100000}L` : `₹${card.feeWaiverSpend.toLocaleString()}`;
-      return { text: feeStr, waiver: `Free if you spend ${waiverStr}/yr`, cls: 'fee-waivable' };
+// Network SVG logos
+function networkLogo(type) {
+  const t = type.toLowerCase();
+  if (t.includes('visa')) return `<svg viewBox="0 0 48 16" width="38" height="13"><text x="0" y="13" font-family="Arial" font-weight="900" font-size="14" fill="white" letter-spacing="-1">VISA</text></svg>`;
+  if (t.includes('master')) return `<svg viewBox="0 0 40 24" width="36" height="22"><circle cx="14" cy="12" r="12" fill="#EB001B" opacity="0.9"/><circle cx="26" cy="12" r="12" fill="#F79E1B" opacity="0.9"/><path d="M20 4.8a12 12 0 0 1 0 14.4A12 12 0 0 1 20 4.8z" fill="#FF5F00" opacity="0.9"/></svg>`;
+  if (t.includes('amex') || t.includes('american')) return `<svg viewBox="0 0 48 16" width="38" height="13"><text x="0" y="13" font-family="Arial" font-weight="900" font-size="11" fill="white" letter-spacing="0.5">AMEX</text></svg>`;
+  if (t.includes('discover')) return `<svg viewBox="0 0 60 16" width="46" height="13"><text x="0" y="13" font-family="Arial" font-weight="700" font-size="10" fill="white">DISCOVER</text></svg>`;
+  return `<svg viewBox="0 0 48 16" width="38" height="13"><text x="0" y="13" font-family="Arial" font-weight="700" font-size="9" fill="rgba(255,255,255,0.8)">${type}</text></svg>`;
+}
+
+function feeInfo(card) {
+  if (card.fee === 0) return { label:'Free forever', cls:'free', sub:null };
+  const sym = card.country === 'US' ? '$' : '₹';
+  const feeStr = `${sym}${card.fee.toLocaleString()}/yr`;
+  if (card.feeWaiver > 0) {
+    const w = card.country === 'US'
+      ? `$${(card.feeWaiver/1000).toFixed(0)}K/yr`
+      : card.feeWaiver >= 100000 ? `₹${(card.feeWaiver/100000).toFixed(card.feeWaiver%100000===0?0:1)}L/yr` : `₹${card.feeWaiver.toLocaleString()}/yr`;
+    return { label:feeStr, cls:'waivable', sub:`Free if you spend ${w}` };
+  }
+  return { label:feeStr, cls:'paid', sub:null };
+}
+
+function lounge(d, i) {
+  const fmt = v => v === -1 ? 'Unlimited' : v === 0 ? 'None' : v;
+  return `${fmt(d)} domestic / ${fmt(i)} intl`;
+}
+
+function matchesFee(c) {
+  if (filters.fee === 'ALL') return true;
+  if (filters.fee === 'free') return c.fee === 0;
+  if (filters.fee === 'waivable') return c.fee > 0 && c.feeWaiver > 0;
+  if (filters.fee === 'paid') return c.fee > 0 && c.feeWaiver === 0;
+  return true;
+}
+
+function renderGrid() {
+  let list = cards.filter(c => {
+    if (filters.country !== 'ALL' && c.country !== filters.country) return false;
+    if (filters.category !== 'ALL' && !(c.multipliers && c.multipliers[filters.category])) return false;
+    if (!matchesFee(c)) return false;
+    if (filters.search) {
+      const q = filters.search.toLowerCase();
+      if (!c.bank.toLowerCase().includes(q) && !c.name.toLowerCase().includes(q)) return false;
     }
-    return { text: feeStr, cls: 'fee-paid' };
-  }
-
-  function loungeLabel(domestic, intl) {
-    const d = domestic === -1 ? 'Unlimited' : domestic === 0 ? '—' : `${domestic}`;
-    const i = intl === -1 ? 'Unlimited' : intl === 0 ? '—' : `${intl}`;
-    return { domestic: d, international: i };
-  }
-
-  function matchesFee(card, feeFilter) {
-    if (feeFilter === 'ALL') return true;
-    if (feeFilter === 'free') return card.fee === 0;
-    if (feeFilter === 'waivable') return card.fee > 0 && card.feeWaiverSpend > 0;
-    if (feeFilter === 'paid') return card.fee > 0 && card.feeWaiverSpend === 0;
     return true;
+  });
+  list.sort((a,b) => filters.category !== 'ALL'
+    ? ((b.multipliers[filters.category]||1) - (a.multipliers[filters.category]||1))
+    : b.rewardRate - a.rewardRate);
+
+  countEl.textContent = `${list.length} card${list.length!==1?'s':''} found`;
+
+  if (!list.length) {
+    grid.innerHTML = '<div class="no-results">No cards match — try adjusting filters.</div>';
+    return;
   }
 
-  function renderList() {
-    let filtered = cards.filter(c => {
-      if (filters.country !== 'ALL' && c.country !== filters.country) return false;
-      if (filters.category !== 'ALL' && !(c.multipliers && c.multipliers[filters.category])) return false;
-      if (!matchesFee(c, filters.fee)) return false;
-      if (filters.search) {
-        const q = filters.search.toLowerCase();
-        if (!c.bank.toLowerCase().includes(q) && !c.name.toLowerCase().includes(q)) return false;
-      }
-      return true;
-    });
+  const activeCat = filters.category !== 'ALL' ? filters.category : null;
 
-    filtered.sort((a, b) => {
-      if (filters.category !== 'ALL') {
-        return ((b.multipliers && b.multipliers[filters.category]) || 1) - ((a.multipliers && a.multipliers[filters.category]) || 1);
-      }
-      return b.rewardRate - a.rewardRate;
-    });
+  grid.innerHTML = list.map(card => {
+    const fee = feeInfo(card);
+    const mult = activeCat && card.multipliers && card.multipliers[activeCat];
+    const topMults = Object.entries(card.multipliers||{}).sort((a,b)=>b[1]-a[1]).slice(0,3);
+    const forexBadge = card.forex === 0 ? '<span class="badge badge-green">Zero forex</span>' : '';
+    const sym = card.country === 'US' ? '$' : '₹';
 
-    cardCount.textContent = `${filtered.length} card${filtered.length !== 1 ? 's' : ''} found`;
+    return `
+    <div class="card-item">
 
-    if (filtered.length === 0) {
-      cardList.innerHTML = '<div class="no-results"><div class="no-results-icon">🔍</div><div>No cards match your filters. Try adjusting them.</div></div>';
-      return;
-    }
-
-    const curr = (c) => c.country === 'US' ? '$' : '₹';
-
-    cardList.innerHTML = filtered.map(card => {
-      const fee = feeLabel(card);
-      const lounge = loungeLabel(card.loungeDomestic, card.loungeIntl);
-      const forexText = card.forex === 0 ? 'Zero forex' : `${card.forex}% forex`;
-      const topMultipliers = Object.entries(card.multipliers || {})
-        .sort((a,b) => b[1]-a[1])
-        .slice(0, 4);
-      const activeCategory = filters.category !== 'ALL' ? filters.category : null;
-      const highlightMultiplier = activeCategory && card.multipliers && card.multipliers[activeCategory];
-
-      return `
-        <div class="card-row">
-
-          <!-- LEFT: Credit card visual -->
-          <div class="cc-visual-wrap">
-            <div class="cc-visual" style="background: linear-gradient(135deg, ${card.color}ee, ${card.color}99)">
-              <div class="cc-chip">
-                <svg width="28" height="22" viewBox="0 0 28 22" fill="none">
-                  <rect width="28" height="22" rx="4" fill="rgba(255,255,255,0.25)"/>
-                  <rect x="0" y="7" width="28" height="8" fill="rgba(255,255,255,0.15)"/>
-                  <rect x="10" y="0" width="8" height="22" fill="rgba(255,255,255,0.15)"/>
-                </svg>
-              </div>
-              <div class="cc-num">•••• •••• •••• ••••</div>
-              <div class="cc-bottom">
-                <div>
-                  <div class="cc-bank-label">${card.bank}</div>
-                  <div class="cc-card-label">${card.name}</div>
-                </div>
-                <div class="cc-type-badge">${card.type}</div>
-              </div>
-              ${fee.cls === 'fee-free' ? '<div class="cc-free-tag">FREE</div>' : ''}
-              ${highlightMultiplier ? `<div class="cc-highlight-tag">${highlightMultiplier}x ${activeCategory}</div>` : ''}
+      <!-- CARD VISUAL -->
+      <div class="card-visual-wrap">
+        <div class="credit-card" style="--c1:${card.color};--c2:${card.color2||card.color}">
+          <div class="card-shimmer"></div>
+          <div class="card-top-row">
+            <div class="chip-svg">
+              <svg width="32" height="26" viewBox="0 0 32 26" fill="none">
+                <rect width="32" height="26" rx="4" fill="rgba(255,210,80,0.9)"/>
+                <rect x="0" y="8" width="32" height="10" fill="rgba(200,160,40,0.5)"/>
+                <rect x="11" y="0" width="10" height="26" fill="rgba(200,160,40,0.5)"/>
+                <rect x="2" y="2" width="28" height="22" rx="3" stroke="rgba(180,140,20,0.6)" stroke-width="0.5" fill="none"/>
+              </svg>
             </div>
-            <!-- Reward rate badge -->
-            <div class="cc-reward-rate">
-              <span class="rr-val">${card.rewardRate}%</span>
-              <span class="rr-label">base reward rate</span>
+            <div class="contactless-svg">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                <path d="M5 12.5C5 9 7.5 6 12 4" stroke="rgba(255,255,255,0.5)" stroke-width="1.5" stroke-linecap="round"/>
+                <path d="M7.5 12.5C7.5 10.5 9.5 8.5 12 7.5" stroke="rgba(255,255,255,0.65)" stroke-width="1.5" stroke-linecap="round"/>
+                <path d="M10 12.5C10 11.5 10.8 11 12 11" stroke="rgba(255,255,255,0.8)" stroke-width="1.5" stroke-linecap="round"/>
+                <circle cx="12" cy="13.5" r="1.2" fill="rgba(255,255,255,0.9)"/>
+              </svg>
             </div>
           </div>
-
-          <!-- MIDDLE: Benefits -->
-          <div class="cc-benefits-col">
-            <div class="cc-title-row">
-              <div>
-                <div class="cc-full-bank">${card.bank}</div>
-                <div class="cc-full-name">${card.name}</div>
-              </div>
-              ${card.signup ? `<div class="signup-badge">🎁 ${card.signup}</div>` : ''}
+          <div class="card-number">•••• •••• •••• ••••</div>
+          <div class="card-bottom-row">
+            <div class="card-name-block">
+              <div class="card-bank-sm">${card.bank}</div>
+              <div class="card-name-sm">${card.name}</div>
             </div>
-
-            <div class="benefits-list">
-              ${card.benefits.map(b => `
-                <div class="benefit-item">
-                  <span class="benefit-check">✓</span>
-                  <span>${b}</span>
-                </div>
-              `).join('')}
-            </div>
-
-            ${topMultipliers.length > 0 ? `
-              <div class="multipliers-row">
-                <span class="mult-label">Best for:</span>
-                ${topMultipliers.map(([cat, val]) => `
-                  <span class="mult-chip ${activeCategory === cat ? 'mult-active' : ''}">${cat} ${val}x</span>
-                `).join('')}
-              </div>
-            ` : ''}
+            <div class="network-logo">${networkLogo(card.type)}</div>
           </div>
-
-          <!-- RIGHT: Charges & Stats -->
-          <div class="cc-charges-col">
-            <div class="charge-block ${fee.cls}">
-              <div class="charge-title">Annual Fee</div>
-              <div class="charge-amount">${fee.text}</div>
-              ${fee.waiver ? `<div class="charge-waiver">✓ ${fee.waiver}</div>` : ''}
-            </div>
-
-            <div class="stats-grid">
-              <div class="stat-box">
-                <div class="stat-icon">🏛️</div>
-                <div class="stat-info">
-                  <div class="stat-val">${lounge.domestic}</div>
-                  <div class="stat-lbl">Domestic Lounge</div>
-                </div>
-              </div>
-              <div class="stat-box">
-                <div class="stat-icon">✈️</div>
-                <div class="stat-info">
-                  <div class="stat-val">${lounge.international}</div>
-                  <div class="stat-lbl">Intl Lounge</div>
-                </div>
-              </div>
-              <div class="stat-box">
-                <div class="stat-icon">💱</div>
-                <div class="stat-info">
-                  <div class="stat-val ${card.forex === 0 ? 'text-green' : ''}">${forexText}</div>
-                  <div class="stat-lbl">Forex Markup</div>
-                </div>
-              </div>
-              <div class="stat-box">
-                <div class="stat-icon">🏦</div>
-                <div class="stat-info">
-                  <div class="stat-val">${card.type}</div>
-                  <div class="stat-lbl">Network</div>
-                </div>
-              </div>
-            </div>
-
-            <a href="${card.applyUrl}" target="_blank" rel="noopener" class="apply-btn-full">
-              Apply Now →
-            </a>
-            <a href="/best-card" class="compare-link">Compare with other cards →</a>
-          </div>
-
+          ${mult ? `<div class="mult-overlay">${mult}x ${activeCat}</div>` : ''}
         </div>
-      `;
-    }).join('');
-  }
 
-  document.querySelectorAll('.fchip').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const key = btn.dataset.filter;
-      document.querySelectorAll(`.fchip[data-filter="${key}"]`).forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      filters[key] = btn.dataset.val;
-      renderList();
-    });
+        <!-- REWARD PILL -->
+        <div class="reward-pill">
+          <span class="rp-val">${card.rewardRate}%</span>
+          <span class="rp-lbl">base reward</span>
+        </div>
+      </div>
+
+      <!-- CARD INFO -->
+      <div class="card-info-wrap">
+        <div class="card-header-row">
+          <div>
+            <div class="card-bank-label">${card.bank}</div>
+            <div class="card-name-label">${card.name} <span class="card-type-sm">${card.type}</span></div>
+          </div>
+          <div class="fee-badge fee-${fee.cls}">
+            <div class="fee-amount">${fee.label}</div>
+            ${fee.sub ? `<div class="fee-waiver">✓ ${fee.sub}</div>` : ''}
+          </div>
+        </div>
+
+        <!-- BENEFITS -->
+        <ul class="benefits-list">
+          ${card.benefits.map(b => `<li><span class="bi">✓</span>${b}</li>`).join('')}
+        </ul>
+
+        <!-- TAGS ROW -->
+        <div class="tags-row">
+          ${topMults.map(([cat,val]) => `<span class="tag tag-purple ${activeCat===cat?'tag-active':''}">${cat} ${val}x</span>`).join('')}
+          ${forexBadge}
+          ${card.signup ? `<span class="badge badge-teal">🎁 ${card.signup}</span>` : ''}
+        </div>
+
+        <!-- STATS -->
+        <div class="stats-strip">
+          <div class="sstat">
+            <div class="sstat-val">${lounge(card.loungeDomestic, card.loungeIntl)}</div>
+            <div class="sstat-lbl">Lounge access</div>
+          </div>
+          <div class="sstat">
+            <div class="sstat-val ${card.forex===0?'green':''}">${card.forex===0?'Zero':card.forex+'%'}</div>
+            <div class="sstat-lbl">Forex markup</div>
+          </div>
+          <div class="sstat">
+            <div class="sstat-val">${card.country === 'IN' ? '🇮🇳 India' : '🇺🇸 US'}</div>
+            <div class="sstat-lbl">Country</div>
+          </div>
+        </div>
+
+        <!-- ACTIONS -->
+        <div class="card-actions">
+          <a href="${card.applyUrl}" target="_blank" rel="noopener sponsored" class="apply-btn">
+            Apply Now →
+          </a>
+          <a href="/my-cards?add=${encodeURIComponent(card.bank+'|'+card.name)}" class="add-btn">
+            + Add to My Cards
+          </a>
+          <a href="/best-card" class="compare-btn">Compare</a>
+        </div>
+      </div>
+
+    </div>`;
+  }).join('');
+}
+
+document.querySelectorAll('.fchip').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const key = btn.dataset.filter;
+    document.querySelectorAll(`.fchip[data-filter="${key}"]`).forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    filters[key] = btn.dataset.val;
+    renderGrid();
   });
+});
 
-  let debounce;
-  searchInput.addEventListener('input', () => {
-    clearTimeout(debounce);
-    debounce = setTimeout(() => { filters.search = searchInput.value.trim(); renderList(); }, 250);
-  });
+let deb;
+document.getElementById('searchInput').addEventListener('input', e => {
+  clearTimeout(deb);
+  deb = setTimeout(() => { filters.search = e.target.value.trim(); renderGrid(); }, 250);
+});
 
-  renderList();
+renderGrid();
 </script>
 
 <style>
-  .page-hero { padding:80px 0 40px; text-align:center; }
-  .browse-section { padding:20px 0 100px; }
+/* HERO */
+.cards-hero {
+  background: linear-gradient(160deg, #f0f0ff 0%, #fafbff 60%, #fff 100%);
+  padding: 70px 0 60px;
+  overflow: hidden;
+}
+.hero-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+}
+.hero-title { font-size: clamp(1.8rem,3.5vw,2.8rem); font-weight:900; line-height:1.1; margin-bottom:20px; color:#111827; }
+.hero-perks { list-style:none; display:flex; flex-direction:column; gap:10px; margin-bottom:32px; }
+.hero-perks li { display:flex; align-items:center; gap:10px; font-size:0.95rem; color:#374151; font-weight:500; }
+.perk-check { color:#4F46E5; font-weight:800; font-size:1rem; flex-shrink:0; }
+.hero-actions { display:flex; gap:14px; flex-wrap:wrap; }
 
-  /* FILTERS */
-  .filters-bar {
-    background: white;
-    border-radius: 20px;
-    padding: 24px 28px;
-    box-shadow: 0 4px 24px rgba(79,70,229,0.07);
-    border: 1px solid rgba(79,70,229,0.07);
-    margin-bottom: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-  }
+/* FAN CARDS */
+.card-fan {
+  position:relative;
+  height:220px;
+  width:100%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.fan-card {
+  position:absolute;
+  width:200px;
+  height:126px;
+  border-radius:14px;
+  background: linear-gradient(135deg, var(--c1), var(--c2));
+  box-shadow: 0 12px 32px rgba(0,0,0,0.22);
+  padding:14px;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  transition:transform 0.3s;
+}
+.fan-card:hover { transform: translateY(-8px) rotate(0deg) !important; z-index:10 !important; }
+.fc1 { transform:rotate(-15deg) translateX(-80px); z-index:1; }
+.fc2 { transform:rotate(-5deg) translateX(-30px); z-index:2; }
+.fc3 { transform:rotate(5deg) translateX(20px); z-index:3; }
+.fc4 { transform:rotate(12deg) translateX(70px); z-index:4; }
+.fc-chip { width:24px; height:18px; background:rgba(255,210,80,0.85); border-radius:3px; }
+.fc-num { font-size:0.5rem; color:rgba(255,255,255,0.7); letter-spacing:0.15em; }
+.fc-bottom { display:flex; justify-content:space-between; align-items:flex-end; }
+.fc-bottom span:first-child { font-size:0.45rem; color:rgba(255,255,255,0.6); text-transform:uppercase; letter-spacing:0.08em; }
+.fc-name { font-size:0.65rem; color:white; font-weight:800; }
 
-  .filter-row { display: flex; gap: 32px; flex-wrap: wrap; }
+/* BROWSE */
+.browse-section { padding:40px 0 100px; }
 
-  .filter-group { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.filters-bar {
+  background:white;
+  border-radius:18px;
+  padding:22px 24px;
+  box-shadow:0 4px 20px rgba(79,70,229,0.07);
+  border:1px solid rgba(79,70,229,0.07);
+  margin-bottom:24px;
+  display:flex; flex-direction:column; gap:14px;
+}
+.filter-row { display:flex; gap:28px; flex-wrap:wrap; align-items:center; }
+.filter-group { display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+.filter-label { font-size:0.72rem; font-weight:700; color:#9CA3AF; text-transform:uppercase; letter-spacing:0.06em; min-width:60px; flex-shrink:0; }
+.chips { display:flex; flex-wrap:wrap; gap:6px; }
+.fchip {
+  padding:5px 13px; border-radius:100px; border:1.5px solid #E5E7EB;
+  background:white; font-size:0.8rem; font-weight:600; font-family:inherit;
+  color:#6B7280; cursor:pointer; transition:all 0.15s;
+}
+.fchip:hover { border-color:#4F46E5; color:#4F46E5; }
+.fchip.active { border-color:#4F46E5; background:rgba(79,70,229,0.08); color:#4F46E5; }
+.search-row { display:flex; align-items:center; gap:14px; }
+.search-wrap {
+  flex:1; display:flex; align-items:center; gap:10px;
+  background:#F9FAFB; border:1.5px solid #E5E7EB; border-radius:10px; padding:9px 14px;
+}
+.search-wrap:focus-within { border-color:#4F46E5; background:white; box-shadow:0 0 0 3px rgba(79,70,229,0.08); }
+.search-wrap input { flex:1; border:none; background:transparent; font-size:0.9rem; font-family:inherit; color:#111827; outline:none; }
+.search-wrap input::placeholder { color:#9CA3AF; }
+.count-badge { background:rgba(79,70,229,0.08); color:#4F46E5; font-size:0.82rem; font-weight:700; padding:6px 14px; border-radius:100px; white-space:nowrap; }
 
-  .filter-label {
-    font-size: 0.75rem;
-    font-weight: 700;
-    color: #9CA3AF;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    min-width: 65px;
-    flex-shrink: 0;
-  }
+/* CARD GRID */
+.card-grid { display:flex; flex-direction:column; gap:16px; }
 
-  .filter-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.card-item {
+  display:grid;
+  grid-template-columns:240px 1fr;
+  background:white;
+  border-radius:20px;
+  border:1px solid #F0F0F8;
+  overflow:hidden;
+  box-shadow:0 2px 12px rgba(0,0,0,0.05);
+  transition:all 0.2s;
+}
+.card-item:hover { box-shadow:0 8px 32px rgba(79,70,229,0.12); border-color:rgba(79,70,229,0.18); transform:translateY(-2px); }
 
-  .fchip {
-    padding: 5px 13px;
-    border-radius: 100px;
-    border: 1.5px solid #E5E7EB;
-    background: white;
-    font-size: 0.8rem;
-    font-weight: 600;
-    font-family: inherit;
-    color: #6B7280;
-    cursor: pointer;
-    transition: all 0.15s;
-  }
-  .fchip:hover { border-color: #4F46E5; color: #4F46E5; }
-  .fchip.active { border-color: #4F46E5; background: rgba(79,70,229,0.08); color: #4F46E5; }
+/* CARD VISUAL */
+.card-visual-wrap {
+  background:linear-gradient(160deg,#f8f7ff,#eeeeff);
+  padding:24px 20px;
+  display:flex; flex-direction:column; align-items:center; gap:14px;
+  border-right:1px solid #F0F0F8;
+}
 
-  .search-filter {
-    position: relative;
-    display: flex;
-    align-items: center;
-  }
+.credit-card {
+  width:190px;
+  height:120px;
+  border-radius:14px;
+  background:linear-gradient(135deg, var(--c1) 0%, var(--c2) 100%);
+  padding:12px 14px;
+  display:flex; flex-direction:column; justify-content:space-between;
+  position:relative;
+  overflow:hidden;
+  box-shadow:0 10px 28px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.15);
+  cursor:default;
+  transition:transform 0.2s;
+}
+.credit-card:hover { transform:scale(1.04) rotate(-1deg); }
 
-  .search-icon-input {
-    position: absolute;
-    left: 14px;
-    font-size: 1rem;
-    pointer-events: none;
-  }
+.card-shimmer {
+  position:absolute; top:0; left:-100%; width:60%; height:100%;
+  background:linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.12) 50%, transparent 60%);
+  animation:shimmer 3s infinite;
+}
+@keyframes shimmer { 0%{left:-100%} 50%{left:150%} 100%{left:150%} }
 
-  .search-filter input {
-    width: 100%;
-    border: 1.5px solid #E5E7EB;
-    border-radius: 10px;
-    padding: 10px 16px 10px 40px;
-    font-size: 0.9rem;
-    font-family: inherit;
-    color: #111827;
-    outline: none;
-    transition: border-color 0.15s;
-    background: #FAFAFA;
-  }
+.card-top-row { display:flex; align-items:flex-start; justify-content:space-between; }
+.chip-svg { flex-shrink:0; }
+.contactless-svg { flex-shrink:0; margin-top:-2px; }
 
-  .search-filter input:focus {
-    border-color: #4F46E5;
-    background: white;
-    box-shadow: 0 0 0 3px rgba(79,70,229,0.08);
-  }
+.card-number {
+  font-size:0.52rem; color:rgba(255,255,255,0.65);
+  letter-spacing:0.18em; font-weight:500;
+  text-shadow:0 1px 2px rgba(0,0,0,0.3);
+}
 
-  .stats-bar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 16px;
-    padding: 0 4px;
-  }
+.card-bottom-row { display:flex; align-items:flex-end; justify-content:space-between; }
+.card-bank-sm { font-size:0.42rem; color:rgba(255,255,255,0.55); text-transform:uppercase; letter-spacing:0.1em; margin-bottom:2px; }
+.card-name-sm { font-size:0.62rem; color:rgba(255,255,255,0.92); font-weight:700; text-shadow:0 1px 2px rgba(0,0,0,0.2); }
+.network-logo { display:flex; align-items:center; }
 
-  .card-count { font-size: 0.9rem; font-weight: 700; color: #374151; }
-  .sort-hint { font-size: 0.8rem; color: #9CA3AF; }
+.mult-overlay {
+  position:absolute; top:8px; right:8px;
+  background:rgba(255,255,255,0.92); color:#4F46E5;
+  font-size:0.55rem; font-weight:800; padding:3px 7px; border-radius:6px;
+}
 
-  /* CARD ROW */
-  .card-list { display: flex; flex-direction: column; gap: 16px; }
+.reward-pill {
+  display:flex; align-items:center; gap:6px;
+  background:white; border-radius:10px; padding:7px 12px;
+  border:1px solid rgba(79,70,229,0.12);
+  width:100%; justify-content:center;
+  box-shadow:0 2px 8px rgba(79,70,229,0.07);
+}
+.rp-val { font-size:1.1rem; font-weight:900; background:linear-gradient(135deg,#4F46E5,#7C3AED); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+.rp-lbl { font-size:0.65rem; color:#9CA3AF; font-weight:600; }
 
-  .card-row {
-    display: grid;
-    grid-template-columns: 220px 1fr 260px;
-    gap: 0;
-    background: white;
-    border-radius: 20px;
-    border: 1px solid #F3F4F6;
-    overflow: hidden;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-    transition: all 0.2s;
-  }
+/* CARD INFO */
+.card-info-wrap { padding:20px 24px; display:flex; flex-direction:column; gap:12px; }
 
-  .card-row:hover {
-    box-shadow: 0 8px 32px rgba(79,70,229,0.1);
-    border-color: rgba(79,70,229,0.15);
-    transform: translateY(-1px);
-  }
+.card-header-row { display:flex; justify-content:space-between; align-items:flex-start; gap:12px; }
+.card-bank-label { font-size:0.7rem; color:#9CA3AF; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; }
+.card-name-label { font-size:1rem; font-weight:800; color:#111827; margin-top:2px; }
+.card-type-sm { font-size:0.7rem; color:#6B7280; font-weight:400; }
 
-  /* CREDIT CARD VISUAL */
-  .cc-visual-wrap {
-    padding: 20px;
-    background: #F9FAFB;
-    border-right: 1px solid #F3F4F6;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 12px;
-    justify-content: center;
-  }
+.fee-badge { border-radius:10px; padding:8px 12px; text-align:right; flex-shrink:0; }
+.fee-free { background:rgba(16,185,129,0.08); border:1px solid rgba(16,185,129,0.2); }
+.fee-waivable { background:rgba(79,70,229,0.07); border:1px solid rgba(79,70,229,0.15); }
+.fee-paid { background:rgba(239,68,68,0.05); border:1px solid rgba(239,68,68,0.15); }
+.fee-amount { font-size:0.85rem; font-weight:800; color:#111827; }
+.fee-free .fee-amount { color:#059669; }
+.fee-waiver { font-size:0.68rem; color:#4F46E5; font-weight:600; margin-top:3px; }
 
-  .cc-visual {
-    width: 175px;
-    height: 110px;
-    border-radius: 12px;
-    padding: 12px 14px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    position: relative;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.2);
-  }
+.benefits-list { list-style:none; display:flex; flex-direction:column; gap:5px; }
+.benefits-list li { display:flex; gap:7px; font-size:0.8rem; color:#374151; line-height:1.45; }
+.bi { color:#4F46E5; font-weight:800; flex-shrink:0; font-size:0.75rem; margin-top:1px; }
 
-  .cc-chip { width: 28px; height: 22px; }
+.tags-row { display:flex; flex-wrap:wrap; gap:6px; }
+.tag { font-size:0.7rem; font-weight:700; padding:3px 9px; border-radius:6px; }
+.tag-purple { background:rgba(79,70,229,0.08); color:#4F46E5; border:1px solid rgba(79,70,229,0.12); }
+.tag-purple.tag-active { background:rgba(79,70,229,0.18); border-color:rgba(79,70,229,0.3); }
+.badge { font-size:0.7rem; font-weight:700; padding:3px 9px; border-radius:6px; }
+.badge-green { background:rgba(16,185,129,0.1); color:#059669; }
+.badge-teal { background:rgba(13,148,136,0.08); color:#0D9488; }
 
-  .cc-num {
-    font-size: 0.55rem;
-    color: rgba(255,255,255,0.7);
-    letter-spacing: 0.12em;
-    font-weight: 500;
-  }
+.stats-strip { display:flex; gap:0; border:1px solid #F3F4F6; border-radius:10px; overflow:hidden; }
+.sstat { flex:1; padding:8px 10px; text-align:center; border-right:1px solid #F3F4F6; }
+.sstat:last-child { border-right:none; }
+.sstat-val { font-size:0.75rem; font-weight:700; color:#111827; }
+.sstat-val.green { color:#059669; }
+.sstat-lbl { font-size:0.6rem; color:#9CA3AF; margin-top:2px; }
 
-  .cc-bottom {
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-  }
+.card-actions { display:flex; gap:8px; flex-wrap:wrap; margin-top:2px; }
+.apply-btn {
+  flex:1; min-width:120px; text-align:center; padding:10px 16px;
+  background:linear-gradient(135deg,#4F46E5,#7C3AED); color:white;
+  border-radius:10px; font-size:0.85rem; font-weight:700;
+  transition:opacity 0.15s; box-shadow:0 4px 12px rgba(79,70,229,0.3);
+}
+.apply-btn:hover { opacity:0.88; }
+.add-btn {
+  padding:10px 14px; border-radius:10px; font-size:0.8rem; font-weight:600;
+  color:#0D9488; border:1.5px solid rgba(13,148,136,0.3); background:rgba(13,148,136,0.05);
+  transition:all 0.15s; white-space:nowrap;
+}
+.add-btn:hover { background:rgba(13,148,136,0.1); }
+.compare-btn {
+  padding:10px 14px; border-radius:10px; font-size:0.8rem; font-weight:600;
+  color:#6B7280; border:1.5px solid #E5E7EB; transition:all 0.15s;
+}
+.compare-btn:hover { border-color:#4F46E5; color:#4F46E5; }
 
-  .cc-bank-label {
-    font-size: 0.5rem;
-    color: rgba(255,255,255,0.6);
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    margin-bottom: 1px;
-  }
+.no-results { text-align:center; padding:60px; color:#9CA3AF; font-size:1rem; }
 
-  .cc-card-label {
-    font-size: 0.65rem;
-    color: white;
-    font-weight: 700;
-  }
+.affiliate-note {
+  display:flex; align-items:center; justify-content:center; gap:12px;
+  margin-top:32px; font-size:0.8rem; color:#9CA3AF;
+}
+.aff-learn { color:#4F46E5; font-weight:600; }
 
-  .cc-type-badge {
-    font-size: 0.45rem;
-    color: rgba(255,255,255,0.7);
-    text-align: right;
-    max-width: 50px;
-    line-height: 1.3;
-  }
-
-  .cc-free-tag {
-    position: absolute;
-    top: 8px;
-    right: 8px;
-    background: rgba(255,255,255,0.25);
-    color: white;
-    font-size: 0.5rem;
-    font-weight: 800;
-    padding: 2px 6px;
-    border-radius: 4px;
-    letter-spacing: 0.08em;
-  }
-
-  .cc-highlight-tag {
-    position: absolute;
-    top: 8px;
-    right: 8px;
-    background: rgba(255,255,255,0.9);
-    color: #4F46E5;
-    font-size: 0.55rem;
-    font-weight: 800;
-    padding: 3px 7px;
-    border-radius: 6px;
-  }
-
-  .cc-reward-rate {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    background: rgba(79,70,229,0.07);
-    border-radius: 8px;
-    padding: 6px 10px;
-    width: 100%;
-  }
-
-  .rr-val { font-size: 1rem; font-weight: 800; color: #4F46E5; }
-  .rr-label { font-size: 0.62rem; color: #6B7280; font-weight: 500; }
-
-  /* BENEFITS COLUMN */
-  .cc-benefits-col {
-    padding: 20px 24px;
-    border-right: 1px solid #F3F4F6;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-
-  .cc-title-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 12px;
-  }
-
-  .cc-full-bank { font-size: 0.72rem; color: #9CA3AF; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
-  .cc-full-name { font-size: 1.05rem; font-weight: 800; color: #111827; margin-top: 2px; }
-
-  .signup-badge {
-    background: rgba(13,148,136,0.08);
-    color: #0D9488;
-    font-size: 0.7rem;
-    font-weight: 600;
-    padding: 4px 10px;
-    border-radius: 8px;
-    flex-shrink: 0;
-    text-align: right;
-    line-height: 1.4;
-    max-width: 160px;
-  }
-
-  .benefits-list {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-  }
-
-  .benefit-item {
-    display: flex;
-    gap: 8px;
-    align-items: flex-start;
-    font-size: 0.82rem;
-    color: #374151;
-    line-height: 1.4;
-  }
-
-  .benefit-check {
-    color: #4F46E5;
-    font-weight: 700;
-    flex-shrink: 0;
-    margin-top: 1px;
-  }
-
-  .multipliers-row {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    flex-wrap: wrap;
-    margin-top: 4px;
-  }
-
-  .mult-label { font-size: 0.72rem; color: #9CA3AF; font-weight: 600; }
-
-  .mult-chip {
-    font-size: 0.72rem;
-    font-weight: 700;
-    padding: 3px 10px;
-    border-radius: 6px;
-    background: rgba(79,70,229,0.07);
-    color: #4F46E5;
-    border: 1px solid rgba(79,70,229,0.12);
-  }
-
-  .mult-chip.mult-active {
-    background: rgba(79,70,229,0.15);
-    border-color: rgba(79,70,229,0.3);
-  }
-
-  /* CHARGES COLUMN */
-  .cc-charges-col {
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-  }
-
-  .charge-block {
-    border-radius: 12px;
-    padding: 14px;
-  }
-
-  .charge-block.fee-free {
-    background: rgba(16,185,129,0.08);
-    border: 1px solid rgba(16,185,129,0.2);
-  }
-
-  .charge-block.fee-waivable {
-    background: rgba(79,70,229,0.06);
-    border: 1px solid rgba(79,70,229,0.15);
-  }
-
-  .charge-block.fee-paid {
-    background: rgba(239,68,68,0.05);
-    border: 1px solid rgba(239,68,68,0.15);
-  }
-
-  .charge-title {
-    font-size: 0.68rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: #9CA3AF;
-    margin-bottom: 4px;
-  }
-
-  .charge-amount {
-    font-size: 1rem;
-    font-weight: 800;
-    color: #111827;
-    margin-bottom: 4px;
-  }
-
-  .fee-free .charge-amount { color: #059669; }
-
-  .charge-waiver {
-    font-size: 0.72rem;
-    color: #4F46E5;
-    font-weight: 600;
-    line-height: 1.4;
-  }
-
-  .stats-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 8px;
-  }
-
-  .stat-box {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    background: #F9FAFB;
-    border-radius: 10px;
-    padding: 8px 10px;
-  }
-
-  .stat-icon { font-size: 0.9rem; flex-shrink: 0; }
-
-  .stat-val { font-size: 0.78rem; font-weight: 700; color: #111827; }
-  .stat-val.text-green { color: #059669; }
-  .stat-lbl { font-size: 0.6rem; color: #9CA3AF; }
-
-  .apply-btn-full {
-    display: block;
-    text-align: center;
-    background: linear-gradient(135deg, #4F46E5, #7C3AED);
-    color: white;
-    padding: 11px;
-    border-radius: 10px;
-    font-size: 0.9rem;
-    font-weight: 700;
-    transition: opacity 0.15s;
-  }
-
-  .apply-btn-full:hover { opacity: 0.88; }
-
-  .compare-link {
-    display: block;
-    text-align: center;
-    font-size: 0.78rem;
-    color: #6B7280;
-    font-weight: 500;
-    transition: color 0.15s;
-  }
-
-  .compare-link:hover { color: #4F46E5; }
-
-  .no-results {
-    text-align: center;
-    padding: 80px 20px;
-    color: #9CA3AF;
-  }
-
-  .no-results-icon { font-size: 3rem; margin-bottom: 16px; }
-
-  @media (max-width: 1024px) {
-    .card-row { grid-template-columns: 190px 1fr; }
-    .cc-charges-col { grid-column: 1 / -1; border-top: 1px solid #F3F4F6; }
-  }
-
-  @media (max-width: 700px) {
-    .card-row { grid-template-columns: 1fr; }
-    .cc-visual-wrap { border-right: none; border-bottom: 1px solid #F3F4F6; flex-direction: row; justify-content: flex-start; padding: 16px 20px; }
-    .cc-benefits-col { border-right: none; }
-    .filter-row { flex-direction: column; gap: 12px; }
-  }
+@media (max-width:900px) {
+  .card-item { grid-template-columns:1fr; }
+  .card-visual-wrap { border-right:none; border-bottom:1px solid #F0F0F8; flex-direction:row; justify-content:flex-start; padding:16px 20px; }
+  .hero-inner { grid-template-columns:1fr; }
+  .hero-right { display:none; }
+}
+@media (max-width:600px) {
+  .filter-row { flex-direction:column; gap:10px; }
+  .card-actions { flex-direction:column; }
+}
 </style>

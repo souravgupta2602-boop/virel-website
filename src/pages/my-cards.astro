@@ -1,0 +1,400 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { cards, categories } from '../data/cards.js';
+const cardsJson = JSON.stringify(cards);
+const categoriesJson = JSON.stringify(categories);
+---
+
+<Layout title="My Cards — Virel" description="Search your own credit cards, see their offers, and discover better alternatives.">
+
+  <section class="page-hero">
+    <div class="container">
+      <div class="section-label">Personalised analysis</div>
+      <h1 class="section-title">Your cards, <span class="gradient-text">optimised</span></h1>
+      <p class="section-sub" style="margin:0 auto;text-align:center;">
+        Add the cards you own. We'll show their benefits, best uses, and where you're missing rewards.
+      </p>
+    </div>
+  </section>
+
+  <section class="my-cards-section">
+    <div class="container">
+      <div class="mc-layout">
+
+        <!-- LEFT: Card selector -->
+        <div class="selector-panel">
+          <div class="panel-title">Your cards</div>
+          <div class="search-wrap">
+            <span>🔍</span>
+            <input type="text" id="cardSearch" placeholder="Search to add a card (e.g. HDFC Regalia)…" autocomplete="off" />
+          </div>
+          <div id="searchResults" class="search-results" style="display:none"></div>
+          <div id="selectedCards" class="selected-cards">
+            <div class="empty-selected">
+              <div class="es-icon">💳</div>
+              <div class="es-text">Search above to add your cards</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT: Analysis -->
+        <div class="analysis-panel" id="analysisPanel">
+          <div class="analysis-empty">
+            <div class="ae-icon">📊</div>
+            <div class="ae-title">Add your cards to see analysis</div>
+            <div class="ae-sub">We'll show which card to use for each category, what you're missing, and better alternatives.</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+</Layout>
+
+<script define:vars={{ cardsJson, categoriesJson }}>
+const allCards = JSON.parse(cardsJson);
+const categories = JSON.parse(categoriesJson);
+let myCards = [];
+
+// Parse URL param for deep-link from /cards page
+const params = new URLSearchParams(window.location.search);
+const addParam = params.get('add');
+if (addParam) {
+  const [bank, name] = addParam.split('|');
+  const found = allCards.find(c => c.bank === bank && c.name === name);
+  if (found && !myCards.find(c => c.bank===found.bank && c.name===found.name)) {
+    myCards.push(found);
+  }
+}
+
+const cardSearchEl = document.getElementById('cardSearch');
+const searchResultsEl = document.getElementById('searchResults');
+const selectedCardsEl = document.getElementById('selectedCards');
+const analysisPanelEl = document.getElementById('analysisPanel');
+
+function networkLogo(type) {
+  const t = type.toLowerCase();
+  if (t.includes('visa')) return `<svg viewBox="0 0 48 16" width="34" height="11"><text x="0" y="13" font-family="Arial" font-weight="900" font-size="14" fill="white" letter-spacing="-1">VISA</text></svg>`;
+  if (t.includes('master')) return `<svg viewBox="0 0 40 24" width="30" height="18"><circle cx="14" cy="12" r="12" fill="#EB001B" opacity="0.9"/><circle cx="26" cy="12" r="12" fill="#F79E1B" opacity="0.9"/></svg>`;
+  if (t.includes('amex')) return `<svg viewBox="0 0 48 16" width="34" height="11"><text x="0" y="13" font-family="Arial" font-weight="900" font-size="11" fill="white">AMEX</text></svg>`;
+  return `<svg viewBox="0 0 48 16" width="34" height="11"><text x="0" y="13" font-family="Arial" font-weight="700" font-size="9" fill="rgba(255,255,255,0.8)">${type}</text></svg>`;
+}
+
+function miniCard(card) {
+  return `
+    <div class="mini-credit-card" style="--c1:${card.color};--c2:${card.color2||card.color}">
+      <div class="mc-chip"><svg width="22" height="18" viewBox="0 0 32 26" fill="none"><rect width="32" height="26" rx="4" fill="rgba(255,210,80,0.85)"/><rect x="0" y="8" width="32" height="10" fill="rgba(200,160,40,0.4)"/><rect x="11" y="0" width="10" height="26" fill="rgba(200,160,40,0.4)"/></svg></div>
+      <div class="mc-num">•••• •••• •••• ••••</div>
+      <div class="mc-bottom">
+        <div>
+          <div class="mc-bank">${card.bank}</div>
+          <div class="mc-name">${card.name}</div>
+        </div>
+        <div>${networkLogo(card.type)}</div>
+      </div>
+    </div>`;
+}
+
+function renderSearchResults(query) {
+  if (!query || query.length < 2) { searchResultsEl.style.display='none'; return; }
+  const q = query.toLowerCase();
+  const results = allCards.filter(c =>
+    (c.bank.toLowerCase().includes(q) || c.name.toLowerCase().includes(q)) &&
+    !myCards.find(m => m.bank===c.bank && m.name===c.name)
+  ).slice(0,8);
+
+  if (!results.length) { searchResultsEl.innerHTML='<div class="sr-empty">No cards found</div>'; searchResultsEl.style.display='block'; return; }
+  searchResultsEl.innerHTML = results.map(c => `
+    <div class="sr-item" data-bank="${c.bank}" data-name="${c.name}">
+      <div class="sri-color" style="background:${c.color}"></div>
+      <div class="sri-info">
+        <div class="sri-bank">${c.bank}</div>
+        <div class="sri-name">${c.name}</div>
+      </div>
+      <div class="sri-fee">${c.fee===0?'Free':'₹'+c.fee.toLocaleString()}</div>
+      <div class="sri-add">+ Add</div>
+    </div>
+  `).join('');
+  searchResultsEl.style.display = 'block';
+
+  searchResultsEl.querySelectorAll('.sr-item').forEach(el => {
+    el.addEventListener('click', () => {
+      const card = allCards.find(c => c.bank===el.dataset.bank && c.name===el.dataset.name);
+      if (card) { myCards.push(card); cardSearchEl.value=''; searchResultsEl.style.display='none'; renderSelected(); renderAnalysis(); }
+    });
+  });
+}
+
+function renderSelected() {
+  if (!myCards.length) {
+    selectedCardsEl.innerHTML = '<div class="empty-selected"><div class="es-icon">💳</div><div class="es-text">Search above to add your cards</div></div>';
+    return;
+  }
+  selectedCardsEl.innerHTML = myCards.map((card, i) => `
+    <div class="selected-card-item">
+      ${miniCard(card)}
+      <button class="remove-btn" data-idx="${i}" title="Remove">✕</button>
+    </div>
+  `).join('');
+  selectedCardsEl.querySelectorAll('.remove-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      myCards.splice(parseInt(btn.dataset.idx), 1);
+      renderSelected(); renderAnalysis();
+    });
+  });
+}
+
+function getBestCardForCategory(category) {
+  return myCards.map(c => ({ ...c, mult: (c.multipliers && c.multipliers[category]) || 1.0 }))
+    .sort((a,b) => b.mult - a.mult)[0] || null;
+}
+
+function getBetterAlternative(category, myBestMult) {
+  const allInCountry = myCards.length > 0
+    ? allCards.filter(c => c.country === myCards[0].country)
+    : allCards.filter(c => c.country === 'IN');
+  return allInCountry
+    .filter(c => !myCards.find(m => m.bank===c.bank && m.name===c.name))
+    .map(c => ({ ...c, mult: (c.multipliers && c.multipliers[category]) || 1.0 }))
+    .filter(c => c.mult > myBestMult)
+    .sort((a,b) => b.mult - a.mult)[0] || null;
+}
+
+function renderAnalysis() {
+  if (!myCards.length) {
+    analysisPanelEl.innerHTML = `<div class="analysis-empty"><div class="ae-icon">📊</div><div class="ae-title">Add your cards to see analysis</div><div class="ae-sub">We'll show which card to use for each category, what you're missing, and better alternatives.</div></div>`;
+    return;
+  }
+
+  // Category coverage
+  const rows = categories.map(cat => {
+    const best = getBestCardForCategory(cat);
+    const alt = getBetterAlternative(cat, best ? best.mult : 1.0);
+    return { cat, best, alt };
+  });
+
+  // Best card overall
+  const topCard = [...myCards].sort((a,b) => b.rewardRate - a.rewardRate)[0];
+
+  analysisPanelEl.innerHTML = `
+    <div class="analysis-content">
+
+      <!-- Summary bar -->
+      <div class="summary-bar">
+        <div class="sum-item">
+          <div class="sum-val">${myCards.length}</div>
+          <div class="sum-lbl">Cards added</div>
+        </div>
+        <div class="sum-item">
+          <div class="sum-val">${rows.filter(r=>r.best&&r.best.mult>1).length}</div>
+          <div class="sum-lbl">Categories covered</div>
+        </div>
+        <div class="sum-item">
+          <div class="sum-val">${rows.filter(r=>r.alt).length}</div>
+          <div class="sum-lbl">Better cards available</div>
+        </div>
+        <div class="sum-item">
+          <div class="sum-val">${Math.max(...myCards.map(c=>c.rewardRate))}%</div>
+          <div class="sum-lbl">Best reward rate</div>
+        </div>
+      </div>
+
+      <!-- Category breakdown -->
+      <div class="panel-title" style="margin-bottom:14px">Category-by-category breakdown</div>
+      <div class="category-table">
+        ${rows.map(({ cat, best, alt }) => `
+          <div class="cat-row">
+            <div class="cat-name">${cat}</div>
+            <div class="cat-best">
+              ${best ? `
+                <div class="cb-card">
+                  <div class="cb-dot" style="background:${best.color}"></div>
+                  <div class="cb-info">
+                    <div class="cb-name">${best.name}</div>
+                    <div class="cb-rate ${best.mult>1?'highlight':''}">${best.mult}x rewards</div>
+                  </div>
+                </div>
+              ` : '<span class="no-card">No card</span>'}
+            </div>
+            <div class="cat-alt">
+              ${alt ? `
+                <div class="alt-pill">
+                  <div class="alt-dot" style="background:${alt.color}"></div>
+                  <div class="alt-info">
+                    <span class="alt-name">${alt.name}</span>
+                    <span class="alt-rate">${alt.mult}x</span>
+                  </div>
+                  <a href="${alt.applyUrl}" target="_blank" class="alt-apply">Apply</a>
+                </div>
+              ` : '<span class="all-good">✓ You have the best</span>'}
+            </div>
+          </div>
+        `).join('')}
+      </div>
+
+      <!-- Your cards detail -->
+      <div class="panel-title" style="margin:24px 0 14px">Your card benefits</div>
+      <div class="my-cards-detail">
+        ${myCards.map(card => `
+          <div class="mcd-card">
+            <div class="mcd-visual" style="background:linear-gradient(135deg,${card.color},${card.color2||card.color})">
+              <div class="mcd-bank">${card.bank}</div>
+              <div class="mcd-name">${card.name}</div>
+              ${card.fee===0?'<div class="mcd-free">FREE</div>':''}
+            </div>
+            <div class="mcd-info">
+              <div class="mcd-fee">
+                ${card.fee===0 ? '<span class="fee-chip free">Free forever</span>' : `<span class="fee-chip paid">₹${card.fee.toLocaleString()}/yr${card.feeWaiver>0?' · waivable':''}</span>`}
+              </div>
+              <ul class="mcd-benefits">
+                ${card.benefits.slice(0,4).map(b=>`<li>✓ ${b}</li>`).join('')}
+              </ul>
+              ${card.signup?`<div class="mcd-signup">🎁 ${card.signup}</div>`:''}
+            </div>
+          </div>
+        `).join('')}
+      </div>
+
+    </div>
+  `;
+}
+
+cardSearchEl.addEventListener('input', e => renderSearchResults(e.target.value.trim()));
+document.addEventListener('click', e => { if (!e.target.closest('.search-wrap') && !e.target.closest('.search-results')) searchResultsEl.style.display='none'; });
+
+// Init with URL param
+if (myCards.length) { renderSelected(); renderAnalysis(); }
+</script>
+
+<style>
+.page-hero { padding:80px 0 40px; text-align:center; }
+.my-cards-section { padding:20px 0 100px; }
+
+.mc-layout { display:grid; grid-template-columns:340px 1fr; gap:24px; align-items:start; }
+
+/* SELECTOR PANEL */
+.selector-panel {
+  background:white; border-radius:20px; padding:24px;
+  box-shadow:0 4px 20px rgba(79,70,229,0.07); border:1px solid rgba(79,70,229,0.07);
+  position:sticky; top:80px;
+}
+.panel-title { font-size:1rem; font-weight:800; color:#111827; margin-bottom:16px; }
+.search-wrap {
+  display:flex; align-items:center; gap:8px;
+  background:#F9FAFB; border:1.5px solid #E5E7EB; border-radius:12px; padding:10px 14px;
+  margin-bottom:0; position:relative;
+}
+.search-wrap:focus-within { border-color:#4F46E5; background:white; box-shadow:0 0 0 3px rgba(79,70,229,0.08); }
+.search-wrap input { flex:1; border:none; background:transparent; font-size:0.875rem; font-family:inherit; color:#111827; outline:none; }
+.search-wrap input::placeholder { color:#9CA3AF; }
+
+.search-results {
+  background:white; border:1px solid #E5E7EB; border-radius:12px;
+  box-shadow:0 8px 24px rgba(0,0,0,0.1); margin-top:6px; overflow:hidden;
+}
+.sr-item {
+  display:flex; align-items:center; gap:10px; padding:10px 14px; cursor:pointer; transition:background 0.1s;
+}
+.sr-item:hover { background:#F9FAFB; }
+.sri-color { width:12px; height:12px; border-radius:3px; flex-shrink:0; }
+.sri-info { flex:1; }
+.sri-bank { font-size:0.65rem; color:#9CA3AF; font-weight:600; text-transform:uppercase; letter-spacing:0.05em; }
+.sri-name { font-size:0.85rem; font-weight:700; color:#111827; }
+.sri-fee { font-size:0.75rem; color:#6B7280; font-weight:600; }
+.sri-add { font-size:0.75rem; font-weight:700; color:#4F46E5; }
+.sr-empty { padding:14px; text-align:center; color:#9CA3AF; font-size:0.85rem; }
+
+/* SELECTED CARDS */
+.selected-cards { margin-top:16px; display:flex; flex-direction:column; gap:10px; }
+.empty-selected { text-align:center; padding:32px 16px; }
+.es-icon { font-size:2rem; margin-bottom:8px; }
+.es-text { font-size:0.85rem; color:#9CA3AF; }
+
+.selected-card-item { position:relative; }
+.mini-credit-card {
+  width:100%; height:72px; border-radius:10px;
+  background:linear-gradient(135deg,var(--c1),var(--c2));
+  padding:8px 12px; display:flex; flex-direction:column; justify-content:space-between;
+  box-shadow:0 4px 14px rgba(0,0,0,0.18);
+}
+.mc-chip { width:18px; height:14px; }
+.mc-num { font-size:0.42rem; color:rgba(255,255,255,0.6); letter-spacing:0.15em; }
+.mc-bottom { display:flex; justify-content:space-between; align-items:flex-end; }
+.mc-bank { font-size:0.38rem; color:rgba(255,255,255,0.55); text-transform:uppercase; letter-spacing:0.08em; }
+.mc-name { font-size:0.58rem; color:white; font-weight:700; }
+.remove-btn {
+  position:absolute; top:6px; right:6px;
+  background:rgba(0,0,0,0.3); color:white; border:none; border-radius:50%;
+  width:20px; height:20px; font-size:0.6rem; cursor:pointer; display:flex; align-items:center; justify-content:center;
+  transition:background 0.15s;
+}
+.remove-btn:hover { background:rgba(239,68,68,0.7); }
+
+/* ANALYSIS PANEL */
+.analysis-panel {
+  background:white; border-radius:20px; padding:28px;
+  box-shadow:0 4px 20px rgba(79,70,229,0.07); border:1px solid rgba(79,70,229,0.07);
+  min-height:400px;
+}
+.analysis-empty { display:flex; flex-direction:column; align-items:center; justify-content:center; padding:60px 24px; text-align:center; }
+.ae-icon { font-size:3rem; margin-bottom:16px; }
+.ae-title { font-size:1.1rem; font-weight:700; color:#374151; margin-bottom:8px; }
+.ae-sub { font-size:0.875rem; color:#9CA3AF; line-height:1.6; max-width:320px; }
+
+/* SUMMARY BAR */
+.summary-bar {
+  display:grid; grid-template-columns:repeat(4,1fr); gap:0;
+  background:#F9FAFB; border-radius:14px; overflow:hidden;
+  border:1px solid #F3F4F6; margin-bottom:28px;
+}
+.sum-item { padding:16px; text-align:center; border-right:1px solid #F3F4F6; }
+.sum-item:last-child { border-right:none; }
+.sum-val { font-size:1.4rem; font-weight:900; background:linear-gradient(135deg,#4F46E5,#7C3AED); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+.sum-lbl { font-size:0.65rem; color:#9CA3AF; font-weight:600; margin-top:2px; }
+
+/* CATEGORY TABLE */
+.category-table { display:flex; flex-direction:column; gap:0; border:1px solid #F3F4F6; border-radius:12px; overflow:hidden; margin-bottom:8px; }
+.cat-row { display:grid; grid-template-columns:100px 1fr 1fr; align-items:center; padding:10px 14px; border-bottom:1px solid #F3F4F6; gap:12px; }
+.cat-row:last-child { border-bottom:none; }
+.cat-row:hover { background:#FAFBFF; }
+.cat-name { font-size:0.8rem; font-weight:700; color:#374151; }
+.cb-card { display:flex; align-items:center; gap:8px; }
+.cb-dot { width:10px; height:10px; border-radius:3px; flex-shrink:0; }
+.cb-name { font-size:0.75rem; font-weight:600; color:#111827; }
+.cb-rate { font-size:0.7rem; color:#6B7280; }
+.cb-rate.highlight { color:#0D9488; font-weight:700; }
+.no-card { font-size:0.75rem; color:#9CA3AF; }
+.alt-pill { display:flex; align-items:center; gap:6px; }
+.alt-dot { width:8px; height:8px; border-radius:2px; flex-shrink:0; }
+.alt-info { flex:1; }
+.alt-name { font-size:0.72rem; font-weight:600; color:#374151; }
+.alt-rate { font-size:0.68rem; color:#0D9488; font-weight:700; margin-left:4px; }
+.alt-apply {
+  font-size:0.68rem; font-weight:700; color:white;
+  background:linear-gradient(135deg,#4F46E5,#7C3AED); padding:3px 8px; border-radius:6px;
+  white-space:nowrap; flex-shrink:0;
+}
+.all-good { font-size:0.72rem; color:#059669; font-weight:600; }
+
+/* MY CARDS DETAIL */
+.my-cards-detail { display:flex; flex-direction:column; gap:12px; }
+.mcd-card { display:grid; grid-template-columns:160px 1fr; border:1px solid #F3F4F6; border-radius:14px; overflow:hidden; }
+.mcd-visual {
+  padding:14px 12px; display:flex; flex-direction:column; justify-content:flex-end; position:relative; min-height:90px;
+}
+.mcd-bank { font-size:0.5rem; color:rgba(255,255,255,0.6); text-transform:uppercase; letter-spacing:0.08em; }
+.mcd-name { font-size:0.72rem; color:white; font-weight:800; }
+.mcd-free { position:absolute; top:8px; right:8px; background:rgba(255,255,255,0.2); color:white; font-size:0.45rem; font-weight:800; padding:2px 6px; border-radius:4px; letter-spacing:0.08em; }
+.mcd-info { padding:12px 16px; display:flex; flex-direction:column; gap:6px; background:white; }
+.mcd-fee { margin-bottom:2px; }
+.fee-chip { font-size:0.7rem; font-weight:700; padding:3px 9px; border-radius:6px; }
+.fee-chip.free { background:rgba(16,185,129,0.1); color:#059669; }
+.fee-chip.paid { background:rgba(79,70,229,0.08); color:#4F46E5; }
+.mcd-benefits { list-style:none; display:flex; flex-direction:column; gap:4px; }
+.mcd-benefits li { font-size:0.75rem; color:#374151; }
+.mcd-signup { font-size:0.72rem; color:#0D9488; font-weight:600; background:rgba(13,148,136,0.07); border-radius:6px; padding:4px 8px; }
+
+@media (max-width:1000px) { .mc-layout { grid-template-columns:1fr; } .selector-panel { position:static; } }
+@media (max-width:600px) { .summary-bar { grid-template-columns:1fr 1fr; } .cat-row { grid-template-columns:80px 1fr; } .cat-alt { display:none; } }
+</style>
