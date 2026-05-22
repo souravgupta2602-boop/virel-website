@@ -1,0 +1,397 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { cards, categories } from '../data/cards.js';
+const cardsJson = JSON.stringify(cards);
+const categoriesJson = JSON.stringify(categories);
+
+const banks = [...new Set(cards.filter(c=>c.country==='IN').map(c=>c.bank))].sort();
+const banksUS = [...new Set(cards.filter(c=>c.country==='US').map(c=>c.bank))].sort();
+---
+
+<Layout title="Browse Credit Cards — Virel" description="Browse and compare 40+ credit cards from India and US. Filter by bank, category, annual fee, and more.">
+
+  <section class="page-hero">
+    <div class="container">
+      <div class="section-label">Card database</div>
+      <h1 class="section-title">Browse <span class="gradient-text">all cards</span></h1>
+      <p class="section-sub" style="margin:0 auto;text-align:center;">
+        Compare {cards.length}+ credit cards across India and US. Filter by bank, category, and more.
+      </p>
+    </div>
+  </section>
+
+  <section class="browse-section">
+    <div class="container">
+
+      <!-- Filters -->
+      <div class="filters-bar">
+        <div class="filter-group">
+          <div class="filter-label">Country</div>
+          <div class="filter-chips">
+            <button class="fchip active" data-filter="country" data-val="IN">🇮🇳 India</button>
+            <button class="fchip" data-filter="country" data-val="US">🇺🇸 United States</button>
+            <button class="fchip" data-filter="country" data-val="ALL">All</button>
+          </div>
+        </div>
+
+        <div class="filter-group">
+          <div class="filter-label">Category</div>
+          <div class="filter-chips">
+            <button class="fchip active" data-filter="category" data-val="ALL">All</button>
+            {categories.map(c => (
+              <button class="fchip" data-filter="category" data-val={c}>{c}</button>
+            ))}
+          </div>
+        </div>
+
+        <div class="filter-group">
+          <div class="filter-label">Annual Fee</div>
+          <div class="filter-chips">
+            <button class="fchip active" data-filter="fee" data-val="ALL">All</button>
+            <button class="fchip" data-filter="fee" data-val="free">Free</button>
+            <button class="fchip" data-filter="fee" data-val="low">Under ₹2,000</button>
+            <button class="fchip" data-filter="fee" data-val="mid">₹2,000–₹10,000</button>
+            <button class="fchip" data-filter="fee" data-val="high">₹10,000+</button>
+          </div>
+        </div>
+
+        <div class="search-filter">
+          <input type="text" id="searchInput" placeholder="Search by bank or card name…" />
+        </div>
+      </div>
+
+      <!-- Stats bar -->
+      <div class="stats-bar">
+        <span id="cardCount" class="card-count">Loading…</span>
+        <span class="sort-label">Sorted by: Best reward rate</span>
+      </div>
+
+      <!-- Card Grid -->
+      <div id="cardGrid" class="card-grid"></div>
+
+    </div>
+  </section>
+
+</Layout>
+
+<script define:vars={{ cardsJson, categoriesJson }}>
+  const cards = JSON.parse(cardsJson);
+
+  let filters = { country: 'IN', category: 'ALL', fee: 'ALL', search: '' };
+
+  const cardGrid = document.getElementById('cardGrid');
+  const cardCount = document.getElementById('cardCount');
+  const searchInput = document.getElementById('searchInput');
+
+  function matchesFee(card, feeFilter) {
+    if (feeFilter === 'ALL') return true;
+    if (feeFilter === 'free') return card.fee === 0;
+    if (feeFilter === 'low') return card.fee > 0 && card.fee < 2000;
+    if (feeFilter === 'mid') return card.fee >= 2000 && card.fee <= 10000;
+    if (feeFilter === 'high') return card.fee > 10000;
+    return true;
+  }
+
+  function renderGrid() {
+    let filtered = cards.filter(c => {
+      if (filters.country !== 'ALL' && c.country !== filters.country) return false;
+      if (filters.category !== 'ALL' && !(c.multipliers && c.multipliers[filters.category])) return false;
+      if (!matchesFee(c, filters.fee)) return false;
+      if (filters.search) {
+        const q = filters.search.toLowerCase();
+        if (!c.bank.toLowerCase().includes(q) && !c.name.toLowerCase().includes(q)) return false;
+      }
+      return true;
+    });
+
+    if (filters.category !== 'ALL') {
+      filtered.sort((a,b) => (b.multipliers[filters.category]||1) - (a.multipliers[filters.category]||1));
+    } else {
+      filtered.sort((a,b) => b.rewardRate - a.rewardRate);
+    }
+
+    cardCount.textContent = `${filtered.length} card${filtered.length !== 1 ? 's' : ''} found`;
+
+    if (filtered.length === 0) {
+      cardGrid.innerHTML = '<div class="no-results">No cards match your filters. Try adjusting them.</div>';
+      return;
+    }
+
+    const curr = filters.country === 'US' ? '$' : (filters.country === 'ALL' ? '' : '₹');
+
+    cardGrid.innerHTML = filtered.map(card => {
+      const topMultiplier = filters.category !== 'ALL' ? (card.multipliers[filters.category] || 1) : null;
+      const loungeText = card.loungeDomestic === -1 ? 'Unlimited' : card.loungeDomestic === 0 ? 'No lounge' : `${card.loungeDomestic} visits`;
+      const feeText = card.fee === 0 ? 'Free forever' : `${card.country === 'US' ? '$' : '₹'}${card.fee.toLocaleString()}/yr`;
+      const cardCurr = card.country === 'US' ? '$' : '₹';
+
+      return `
+        <div class="card-card">
+          <div class="card-header" style="background:${card.color}">
+            <div class="cc-bank">${card.bank}</div>
+            <div class="cc-name">${card.name}</div>
+            <div class="cc-type">${card.type}</div>
+            ${card.fee === 0 ? '<div class="cc-free-badge">FREE</div>' : ''}
+            ${topMultiplier && topMultiplier > 1 ? `<div class="cc-multiplier-badge">${topMultiplier}x ${filters.category}</div>` : ''}
+          </div>
+          <div class="card-body">
+            <div class="cc-stats">
+              <div class="cc-stat">
+                <div class="cc-stat-val">${feeText}</div>
+                <div class="cc-stat-label">Annual Fee</div>
+              </div>
+              <div class="cc-stat">
+                <div class="cc-stat-val">${card.rewardRate}%</div>
+                <div class="cc-stat-label">Reward Rate</div>
+              </div>
+              <div class="cc-stat">
+                <div class="cc-stat-val">${loungeText}</div>
+                <div class="cc-stat-label">Domestic Lounge</div>
+              </div>
+            </div>
+            <div class="cc-benefits">
+              ${card.benefits.slice(0,3).map(b => `<div class="cc-benefit">✓ ${b}</div>`).join('')}
+            </div>
+            ${card.signup ? `<div class="cc-signup">🎁 ${card.signup}</div>` : ''}
+          </div>
+          <div class="card-footer">
+            <a href="/best-card?category=${encodeURIComponent(Object.keys(card.multipliers)[0]||'Travel')}" class="cc-compare">Compare →</a>
+            <a href="${card.applyUrl}" target="_blank" rel="noopener" class="cc-apply">Apply Now</a>
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  // Filter chips
+  document.querySelectorAll('.fchip').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const filterKey = btn.dataset.filter;
+      document.querySelectorAll(`.fchip[data-filter="${filterKey}"]`).forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      filters[filterKey] = btn.dataset.val;
+      renderGrid();
+    });
+  });
+
+  // Search
+  let debounce;
+  searchInput.addEventListener('input', () => {
+    clearTimeout(debounce);
+    debounce = setTimeout(() => {
+      filters.search = searchInput.value.trim();
+      renderGrid();
+    }, 250);
+  });
+
+  renderGrid();
+</script>
+
+<style>
+  .page-hero { padding:80px 0 40px; text-align:center; }
+  .browse-section { padding:20px 0 100px; }
+
+  .filters-bar {
+    background: white;
+    border-radius: 20px;
+    padding: 28px;
+    box-shadow: 0 4px 24px rgba(79,70,229,0.07);
+    border: 1px solid rgba(79,70,229,0.07);
+    margin-bottom: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .filter-group { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+
+  .filter-label {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: #9CA3AF;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    min-width: 70px;
+    flex-shrink: 0;
+  }
+
+  .filter-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+
+  .fchip {
+    padding: 6px 14px;
+    border-radius: 100px;
+    border: 1.5px solid #E5E7EB;
+    background: white;
+    font-size: 0.82rem;
+    font-weight: 600;
+    font-family: inherit;
+    color: #6B7280;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .fchip:hover { border-color: #4F46E5; color: #4F46E5; }
+  .fchip.active { border-color: #4F46E5; background: rgba(79,70,229,0.08); color: #4F46E5; }
+
+  .search-filter input {
+    width: 100%;
+    border: 1.5px solid #E5E7EB;
+    border-radius: 10px;
+    padding: 10px 16px;
+    font-size: 0.9rem;
+    font-family: inherit;
+    color: #111827;
+    outline: none;
+    transition: border-color 0.15s;
+    background: #FAFAFA;
+  }
+
+  .search-filter input:focus {
+    border-color: #4F46E5;
+    background: white;
+    box-shadow: 0 0 0 3px rgba(79,70,229,0.08);
+  }
+
+  .stats-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    padding: 0 4px;
+  }
+
+  .card-count { font-size: 0.9rem; font-weight: 700; color: #374151; }
+  .sort-label { font-size: 0.8rem; color: #9CA3AF; }
+
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+
+  .card-card {
+    background: white;
+    border-radius: 18px;
+    border: 1px solid #F3F4F6;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.2s;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  }
+
+  .card-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 32px rgba(79,70,229,0.1);
+    border-color: rgba(79,70,229,0.15);
+  }
+
+  .card-header {
+    padding: 20px;
+    position: relative;
+    min-height: 90px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+
+  .cc-bank { font-size: 0.68rem; color: rgba(255,255,255,0.7); font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 2px; }
+  .cc-name { font-size: 1rem; font-weight: 800; color: white; margin-bottom: 2px; }
+  .cc-type { font-size: 0.68rem; color: rgba(255,255,255,0.6); }
+
+  .cc-free-badge {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    background: rgba(255,255,255,0.2);
+    color: white;
+    font-size: 0.6rem;
+    font-weight: 800;
+    padding: 3px 8px;
+    border-radius: 6px;
+    letter-spacing: 0.08em;
+  }
+
+  .cc-multiplier-badge {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    background: rgba(255,255,255,0.9);
+    color: #4F46E5;
+    font-size: 0.7rem;
+    font-weight: 800;
+    padding: 4px 10px;
+    border-radius: 8px;
+  }
+
+  .card-body { padding: 16px 20px; flex: 1; }
+
+  .cc-stats { display: flex; gap: 0; margin-bottom: 14px; border-bottom: 1px solid #F3F4F6; padding-bottom: 14px; }
+
+  .cc-stat { flex: 1; text-align: center; border-right: 1px solid #F3F4F6; }
+  .cc-stat:last-child { border-right: none; }
+  .cc-stat-val { font-size: 0.82rem; font-weight: 700; color: #111827; }
+  .cc-stat-label { font-size: 0.62rem; color: #9CA3AF; margin-top: 2px; }
+
+  .cc-benefits { display: flex; flex-direction: column; gap: 5px; margin-bottom: 10px; }
+  .cc-benefit { font-size: 0.75rem; color: #6B7280; line-height: 1.4; }
+
+  .cc-signup {
+    font-size: 0.72rem;
+    color: #0D9488;
+    font-weight: 600;
+    background: rgba(13,148,136,0.07);
+    border-radius: 8px;
+    padding: 6px 10px;
+    margin-top: 8px;
+  }
+
+  .card-footer {
+    display: flex;
+    gap: 8px;
+    padding: 14px 20px;
+    border-top: 1px solid #F3F4F6;
+  }
+
+  .cc-compare {
+    flex: 1;
+    text-align: center;
+    padding: 8px;
+    border-radius: 8px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #4F46E5;
+    border: 1.5px solid rgba(79,70,229,0.2);
+    transition: all 0.15s;
+  }
+
+  .cc-compare:hover { background: rgba(79,70,229,0.06); }
+
+  .cc-apply {
+    flex: 1;
+    text-align: center;
+    padding: 8px;
+    border-radius: 8px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: white;
+    background: linear-gradient(135deg, #4F46E5, #7C3AED);
+    transition: opacity 0.15s;
+  }
+
+  .cc-apply:hover { opacity: 0.85; }
+
+  .no-results {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 60px;
+    color: #9CA3AF;
+    font-size: 1rem;
+  }
+
+  @media (max-width: 1024px) { .card-grid { grid-template-columns: repeat(2,1fr); } }
+  @media (max-width: 640px) {
+    .card-grid { grid-template-columns: 1fr; }
+    .filter-group { flex-direction: column; align-items: flex-start; }
+  }
+</style>
