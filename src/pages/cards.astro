@@ -3,9 +3,6 @@ import Layout from '../layouts/Layout.astro';
 import { cards, categories } from '../data/cards.js';
 const cardsJson = JSON.stringify(cards);
 const categoriesJson = JSON.stringify(categories);
-
-const banks = [...new Set(cards.filter(c=>c.country==='IN').map(c=>c.bank))].sort();
-const banksUS = [...new Set(cards.filter(c=>c.country==='US').map(c=>c.bank))].sort();
 ---
 
 <Layout title="Browse Credit Cards — Virel" description="Browse and compare 40+ credit cards from India and US. Filter by bank, category, annual fee, and more.">
@@ -15,7 +12,7 @@ const banksUS = [...new Set(cards.filter(c=>c.country==='US').map(c=>c.bank))].s
       <div class="section-label">Card database</div>
       <h1 class="section-title">Browse <span class="gradient-text">all cards</span></h1>
       <p class="section-sub" style="margin:0 auto;text-align:center;">
-        Compare {cards.length}+ credit cards across India and US. Filter by bank, category, and more.
+        Compare {cards.length}+ credit cards. See annual fees, fee waivers, rewards, and benefits side by side.
       </p>
     </div>
   </section>
@@ -25,49 +22,48 @@ const banksUS = [...new Set(cards.filter(c=>c.country==='US').map(c=>c.bank))].s
 
       <!-- Filters -->
       <div class="filters-bar">
-        <div class="filter-group">
-          <div class="filter-label">Country</div>
-          <div class="filter-chips">
-            <button class="fchip active" data-filter="country" data-val="IN">🇮🇳 India</button>
-            <button class="fchip" data-filter="country" data-val="US">🇺🇸 United States</button>
-            <button class="fchip" data-filter="country" data-val="ALL">All</button>
+        <div class="filter-row">
+          <div class="filter-group">
+            <div class="filter-label">Country</div>
+            <div class="filter-chips">
+              <button class="fchip active" data-filter="country" data-val="IN">🇮🇳 India</button>
+              <button class="fchip" data-filter="country" data-val="US">🇺🇸 US</button>
+              <button class="fchip" data-filter="country" data-val="ALL">All</button>
+            </div>
+          </div>
+          <div class="filter-group">
+            <div class="filter-label">Annual Fee</div>
+            <div class="filter-chips">
+              <button class="fchip active" data-filter="fee" data-val="ALL">All</button>
+              <button class="fchip" data-filter="fee" data-val="free">Free forever</button>
+              <button class="fchip" data-filter="fee" data-val="waivable">Fee waivable</button>
+              <button class="fchip" data-filter="fee" data-val="paid">Paid only</button>
+            </div>
           </div>
         </div>
-
-        <div class="filter-group">
-          <div class="filter-label">Category</div>
-          <div class="filter-chips">
-            <button class="fchip active" data-filter="category" data-val="ALL">All</button>
-            {categories.map(c => (
-              <button class="fchip" data-filter="category" data-val={c}>{c}</button>
-            ))}
+        <div class="filter-row">
+          <div class="filter-group">
+            <div class="filter-label">Best for</div>
+            <div class="filter-chips">
+              <button class="fchip active" data-filter="category" data-val="ALL">All</button>
+              {categories.map(c => (
+                <button class="fchip" data-filter="category" data-val={c}>{c}</button>
+              ))}
+            </div>
           </div>
         </div>
-
-        <div class="filter-group">
-          <div class="filter-label">Annual Fee</div>
-          <div class="filter-chips">
-            <button class="fchip active" data-filter="fee" data-val="ALL">All</button>
-            <button class="fchip" data-filter="fee" data-val="free">Free</button>
-            <button class="fchip" data-filter="fee" data-val="low">Under ₹2,000</button>
-            <button class="fchip" data-filter="fee" data-val="mid">₹2,000–₹10,000</button>
-            <button class="fchip" data-filter="fee" data-val="high">₹10,000+</button>
-          </div>
-        </div>
-
         <div class="search-filter">
+          <span class="search-icon-input">🔍</span>
           <input type="text" id="searchInput" placeholder="Search by bank or card name…" />
         </div>
       </div>
 
-      <!-- Stats bar -->
       <div class="stats-bar">
         <span id="cardCount" class="card-count">Loading…</span>
-        <span class="sort-label">Sorted by: Best reward rate</span>
+        <span class="sort-hint">Sorted by best reward rate</span>
       </div>
 
-      <!-- Card Grid -->
-      <div id="cardGrid" class="card-grid"></div>
+      <div id="cardList" class="card-list"></div>
 
     </div>
   </section>
@@ -76,23 +72,40 @@ const banksUS = [...new Set(cards.filter(c=>c.country==='US').map(c=>c.bank))].s
 
 <script define:vars={{ cardsJson, categoriesJson }}>
   const cards = JSON.parse(cardsJson);
-
   let filters = { country: 'IN', category: 'ALL', fee: 'ALL', search: '' };
 
-  const cardGrid = document.getElementById('cardGrid');
+  const cardList = document.getElementById('cardList');
   const cardCount = document.getElementById('cardCount');
   const searchInput = document.getElementById('searchInput');
+
+  function feeLabel(card) {
+    if (card.fee === 0) return { text: 'Free forever', cls: 'fee-free' };
+    const curr = card.country === 'US' ? '$' : '₹';
+    const feeStr = `${curr}${card.fee.toLocaleString()}/yr`;
+    if (card.feeWaiverSpend > 0) {
+      const waiverStr = card.country === 'US'
+        ? `$${(card.feeWaiverSpend/1000).toFixed(0)}K`
+        : card.feeWaiverSpend >= 100000 ? `₹${card.feeWaiverSpend/100000}L` : `₹${card.feeWaiverSpend.toLocaleString()}`;
+      return { text: feeStr, waiver: `Free if you spend ${waiverStr}/yr`, cls: 'fee-waivable' };
+    }
+    return { text: feeStr, cls: 'fee-paid' };
+  }
+
+  function loungeLabel(domestic, intl) {
+    const d = domestic === -1 ? 'Unlimited' : domestic === 0 ? '—' : `${domestic}`;
+    const i = intl === -1 ? 'Unlimited' : intl === 0 ? '—' : `${intl}`;
+    return { domestic: d, international: i };
+  }
 
   function matchesFee(card, feeFilter) {
     if (feeFilter === 'ALL') return true;
     if (feeFilter === 'free') return card.fee === 0;
-    if (feeFilter === 'low') return card.fee > 0 && card.fee < 2000;
-    if (feeFilter === 'mid') return card.fee >= 2000 && card.fee <= 10000;
-    if (feeFilter === 'high') return card.fee > 10000;
+    if (feeFilter === 'waivable') return card.fee > 0 && card.feeWaiverSpend > 0;
+    if (feeFilter === 'paid') return card.fee > 0 && card.feeWaiverSpend === 0;
     return true;
   }
 
-  function renderGrid() {
+  function renderList() {
     let filtered = cards.filter(c => {
       if (filters.country !== 'ALL' && c.country !== filters.country) return false;
       if (filters.category !== 'ALL' && !(c.multipliers && c.multipliers[filters.category])) return false;
@@ -104,140 +117,227 @@ const banksUS = [...new Set(cards.filter(c=>c.country==='US').map(c=>c.bank))].s
       return true;
     });
 
-    if (filters.category !== 'ALL') {
-      filtered.sort((a,b) => (b.multipliers[filters.category]||1) - (a.multipliers[filters.category]||1));
-    } else {
-      filtered.sort((a,b) => b.rewardRate - a.rewardRate);
-    }
+    filtered.sort((a, b) => {
+      if (filters.category !== 'ALL') {
+        return ((b.multipliers && b.multipliers[filters.category]) || 1) - ((a.multipliers && a.multipliers[filters.category]) || 1);
+      }
+      return b.rewardRate - a.rewardRate;
+    });
 
     cardCount.textContent = `${filtered.length} card${filtered.length !== 1 ? 's' : ''} found`;
 
     if (filtered.length === 0) {
-      cardGrid.innerHTML = '<div class="no-results">No cards match your filters. Try adjusting them.</div>';
+      cardList.innerHTML = '<div class="no-results"><div class="no-results-icon">🔍</div><div>No cards match your filters. Try adjusting them.</div></div>';
       return;
     }
 
-    const curr = filters.country === 'US' ? '$' : (filters.country === 'ALL' ? '' : '₹');
+    const curr = (c) => c.country === 'US' ? '$' : '₹';
 
-    cardGrid.innerHTML = filtered.map(card => {
-      const topMultiplier = filters.category !== 'ALL' ? (card.multipliers[filters.category] || 1) : null;
-      const loungeText = card.loungeDomestic === -1 ? 'Unlimited' : card.loungeDomestic === 0 ? 'No lounge' : `${card.loungeDomestic} visits`;
-      const feeText = card.fee === 0 ? 'Free forever' : `${card.country === 'US' ? '$' : '₹'}${card.fee.toLocaleString()}/yr`;
-      const cardCurr = card.country === 'US' ? '$' : '₹';
+    cardList.innerHTML = filtered.map(card => {
+      const fee = feeLabel(card);
+      const lounge = loungeLabel(card.loungeDomestic, card.loungeIntl);
+      const forexText = card.forex === 0 ? 'Zero forex' : `${card.forex}% forex`;
+      const topMultipliers = Object.entries(card.multipliers || {})
+        .sort((a,b) => b[1]-a[1])
+        .slice(0, 4);
+      const activeCategory = filters.category !== 'ALL' ? filters.category : null;
+      const highlightMultiplier = activeCategory && card.multipliers && card.multipliers[activeCategory];
 
       return `
-        <div class="card-card">
-          <div class="card-header" style="background:${card.color}">
-            <div class="cc-bank">${card.bank}</div>
-            <div class="cc-name">${card.name}</div>
-            <div class="cc-type">${card.type}</div>
-            ${card.fee === 0 ? '<div class="cc-free-badge">FREE</div>' : ''}
-            ${topMultiplier && topMultiplier > 1 ? `<div class="cc-multiplier-badge">${topMultiplier}x ${filters.category}</div>` : ''}
+        <div class="card-row">
+
+          <!-- LEFT: Credit card visual -->
+          <div class="cc-visual-wrap">
+            <div class="cc-visual" style="background: linear-gradient(135deg, ${card.color}ee, ${card.color}99)">
+              <div class="cc-chip">
+                <svg width="28" height="22" viewBox="0 0 28 22" fill="none">
+                  <rect width="28" height="22" rx="4" fill="rgba(255,255,255,0.25)"/>
+                  <rect x="0" y="7" width="28" height="8" fill="rgba(255,255,255,0.15)"/>
+                  <rect x="10" y="0" width="8" height="22" fill="rgba(255,255,255,0.15)"/>
+                </svg>
+              </div>
+              <div class="cc-num">•••• •••• •••• ••••</div>
+              <div class="cc-bottom">
+                <div>
+                  <div class="cc-bank-label">${card.bank}</div>
+                  <div class="cc-card-label">${card.name}</div>
+                </div>
+                <div class="cc-type-badge">${card.type}</div>
+              </div>
+              ${fee.cls === 'fee-free' ? '<div class="cc-free-tag">FREE</div>' : ''}
+              ${highlightMultiplier ? `<div class="cc-highlight-tag">${highlightMultiplier}x ${activeCategory}</div>` : ''}
+            </div>
+            <!-- Reward rate badge -->
+            <div class="cc-reward-rate">
+              <span class="rr-val">${card.rewardRate}%</span>
+              <span class="rr-label">base reward rate</span>
+            </div>
           </div>
-          <div class="card-body">
-            <div class="cc-stats">
-              <div class="cc-stat">
-                <div class="cc-stat-val">${feeText}</div>
-                <div class="cc-stat-label">Annual Fee</div>
+
+          <!-- MIDDLE: Benefits -->
+          <div class="cc-benefits-col">
+            <div class="cc-title-row">
+              <div>
+                <div class="cc-full-bank">${card.bank}</div>
+                <div class="cc-full-name">${card.name}</div>
               </div>
-              <div class="cc-stat">
-                <div class="cc-stat-val">${card.rewardRate}%</div>
-                <div class="cc-stat-label">Reward Rate</div>
+              ${card.signup ? `<div class="signup-badge">🎁 ${card.signup}</div>` : ''}
+            </div>
+
+            <div class="benefits-list">
+              ${card.benefits.map(b => `
+                <div class="benefit-item">
+                  <span class="benefit-check">✓</span>
+                  <span>${b}</span>
+                </div>
+              `).join('')}
+            </div>
+
+            ${topMultipliers.length > 0 ? `
+              <div class="multipliers-row">
+                <span class="mult-label">Best for:</span>
+                ${topMultipliers.map(([cat, val]) => `
+                  <span class="mult-chip ${activeCategory === cat ? 'mult-active' : ''}">${cat} ${val}x</span>
+                `).join('')}
               </div>
-              <div class="cc-stat">
-                <div class="cc-stat-val">${loungeText}</div>
-                <div class="cc-stat-label">Domestic Lounge</div>
+            ` : ''}
+          </div>
+
+          <!-- RIGHT: Charges & Stats -->
+          <div class="cc-charges-col">
+            <div class="charge-block ${fee.cls}">
+              <div class="charge-title">Annual Fee</div>
+              <div class="charge-amount">${fee.text}</div>
+              ${fee.waiver ? `<div class="charge-waiver">✓ ${fee.waiver}</div>` : ''}
+            </div>
+
+            <div class="stats-grid">
+              <div class="stat-box">
+                <div class="stat-icon">🏛️</div>
+                <div class="stat-info">
+                  <div class="stat-val">${lounge.domestic}</div>
+                  <div class="stat-lbl">Domestic Lounge</div>
+                </div>
+              </div>
+              <div class="stat-box">
+                <div class="stat-icon">✈️</div>
+                <div class="stat-info">
+                  <div class="stat-val">${lounge.international}</div>
+                  <div class="stat-lbl">Intl Lounge</div>
+                </div>
+              </div>
+              <div class="stat-box">
+                <div class="stat-icon">💱</div>
+                <div class="stat-info">
+                  <div class="stat-val ${card.forex === 0 ? 'text-green' : ''}">${forexText}</div>
+                  <div class="stat-lbl">Forex Markup</div>
+                </div>
+              </div>
+              <div class="stat-box">
+                <div class="stat-icon">🏦</div>
+                <div class="stat-info">
+                  <div class="stat-val">${card.type}</div>
+                  <div class="stat-lbl">Network</div>
+                </div>
               </div>
             </div>
-            <div class="cc-benefits">
-              ${card.benefits.slice(0,3).map(b => `<div class="cc-benefit">✓ ${b}</div>`).join('')}
-            </div>
-            ${card.signup ? `<div class="cc-signup">🎁 ${card.signup}</div>` : ''}
+
+            <a href="${card.applyUrl}" target="_blank" rel="noopener" class="apply-btn-full">
+              Apply Now →
+            </a>
+            <a href="/best-card" class="compare-link">Compare with other cards →</a>
           </div>
-          <div class="card-footer">
-            <a href="/best-card?category=${encodeURIComponent(Object.keys(card.multipliers)[0]||'Travel')}" class="cc-compare">Compare →</a>
-            <a href="${card.applyUrl}" target="_blank" rel="noopener" class="cc-apply">Apply Now</a>
-          </div>
+
         </div>
       `;
     }).join('');
   }
 
-  // Filter chips
   document.querySelectorAll('.fchip').forEach(btn => {
     btn.addEventListener('click', () => {
-      const filterKey = btn.dataset.filter;
-      document.querySelectorAll(`.fchip[data-filter="${filterKey}"]`).forEach(b => b.classList.remove('active'));
+      const key = btn.dataset.filter;
+      document.querySelectorAll(`.fchip[data-filter="${key}"]`).forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
-      filters[filterKey] = btn.dataset.val;
-      renderGrid();
+      filters[key] = btn.dataset.val;
+      renderList();
     });
   });
 
-  // Search
   let debounce;
   searchInput.addEventListener('input', () => {
     clearTimeout(debounce);
-    debounce = setTimeout(() => {
-      filters.search = searchInput.value.trim();
-      renderGrid();
-    }, 250);
+    debounce = setTimeout(() => { filters.search = searchInput.value.trim(); renderList(); }, 250);
   });
 
-  renderGrid();
+  renderList();
 </script>
 
 <style>
   .page-hero { padding:80px 0 40px; text-align:center; }
   .browse-section { padding:20px 0 100px; }
 
+  /* FILTERS */
   .filters-bar {
     background: white;
     border-radius: 20px;
-    padding: 28px;
+    padding: 24px 28px;
     box-shadow: 0 4px 24px rgba(79,70,229,0.07);
     border: 1px solid rgba(79,70,229,0.07);
-    margin-bottom: 24px;
+    margin-bottom: 20px;
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 16px;
   }
 
-  .filter-group { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .filter-row { display: flex; gap: 32px; flex-wrap: wrap; }
+
+  .filter-group { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
 
   .filter-label {
-    font-size: 0.78rem;
+    font-size: 0.75rem;
     font-weight: 700;
     color: #9CA3AF;
     text-transform: uppercase;
     letter-spacing: 0.06em;
-    min-width: 70px;
+    min-width: 65px;
     flex-shrink: 0;
   }
 
   .filter-chips { display: flex; flex-wrap: wrap; gap: 6px; }
 
   .fchip {
-    padding: 6px 14px;
+    padding: 5px 13px;
     border-radius: 100px;
     border: 1.5px solid #E5E7EB;
     background: white;
-    font-size: 0.82rem;
+    font-size: 0.8rem;
     font-weight: 600;
     font-family: inherit;
     color: #6B7280;
     cursor: pointer;
     transition: all 0.15s;
   }
-
   .fchip:hover { border-color: #4F46E5; color: #4F46E5; }
   .fchip.active { border-color: #4F46E5; background: rgba(79,70,229,0.08); color: #4F46E5; }
+
+  .search-filter {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  .search-icon-input {
+    position: absolute;
+    left: 14px;
+    font-size: 1rem;
+    pointer-events: none;
+  }
 
   .search-filter input {
     width: 100%;
     border: 1.5px solid #E5E7EB;
     border-radius: 10px;
-    padding: 10px 16px;
+    padding: 10px 16px 10px 40px;
     font-size: 0.9rem;
     font-family: inherit;
     color: #111827;
@@ -254,144 +354,330 @@ const banksUS = [...new Set(cards.filter(c=>c.country==='US').map(c=>c.bank))].s
 
   .stats-bar {
     display: flex;
-    align-items: center;
     justify-content: space-between;
-    margin-bottom: 20px;
+    align-items: center;
+    margin-bottom: 16px;
     padding: 0 4px;
   }
 
   .card-count { font-size: 0.9rem; font-weight: 700; color: #374151; }
-  .sort-label { font-size: 0.8rem; color: #9CA3AF; }
+  .sort-hint { font-size: 0.8rem; color: #9CA3AF; }
 
-  .card-grid {
+  /* CARD ROW */
+  .card-list { display: flex; flex-direction: column; gap: 16px; }
+
+  .card-row {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-  }
-
-  .card-card {
+    grid-template-columns: 220px 1fr 260px;
+    gap: 0;
     background: white;
-    border-radius: 18px;
+    border-radius: 20px;
     border: 1px solid #F3F4F6;
     overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    transition: all 0.2s;
     box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    transition: all 0.2s;
   }
 
-  .card-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 12px 32px rgba(79,70,229,0.1);
+  .card-row:hover {
+    box-shadow: 0 8px 32px rgba(79,70,229,0.1);
     border-color: rgba(79,70,229,0.15);
+    transform: translateY(-1px);
   }
 
-  .card-header {
+  /* CREDIT CARD VISUAL */
+  .cc-visual-wrap {
     padding: 20px;
-    position: relative;
-    min-height: 90px;
+    background: #F9FAFB;
+    border-right: 1px solid #F3F4F6;
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;
+    align-items: center;
+    gap: 12px;
+    justify-content: center;
   }
 
-  .cc-bank { font-size: 0.68rem; color: rgba(255,255,255,0.7); font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 2px; }
-  .cc-name { font-size: 1rem; font-weight: 800; color: white; margin-bottom: 2px; }
-  .cc-type { font-size: 0.68rem; color: rgba(255,255,255,0.6); }
+  .cc-visual {
+    width: 175px;
+    height: 110px;
+    border-radius: 12px;
+    padding: 12px 14px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+  }
 
-  .cc-free-badge {
-    position: absolute;
-    top: 14px;
-    right: 14px;
-    background: rgba(255,255,255,0.2);
+  .cc-chip { width: 28px; height: 22px; }
+
+  .cc-num {
+    font-size: 0.55rem;
+    color: rgba(255,255,255,0.7);
+    letter-spacing: 0.12em;
+    font-weight: 500;
+  }
+
+  .cc-bottom {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+  }
+
+  .cc-bank-label {
+    font-size: 0.5rem;
+    color: rgba(255,255,255,0.6);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 1px;
+  }
+
+  .cc-card-label {
+    font-size: 0.65rem;
     color: white;
-    font-size: 0.6rem;
+    font-weight: 700;
+  }
+
+  .cc-type-badge {
+    font-size: 0.45rem;
+    color: rgba(255,255,255,0.7);
+    text-align: right;
+    max-width: 50px;
+    line-height: 1.3;
+  }
+
+  .cc-free-tag {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: rgba(255,255,255,0.25);
+    color: white;
+    font-size: 0.5rem;
     font-weight: 800;
-    padding: 3px 8px;
-    border-radius: 6px;
+    padding: 2px 6px;
+    border-radius: 4px;
     letter-spacing: 0.08em;
   }
 
-  .cc-multiplier-badge {
+  .cc-highlight-tag {
     position: absolute;
-    top: 14px;
-    right: 14px;
+    top: 8px;
+    right: 8px;
     background: rgba(255,255,255,0.9);
     color: #4F46E5;
-    font-size: 0.7rem;
+    font-size: 0.55rem;
     font-weight: 800;
-    padding: 4px 10px;
-    border-radius: 8px;
+    padding: 3px 7px;
+    border-radius: 6px;
   }
 
-  .card-body { padding: 16px 20px; flex: 1; }
-
-  .cc-stats { display: flex; gap: 0; margin-bottom: 14px; border-bottom: 1px solid #F3F4F6; padding-bottom: 14px; }
-
-  .cc-stat { flex: 1; text-align: center; border-right: 1px solid #F3F4F6; }
-  .cc-stat:last-child { border-right: none; }
-  .cc-stat-val { font-size: 0.82rem; font-weight: 700; color: #111827; }
-  .cc-stat-label { font-size: 0.62rem; color: #9CA3AF; margin-top: 2px; }
-
-  .cc-benefits { display: flex; flex-direction: column; gap: 5px; margin-bottom: 10px; }
-  .cc-benefit { font-size: 0.75rem; color: #6B7280; line-height: 1.4; }
-
-  .cc-signup {
-    font-size: 0.72rem;
-    color: #0D9488;
-    font-weight: 600;
-    background: rgba(13,148,136,0.07);
+  .cc-reward-rate {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(79,70,229,0.07);
     border-radius: 8px;
     padding: 6px 10px;
-    margin-top: 8px;
+    width: 100%;
   }
 
-  .card-footer {
+  .rr-val { font-size: 1rem; font-weight: 800; color: #4F46E5; }
+  .rr-label { font-size: 0.62rem; color: #6B7280; font-weight: 500; }
+
+  /* BENEFITS COLUMN */
+  .cc-benefits-col {
+    padding: 20px 24px;
+    border-right: 1px solid #F3F4F6;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .cc-title-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .cc-full-bank { font-size: 0.72rem; color: #9CA3AF; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
+  .cc-full-name { font-size: 1.05rem; font-weight: 800; color: #111827; margin-top: 2px; }
+
+  .signup-badge {
+    background: rgba(13,148,136,0.08);
+    color: #0D9488;
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 8px;
+    flex-shrink: 0;
+    text-align: right;
+    line-height: 1.4;
+    max-width: 160px;
+  }
+
+  .benefits-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .benefit-item {
     display: flex;
     gap: 8px;
-    padding: 14px 20px;
-    border-top: 1px solid #F3F4F6;
+    align-items: flex-start;
+    font-size: 0.82rem;
+    color: #374151;
+    line-height: 1.4;
   }
 
-  .cc-compare {
-    flex: 1;
-    text-align: center;
-    padding: 8px;
-    border-radius: 8px;
-    font-size: 0.82rem;
-    font-weight: 600;
+  .benefit-check {
     color: #4F46E5;
-    border: 1.5px solid rgba(79,70,229,0.2);
-    transition: all 0.15s;
+    font-weight: 700;
+    flex-shrink: 0;
+    margin-top: 1px;
   }
 
-  .cc-compare:hover { background: rgba(79,70,229,0.06); }
+  .multipliers-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-top: 4px;
+  }
 
-  .cc-apply {
-    flex: 1;
-    text-align: center;
-    padding: 8px;
-    border-radius: 8px;
-    font-size: 0.82rem;
+  .mult-label { font-size: 0.72rem; color: #9CA3AF; font-weight: 600; }
+
+  .mult-chip {
+    font-size: 0.72rem;
     font-weight: 700;
-    color: white;
+    padding: 3px 10px;
+    border-radius: 6px;
+    background: rgba(79,70,229,0.07);
+    color: #4F46E5;
+    border: 1px solid rgba(79,70,229,0.12);
+  }
+
+  .mult-chip.mult-active {
+    background: rgba(79,70,229,0.15);
+    border-color: rgba(79,70,229,0.3);
+  }
+
+  /* CHARGES COLUMN */
+  .cc-charges-col {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .charge-block {
+    border-radius: 12px;
+    padding: 14px;
+  }
+
+  .charge-block.fee-free {
+    background: rgba(16,185,129,0.08);
+    border: 1px solid rgba(16,185,129,0.2);
+  }
+
+  .charge-block.fee-waivable {
+    background: rgba(79,70,229,0.06);
+    border: 1px solid rgba(79,70,229,0.15);
+  }
+
+  .charge-block.fee-paid {
+    background: rgba(239,68,68,0.05);
+    border: 1px solid rgba(239,68,68,0.15);
+  }
+
+  .charge-title {
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #9CA3AF;
+    margin-bottom: 4px;
+  }
+
+  .charge-amount {
+    font-size: 1rem;
+    font-weight: 800;
+    color: #111827;
+    margin-bottom: 4px;
+  }
+
+  .fee-free .charge-amount { color: #059669; }
+
+  .charge-waiver {
+    font-size: 0.72rem;
+    color: #4F46E5;
+    font-weight: 600;
+    line-height: 1.4;
+  }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .stat-box {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: #F9FAFB;
+    border-radius: 10px;
+    padding: 8px 10px;
+  }
+
+  .stat-icon { font-size: 0.9rem; flex-shrink: 0; }
+
+  .stat-val { font-size: 0.78rem; font-weight: 700; color: #111827; }
+  .stat-val.text-green { color: #059669; }
+  .stat-lbl { font-size: 0.6rem; color: #9CA3AF; }
+
+  .apply-btn-full {
+    display: block;
+    text-align: center;
     background: linear-gradient(135deg, #4F46E5, #7C3AED);
+    color: white;
+    padding: 11px;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    font-weight: 700;
     transition: opacity 0.15s;
   }
 
-  .cc-apply:hover { opacity: 0.85; }
+  .apply-btn-full:hover { opacity: 0.88; }
 
-  .no-results {
-    grid-column: 1 / -1;
+  .compare-link {
+    display: block;
     text-align: center;
-    padding: 60px;
-    color: #9CA3AF;
-    font-size: 1rem;
+    font-size: 0.78rem;
+    color: #6B7280;
+    font-weight: 500;
+    transition: color 0.15s;
   }
 
-  @media (max-width: 1024px) { .card-grid { grid-template-columns: repeat(2,1fr); } }
-  @media (max-width: 640px) {
-    .card-grid { grid-template-columns: 1fr; }
-    .filter-group { flex-direction: column; align-items: flex-start; }
+  .compare-link:hover { color: #4F46E5; }
+
+  .no-results {
+    text-align: center;
+    padding: 80px 20px;
+    color: #9CA3AF;
+  }
+
+  .no-results-icon { font-size: 3rem; margin-bottom: 16px; }
+
+  @media (max-width: 1024px) {
+    .card-row { grid-template-columns: 190px 1fr; }
+    .cc-charges-col { grid-column: 1 / -1; border-top: 1px solid #F3F4F6; }
+  }
+
+  @media (max-width: 700px) {
+    .card-row { grid-template-columns: 1fr; }
+    .cc-visual-wrap { border-right: none; border-bottom: 1px solid #F3F4F6; flex-direction: row; justify-content: flex-start; padding: 16px 20px; }
+    .cc-benefits-col { border-right: none; }
+    .filter-row { flex-direction: column; gap: 12px; }
   }
 </style>
