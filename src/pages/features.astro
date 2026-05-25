@@ -232,6 +232,76 @@ import Layout from '../layouts/Layout.astro';
     </div>
   </section>
 
+  <!-- ALL SERVICES -->
+  <section id="services" class="feature-section">
+    <div class="container">
+      <div class="section-header center" style="text-align:center; margin-bottom:60px;">
+        <div class="section-label">Super App</div>
+        <h2 class="section-title">Everything in <span class="gradient-text">one place</span></h2>
+        <p class="section-sub" style="margin:0 auto;">Virel brings together 15+ services so you can compare, book, and pay — all while knowing which card to use.</p>
+      </div>
+      <div class="services-grid">
+        {[
+          { icon: '🍕', title: 'Food Delivery', desc: 'Compare Swiggy, Zomato, and other platforms. Best card for maximum cashback shown before you order.' },
+          { icon: '💊', title: 'Medicines', desc: 'Order from PharmEasy, 1mg, Netmeds, Apollo, and MedPlus with the right card for health category rewards.' },
+          { icon: '📦', title: 'Courier & Shipping', desc: 'Send packages across India. Compare rates across courier services and pay smart.' },
+          { icon: '📈', title: 'Investments', desc: 'Navigate to Groww, Zerodha, Kuvera, INDmoney, and ET Money — track your portfolio in one dashboard.' },
+          { icon: '🛡️', title: 'Insurance', desc: 'Compare health and life insurance plans. Best card for insurance payments shown automatically.' },
+          { icon: '🏦', title: 'LIC Premiums', desc: 'Track your LIC policy dues and pay using the highest reward card for insurance category.' },
+          { icon: '🏠', title: 'Home Loan', desc: 'Track your home loan EMI and tenure. Understand what card to use for pre-payment.' },
+          { icon: '⚡', title: 'Utilities & Bills', desc: 'Electricity, DTH, FASTag, LPG, and mobile recharge — with best card shown for utility spend.' },
+          { icon: '🔐', title: 'Secure Vault', desc: 'Store card details, insurance docs, and important credentials securely on-device.' },
+          { icon: '🎯', title: 'Loyalty Points', desc: 'Track reward points across all your cards in one place. Never let points expire again.' },
+          { icon: '🗓️', title: 'Spend Planning', desc: "Set monthly budgets by category. Virel alerts you when you're close to limits." },
+          { icon: '💳', title: 'Subscriptions Hub', desc: 'See all your monthly subscriptions in one list with optimal card assignment for each.' },
+        ].map(s => (
+          <div class="service-card">
+            <div class="service-icon">{s.icon}</div>
+            <h3 class="service-title">{s.title}</h3>
+            <p class="service-desc">{s.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- PARTNER PLATFORMS -->
+  <section id="partners" class="feature-section bg-light">
+    <div class="container">
+      <div class="section-header center" style="text-align:center; margin-bottom:48px;">
+        <div class="section-label">Explore Apps</div>
+        <h2 class="section-title">60+ partner <span class="gradient-text">platforms</span></h2>
+        <p class="section-sub" style="margin:0 auto;">Virel connects you to India's top apps across every category — all with card-offer context.</p>
+      </div>
+      <div class="partner-cats">
+        {[
+          { emoji: '✈️', label: 'Travel', apps: 'IndiGo, Air India, SpiceJet, MakeMyTrip, EaseMyTrip, IRCTC, Akasa Air' },
+          { emoji: '🚖', label: 'Cabs', apps: 'Ola, Uber, Rapido, Namma Yatri, Meru' },
+          { emoji: '🚌', label: 'Bus', apps: 'RedBus, Abhibus, IntrCity, Ola Bus' },
+          { emoji: '📺', label: 'Entertainment', apps: 'Netflix, Prime Video, Hotstar, Spotify, YouTube, Zee5, SonyLIV' },
+          { emoji: '💊', label: 'Medicines', apps: 'PharmEasy, 1mg, Netmeds, Apollo, Practo, MedPlus' },
+          { emoji: '📱', label: 'Recharge', apps: 'Jio, Airtel, Vi, BSNL' },
+          { emoji: '💰', label: 'Payments', apps: 'GPay, PhonePe, Paytm, BHIM' },
+          { emoji: '📈', label: 'Invest', apps: 'Groww, Zerodha, Kuvera, ET Money, INDmoney, Jar, Fi Money' },
+          { emoji: '🎭', label: 'Activities', apps: 'Klook, GetYourGuide, BookMyShow, TripAdvisor, Headout' },
+          { emoji: '⚡', label: 'Utilities', apps: 'FASTag, DTH, LPG, Electricity, Airtel, BSNL' },
+        ].map(c => (
+          <div class="partner-cat">
+            <div class="partner-cat-header">
+              <span class="partner-emoji">{c.emoji}</span>
+              <span class="partner-label">{c.label}</span>
+            </div>
+            <p class="partner-apps">{c.apps}</p>
+          </div>
+        ))}
+      </div>
+      <div class="affiliate-disclosure">
+        <span class="disc-icon">ℹ️</span>
+        <span>Virel may earn an affiliate commission when you book or apply via partner links — at no extra cost to you. <a href="/terms#affiliate">Learn more</a></span>
+      </div>
+    </div>
+  </section>
+
   <!-- CTA -->
   <section class="cta-banner">
     <div class="container">
@@ -625,6 +695,107 @@ import Layout from '../layouts/Layout.astro';
     box-shadow: 0 8px 24px rgba(0,0,0,0.2);
   }
 
+  /* SERVICES GRID */
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+  }
+
+  .service-card {
+    background: #FAFAFA;
+    border: 1px solid #F3F4F6;
+    border-radius: 16px;
+    padding: 22px;
+    transition: all 0.2s;
+  }
+
+  .service-card:hover {
+    border-color: rgba(79, 70, 229, 0.2);
+    box-shadow: 0 8px 24px rgba(79, 70, 229, 0.08);
+    transform: translateY(-2px);
+  }
+
+  .service-icon {
+    font-size: 1.8rem;
+    margin-bottom: 12px;
+  }
+
+  .service-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #111827;
+    margin-bottom: 8px;
+  }
+
+  .service-desc {
+    font-size: 0.82rem;
+    color: #6B7280;
+    line-height: 1.6;
+  }
+
+  /* PARTNER CATS */
+  .partner-cats {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+
+  .partner-cat {
+    background: white;
+    border: 1px solid #E5E7EB;
+    border-radius: 14px;
+    padding: 16px;
+  }
+
+  .partner-cat-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+
+  .partner-emoji {
+    font-size: 1.1rem;
+  }
+
+  .partner-label {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #111827;
+  }
+
+  .partner-apps {
+    font-size: 0.75rem;
+    color: #6B7280;
+    line-height: 1.55;
+  }
+
+  .affiliate-disclosure {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    background: rgba(79, 70, 229, 0.05);
+    border: 1px solid rgba(79, 70, 229, 0.12);
+    border-radius: 12px;
+    padding: 14px 18px;
+    font-size: 0.85rem;
+    color: #6B7280;
+  }
+
+  .affiliate-disclosure a {
+    color: #4F46E5;
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .disc-icon {
+    flex-shrink: 0;
+    font-size: 1rem;
+  }
+
   @media (max-width: 900px) {
     .feature-row, .feature-row.reverse {
       grid-template-columns: 1fr;
@@ -634,6 +805,21 @@ import Layout from '../layouts/Layout.astro';
     .cta-inner {
       text-align: center;
       justify-content: center;
+    }
+    .services-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .partner-cats {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 600px) {
+    .services-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .partner-cats {
+      grid-template-columns: 1fr;
     }
   }
 </style>
