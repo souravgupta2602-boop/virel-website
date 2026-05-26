@@ -1,0 +1,731 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Book Travel — Virel" description="Search live flight prices from Aviasales, find the best credit card for your booking, and earn Virel Cash Back.">
+
+  <section class="page-hero">
+    <div class="container">
+      <div class="section-label">Travel OS</div>
+      <h1 class="section-title">Book smarter.<br /><span class="gradient-text">Earn cash back.</span></h1>
+      <p class="section-sub" style="margin:0 auto;text-align:center;">
+        Live prices from 700+ airlines. Best card recommendation for every route. 30% affiliate cash back credited to your account.
+      </p>
+    </div>
+  </section>
+
+  <!-- Search box -->
+  <section class="search-section">
+    <div class="container">
+      <div class="search-card">
+        <div class="tab-row" id="search-tabs">
+          <button class="stab active" data-tab="flights">✈️ Flights</button>
+          <button class="stab" data-tab="hotels">🏨 Hotels</button>
+          <button class="stab" data-tab="trains">🚆 Trains</button>
+          <button class="stab" data-tab="cabs">🚖 Cabs</button>
+        </div>
+
+        <!-- Flights tab -->
+        <div id="tab-flights" class="tab-content">
+          <div class="search-grid">
+            <div class="field-group">
+              <label class="field-label">From</label>
+              <input type="text" id="origin" class="field-input" placeholder="DEL — Delhi" value="DEL" />
+            </div>
+            <button class="swap-btn" id="swap-btn" title="Swap">⇌</button>
+            <div class="field-group">
+              <label class="field-label">To</label>
+              <input type="text" id="dest" class="field-input" placeholder="BOM — Mumbai" value="BOM" />
+            </div>
+            <div class="field-group">
+              <label class="field-label">Date</label>
+              <input type="date" id="travel-date" class="field-input" />
+            </div>
+            <div class="field-group">
+              <label class="field-label">Passengers</label>
+              <select id="passengers" class="field-input">
+                <option value="1">1 Adult</option>
+                <option value="2">2 Adults</option>
+                <option value="3">3 Adults</option>
+                <option value="4">4 Adults</option>
+              </select>
+            </div>
+          </div>
+          <div class="search-row">
+            <div class="trip-toggle">
+              <label><input type="radio" name="trip" value="one-way" checked /> One-way</label>
+              <label><input type="radio" name="trip" value="return" /> Return</label>
+            </div>
+            <button class="btn-primary search-btn" id="search-flights-btn">
+              Search Flights
+            </button>
+          </div>
+        </div>
+
+        <!-- Hotels tab -->
+        <div id="tab-hotels" class="tab-content" style="display:none">
+          <div class="search-grid hotels-grid">
+            <div class="field-group" style="grid-column:1/-1">
+              <label class="field-label">Destination / Hotel name</label>
+              <input type="text" id="hotel-dest" class="field-input" placeholder="Mumbai, Delhi, Goa…" />
+            </div>
+            <div class="field-group">
+              <label class="field-label">Check-in</label>
+              <input type="date" id="checkin" class="field-input" />
+            </div>
+            <div class="field-group">
+              <label class="field-label">Check-out</label>
+              <input type="date" id="checkout" class="field-input" />
+            </div>
+            <div class="field-group">
+              <label class="field-label">Guests</label>
+              <select id="guests" class="field-input">
+                <option>1 Guest</option>
+                <option>2 Guests</option>
+                <option>3 Guests</option>
+              </select>
+            </div>
+          </div>
+          <div class="search-row" style="justify-content:flex-end">
+            <button class="btn-primary search-btn" id="search-hotels-btn">Search Hotels</button>
+          </div>
+        </div>
+
+        <!-- Trains tab -->
+        <div id="tab-trains" class="tab-content" style="display:none">
+          <div class="redirect-msg">
+            <div class="redirect-icon">🚆</div>
+            <div>
+              <div class="redirect-title">Book Trains via IRCTC</div>
+              <p class="redirect-sub">We'll open IRCTC with your best reward card highlighted. HDFC Regalia and SBI SimplySave give 5x points on IRCTC.</p>
+            </div>
+            <a href="https://www.irctc.co.in" target="_blank" rel="noopener" class="btn-primary" style="flex-shrink:0">Open IRCTC</a>
+          </div>
+          <div class="best-card-hint">
+            <span class="hint-label">Best card for IRCTC</span>
+            <span class="hint-chip">HDFC Regalia — 5x points</span>
+            <span class="hint-chip">SBI SimplySave — 5x</span>
+          </div>
+        </div>
+
+        <!-- Cabs tab -->
+        <div id="tab-cabs" class="tab-content" style="display:none">
+          <div class="cab-platforms">
+            {[
+              { name: 'Ola', url: 'https://www.olacabs.com', color: '#19A455', card: 'Axis Flipkart — 5% cashback', icon: '🟢' },
+              { name: 'Uber', url: 'https://www.uber.com/in', color: '#000000', card: 'Paytm SBI — 2% back', icon: '⚫' },
+              { name: 'Rapido', url: 'https://www.rapido.bike', color: '#FFD200', card: 'Axis Flipkart — 5%', icon: '🟡' },
+              { name: 'InDrive', url: 'https://indrive.com', color: '#1C1C1C', card: 'Amazon Pay ICICI — 2%', icon: '🔵' },
+            ].map(p => (
+              <div class="cab-card">
+                <div class="cab-name">{p.icon} {p.name}</div>
+                <div class="cab-tip">Best card: <strong>{p.card}</strong></div>
+                <a href={p.url} target="_blank" rel="noopener" class="cab-btn">Open App →</a>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Flight results -->
+  <section id="results-section" style="display:none" class="results-section">
+    <div class="container">
+      <div class="results-header">
+        <div id="results-title" class="results-title"></div>
+        <div id="results-meta" class="results-meta"></div>
+      </div>
+      <div id="best-card-banner" class="best-card-banner" style="display:none">
+        <span class="bcb-label">Best card for flights</span>
+        <span id="bcb-card" class="bcb-chip"></span>
+        <span class="bcb-cb">+ Virel Cash Back</span>
+      </div>
+      <div id="flight-results" class="flight-list"></div>
+      <div id="no-results" class="no-results" style="display:none">
+        <div class="nr-icon">✈️</div>
+        <div class="nr-text">No flights found. Try different dates or airports.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Loading state -->
+  <section id="loading-section" style="display:none" class="loading-section">
+    <div class="container">
+      <div class="loading-inner">
+        <div class="loading-spinner"></div>
+        <div class="loading-text">Searching live prices from 700+ airlines…</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How cash back works -->
+  <section class="cashback-explainer">
+    <div class="container">
+      <div class="cb-inner">
+        <div class="cb-text">
+          <div class="section-label">Virel Cash Back</div>
+          <h2 class="section-title">Earn <span class="gradient-text">30% cash back</span> on every booking</h2>
+          <p class="section-sub">When you book through Virel links, we earn an affiliate commission. We share 30% of that with you — credited to your Virel wallet within 45 days.</p>
+          <div class="cb-rates">
+            <div class="cb-rate">
+              <div class="cb-rate-val">1.5%</div>
+              <div class="cb-rate-label">Commission on flights</div>
+              <div class="cb-rate-you">→ You get ~0.45%</div>
+            </div>
+            <div class="cb-rate">
+              <div class="cb-rate-val">6%</div>
+              <div class="cb-rate-label">Commission on hotels</div>
+              <div class="cb-rate-you">→ You get ~1.8%</div>
+            </div>
+            <div class="cb-rate">
+              <div class="cb-rate-val">₹500</div>
+              <div class="cb-rate-label">Delay claim (Compensair)</div>
+              <div class="cb-rate-you">→ You get ₹150</div>
+            </div>
+          </div>
+          <a href="/offers" class="btn-secondary" style="margin-top:28px">View all rewards →</a>
+        </div>
+        <div class="cb-visual">
+          <div class="cb-card">
+            <div class="cb-card-header">Virel Cash Back</div>
+            <div class="cb-card-row">
+              <span class="cb-row-label">Available</span>
+              <span class="cb-row-val available">₹234</span>
+            </div>
+            <div class="cb-card-row">
+              <span class="cb-row-label">Pending (45d)</span>
+              <span class="cb-row-val pending">₹89</span>
+            </div>
+            <div class="cb-divider"></div>
+            <div class="cb-bookings">
+              <div class="cb-booking">
+                <span class="cb-b-route">✈ DEL→BOM</span>
+                <span class="cb-b-status confirmed">Confirmed</span>
+                <span class="cb-b-amount">+₹38</span>
+              </div>
+              <div class="cb-booking">
+                <span class="cb-b-route">✈ BOM→GOI</span>
+                <span class="cb-b-status pending-s">Pending</span>
+                <span class="cb-b-amount">+₹23</span>
+              </div>
+              <div class="cb-booking">
+                <span class="cb-b-route">🏨 Goa Hotel</span>
+                <span class="cb-b-status confirmed">Confirmed</span>
+                <span class="cb-b-amount">+₹173</span>
+              </div>
+            </div>
+            <div class="cb-withdraw">Withdraw to Travelpayouts →</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Delay claim section -->
+  <section class="delay-section">
+    <div class="container">
+      <div class="delay-inner">
+        <div class="delay-icon-big">⚡</div>
+        <div class="delay-text">
+          <h3 class="delay-title">Flight delayed or cancelled?</h3>
+          <p class="delay-sub">EU regulations entitle you to up to €600 compensation. Virel connects you to Compensair — they handle the claim, you get paid.</p>
+          <div class="delay-steps">
+            <div class="ds">1. Find your delayed flight</div>
+            <div class="ds-arrow">→</div>
+            <div class="ds">2. Compensair files the claim</div>
+            <div class="ds-arrow">→</div>
+            <div class="ds">3. You get up to €600</div>
+          </div>
+          <a href="https://compensair.com/?utm_source=travelpayouts&utm_medium=affiliate&utm_campaign=730930&marker=730930&subid=531590" target="_blank" rel="noopener" class="btn-primary" style="margin-top:20px">
+            Check my flight →
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Download app CTA -->
+  <section class="app-cta-section">
+    <div class="container">
+      <div class="app-cta-inner">
+        <div class="app-cta-text">
+          <h2 class="app-cta-title">Get the full experience on Android</h2>
+          <p class="app-cta-sub">Scan receipts, track all cards, get delay alerts, and book travel — all in one place.</p>
+          <div class="app-cta-badges">
+            <a href="https://play.google.com/store" target="_blank" rel="noopener" class="store-badge android">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M3 20.5v-17c0-.83 1-.97 1.27-.38l13 8.5c.27.17.27.59 0 .76l-13 8.5C3.97 21.47 3 21.33 3 20.5z"/></svg>
+              <div>
+                <div class="sb-small">Get it on</div>
+                <div class="sb-big">Google Play</div>
+              </div>
+            </a>
+            <div class="store-badge ios-soon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+              <div>
+                <div class="sb-small">Coming soon on</div>
+                <div class="sb-big">App Store</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="app-feature-chips">
+          {['✈️ Live prices', '💰 Cash Back', '🚆 Train booking', '🚖 Cab comparison', '💊 Medicine scan', '📊 Spend insights'].map(c => (
+            <div class="feature-chip">{c}</div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+</Layout>
+
+<script>
+  // Tab switching
+  document.querySelectorAll('.stab').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.stab').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(t => (t.style.display = 'none'));
+      btn.classList.add('active');
+      const tab = document.getElementById(`tab-${btn.dataset.tab}`);
+      if (tab) tab.style.display = 'block';
+    });
+  });
+
+  // Set default travel date to tomorrow
+  const dateInput = document.getElementById('travel-date');
+  if (dateInput) {
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    dateInput.value = tomorrow.toISOString().split('T')[0];
+    dateInput.min = new Date().toISOString().split('T')[0];
+  }
+
+  // Set default hotel dates
+  const ci = document.getElementById('checkin');
+  const co = document.getElementById('checkout');
+  if (ci && co) {
+    const d1 = new Date(); d1.setDate(d1.getDate() + 7);
+    const d2 = new Date(); d2.setDate(d2.getDate() + 9);
+    ci.value = d1.toISOString().split('T')[0];
+    co.value = d2.toISOString().split('T')[0];
+    ci.min = new Date().toISOString().split('T')[0];
+  }
+
+  // Swap origin/dest
+  document.getElementById('swap-btn')?.addEventListener('click', () => {
+    const o = document.getElementById('origin');
+    const d = document.getElementById('dest');
+    const tmp = o.value; o.value = d.value; d.value = tmp;
+  });
+
+  // Flight search
+  document.getElementById('search-flights-btn')?.addEventListener('click', () => {
+    const origin = document.getElementById('origin').value.trim().toUpperCase().slice(0,3);
+    const dest = document.getElementById('dest').value.trim().toUpperCase().slice(0,3);
+    const date = document.getElementById('travel-date').value;
+    const pax = document.getElementById('passengers').value;
+
+    if (!origin || !dest || !date) {
+      alert('Please fill in origin, destination, and date.');
+      return;
+    }
+
+    document.getElementById('loading-section').style.display = 'block';
+    document.getElementById('results-section').style.display = 'none';
+
+    // Open Aviasales with affiliate tracking
+    const d = date.replace(/-/g, '').slice(2); // YYMMDD
+    const url = `https://www.aviasales.in/search/${origin}${d}${dest}${pax}?marker=730930&subid=531590&currency=inr`;
+    window.open(url, '_blank', 'noopener');
+
+    // Show results panel with redirect note
+    setTimeout(() => {
+      document.getElementById('loading-section').style.display = 'none';
+      document.getElementById('results-section').style.display = 'block';
+      document.getElementById('results-title').textContent = `Flights: ${origin} → ${dest}`;
+      document.getElementById('results-meta').textContent = `${date} · ${pax} passenger${pax > 1 ? 's' : ''} · Opened Aviasales`;
+      document.getElementById('best-card-banner').style.display = 'flex';
+      document.getElementById('bcb-card').textContent = 'HDFC Regalia — 2x on flights + lounge';
+      document.getElementById('flight-results').innerHTML = `
+        <div class="redirect-notice">
+          <div class="rn-icon">✈️</div>
+          <div class="rn-body">
+            <div class="rn-title">Aviasales opened in a new tab</div>
+            <div class="rn-sub">Compare 700+ airlines. When you book, Virel Cash Back will be credited within 45 days.</div>
+          </div>
+          <a href="${url}" target="_blank" rel="noopener" class="btn-primary" style="flex-shrink:0;font-size:0.85rem;padding:10px 18px;">Open Again →</a>
+        </div>
+        <div class="card-rec-strip">
+          <div class="crs-title">Best card for this route</div>
+          <div class="crs-cards">
+            ${['HDFC Regalia — 2x travel points + lounge', 'Axis Magnus — 12 RP/₹200', 'AmEx Platinum Travel — 5x on Aviasales'].map(c => `<div class="crs-chip">${c}</div>`).join('')}
+          </div>
+        </div>
+      `;
+    }, 1500);
+  });
+
+  // Hotel search
+  document.getElementById('search-hotels-btn')?.addEventListener('click', () => {
+    const dest = document.getElementById('hotel-dest').value.trim();
+    const ci = document.getElementById('checkin').value;
+    const co = document.getElementById('checkout').value;
+    if (!dest || !ci || !co) { alert('Please fill in destination and dates.'); return; }
+    const url = `https://hotellook.com/search?destination=${encodeURIComponent(dest)}&checkIn=${ci}&checkOut=${co}&marker=730930&subid=531590`;
+    window.open(url, '_blank', 'noopener');
+  });
+</script>
+
+<style>
+  .page-hero { padding: 80px 0 40px; text-align: center; }
+
+  .search-section { padding: 20px 0 60px; }
+
+  .search-card {
+    background: white;
+    border-radius: 24px;
+    box-shadow: 0 8px 40px rgba(79,70,229,0.1);
+    border: 1px solid rgba(79,70,229,0.08);
+    padding: 32px;
+  }
+
+  .tab-row {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 28px;
+    overflow-x: auto;
+    padding-bottom: 4px;
+  }
+
+  .stab {
+    padding: 9px 18px;
+    border-radius: 100px;
+    border: 1.5px solid #E5E7EB;
+    background: white;
+    font-size: 0.88rem;
+    font-weight: 600;
+    font-family: inherit;
+    color: #6B7280;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.15s;
+  }
+
+  .stab.active, .stab:hover {
+    border-color: #4F46E5;
+    background: rgba(79,70,229,0.06);
+    color: #4F46E5;
+  }
+
+  .search-grid {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr 1fr 1fr;
+    gap: 12px;
+    align-items: end;
+    margin-bottom: 20px;
+  }
+
+  .hotels-grid { grid-template-columns: 1fr 1fr 1fr; }
+
+  .field-group { display: flex; flex-direction: column; gap: 5px; }
+
+  .field-label { font-size: 0.78rem; font-weight: 700; color: #9CA3AF; text-transform: uppercase; letter-spacing: 0.04em; }
+
+  .field-input {
+    padding: 12px 14px;
+    border: 1.5px solid #E5E7EB;
+    border-radius: 12px;
+    font-size: 0.95rem;
+    font-family: inherit;
+    color: #111827;
+    background: #F9FAFB;
+    outline: none;
+    transition: border-color 0.15s;
+    width: 100%;
+  }
+
+  .field-input:focus { border-color: #4F46E5; background: white; }
+
+  .swap-btn {
+    background: rgba(79,70,229,0.06);
+    border: 1.5px solid rgba(79,70,229,0.15);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s;
+    margin-bottom: 0;
+    flex-shrink: 0;
+  }
+
+  .swap-btn:hover { background: rgba(79,70,229,0.12); }
+
+  .search-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  .trip-toggle {
+    display: flex;
+    gap: 20px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #374151;
+  }
+
+  .trip-toggle label { display: flex; align-items: center; gap: 6px; cursor: pointer; }
+
+  .search-btn { padding: 13px 28px; }
+
+  /* Redirect msg */
+  .redirect-msg {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    background: rgba(79,70,229,0.04);
+    border: 1px solid rgba(79,70,229,0.1);
+    border-radius: 16px;
+    padding: 20px 24px;
+    margin-bottom: 16px;
+  }
+
+  .redirect-icon { font-size: 2rem; flex-shrink: 0; }
+  .redirect-title { font-size: 1rem; font-weight: 700; color: #111827; margin-bottom: 4px; }
+  .redirect-sub { font-size: 0.85rem; color: #6B7280; }
+
+  .best-card-hint {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 8px;
+  }
+
+  .hint-label { font-size: 0.8rem; font-weight: 700; color: #9CA3AF; text-transform: uppercase; letter-spacing: 0.04em; }
+
+  .hint-chip {
+    background: rgba(79,70,229,0.08);
+    color: #4F46E5;
+    padding: 4px 12px;
+    border-radius: 100px;
+    font-size: 0.82rem;
+    font-weight: 600;
+  }
+
+  /* Cab cards */
+  .cab-platforms { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+
+  .cab-card {
+    border: 1.5px solid #F3F4F6;
+    border-radius: 14px;
+    padding: 16px;
+    text-align: center;
+  }
+
+  .cab-name { font-size: 1rem; font-weight: 700; color: #111827; margin-bottom: 6px; }
+  .cab-tip { font-size: 0.78rem; color: #6B7280; margin-bottom: 12px; line-height: 1.4; }
+  .cab-btn { font-size: 0.82rem; font-weight: 600; color: #4F46E5; }
+
+  /* Results section */
+  .results-section { padding: 0 0 40px; }
+
+  .results-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+
+  .results-title { font-size: 1.2rem; font-weight: 800; color: #111827; }
+  .results-meta { font-size: 0.85rem; color: #9CA3AF; }
+
+  .best-card-banner {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: rgba(13,148,136,0.06);
+    border: 1px solid rgba(13,148,136,0.15);
+    border-radius: 12px;
+    padding: 12px 18px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+  }
+
+  .bcb-label { font-size: 0.78rem; font-weight: 700; color: #9CA3AF; text-transform: uppercase; letter-spacing: 0.04em; }
+  .bcb-chip { background: #0D9488; color: white; padding: 4px 12px; border-radius: 100px; font-size: 0.82rem; font-weight: 600; }
+  .bcb-cb { font-size: 0.82rem; color: #4F46E5; font-weight: 600; }
+
+  .redirect-notice {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    background: white;
+    border: 1.5px solid #F3F4F6;
+    border-radius: 16px;
+    padding: 20px 24px;
+    margin-bottom: 16px;
+  }
+
+  .rn-icon { font-size: 2rem; flex-shrink: 0; }
+  .rn-title { font-size: 1rem; font-weight: 700; color: #111827; margin-bottom: 4px; }
+  .rn-sub { font-size: 0.85rem; color: #6B7280; }
+
+  .card-rec-strip {
+    background: rgba(79,70,229,0.03);
+    border: 1px solid rgba(79,70,229,0.08);
+    border-radius: 14px;
+    padding: 16px 20px;
+  }
+
+  .crs-title { font-size: 0.78rem; font-weight: 700; color: #9CA3AF; text-transform: uppercase; margin-bottom: 10px; }
+  .crs-cards { display: flex; gap: 8px; flex-wrap: wrap; }
+  .crs-chip {
+    background: rgba(79,70,229,0.07);
+    color: #4F46E5;
+    padding: 6px 14px;
+    border-radius: 100px;
+    font-size: 0.82rem;
+    font-weight: 600;
+  }
+
+  /* Loading */
+  .loading-section { padding: 60px 0; }
+  .loading-inner { display: flex; flex-direction: column; align-items: center; gap: 20px; }
+  .loading-spinner {
+    width: 48px; height: 48px;
+    border: 3px solid rgba(79,70,229,0.15);
+    border-top-color: #4F46E5;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .loading-text { font-size: 1rem; color: #6B7280; font-weight: 500; }
+
+  /* Cash back explainer */
+  .cashback-explainer { padding: 80px 0; background: #F9FAFB; }
+  .cb-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; }
+
+  .cb-rates { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 28px; }
+
+  .cb-rate {
+    background: white;
+    border-radius: 14px;
+    padding: 16px;
+    border: 1px solid #E5E7EB;
+    text-align: center;
+  }
+
+  .cb-rate-val { font-size: 1.4rem; font-weight: 800; color: #4F46E5; margin-bottom: 4px; }
+  .cb-rate-label { font-size: 0.75rem; color: #6B7280; font-weight: 500; margin-bottom: 6px; }
+  .cb-rate-you { font-size: 0.78rem; color: #0D9488; font-weight: 700; }
+
+  .cb-card {
+    background: linear-gradient(135deg, #1E1B4B, #312E81);
+    border-radius: 20px;
+    padding: 28px;
+    color: white;
+  }
+
+  .cb-card-header { font-size: 0.8rem; font-weight: 700; letter-spacing: 0.06em; opacity: 0.7; text-transform: uppercase; margin-bottom: 20px; }
+
+  .cb-card-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+  .cb-row-label { font-size: 0.85rem; opacity: 0.7; }
+  .cb-row-val { font-size: 1.3rem; font-weight: 800; }
+  .cb-row-val.available { color: #34D399; }
+  .cb-row-val.pending { color: #FCD34D; }
+
+  .cb-divider { height: 1px; background: rgba(255,255,255,0.1); margin: 16px 0; }
+
+  .cb-bookings { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+
+  .cb-booking { display: flex; align-items: center; gap: 8px; font-size: 0.82rem; }
+  .cb-b-route { flex: 1; opacity: 0.8; }
+  .cb-b-status { padding: 2px 8px; border-radius: 100px; font-size: 0.72rem; font-weight: 700; }
+  .confirmed { background: rgba(52,211,153,0.15); color: #34D399; }
+  .pending-s { background: rgba(252,211,77,0.15); color: #FCD34D; }
+  .cb-b-amount { font-weight: 700; color: #34D399; }
+
+  .cb-withdraw { font-size: 0.78rem; color: rgba(255,255,255,0.5); text-align: center; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 14px; cursor: pointer; }
+  .cb-withdraw:hover { color: rgba(255,255,255,0.8); }
+
+  /* Delay section */
+  .delay-section { padding: 80px 0; }
+  .delay-inner {
+    background: linear-gradient(135deg, #FEF3C7, #FDE68A);
+    border-radius: 24px;
+    padding: 48px;
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    border: 1px solid #FCD34D;
+  }
+
+  .delay-icon-big { font-size: 4rem; flex-shrink: 0; }
+  .delay-title { font-size: 1.5rem; font-weight: 800; color: #111827; margin-bottom: 10px; }
+  .delay-sub { font-size: 0.95rem; color: #374151; margin-bottom: 20px; line-height: 1.6; }
+  .delay-steps { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .ds { background: white; border-radius: 8px; padding: 8px 14px; font-size: 0.82rem; font-weight: 600; color: #374151; }
+  .ds-arrow { color: #9CA3AF; font-weight: 700; }
+
+  /* App CTA */
+  .app-cta-section { padding: 80px 0; background: linear-gradient(135deg, #4F46E5, #7C3AED); color: white; }
+
+  .app-cta-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+
+  .app-cta-title { font-size: 2rem; font-weight: 800; margin-bottom: 12px; }
+  .app-cta-sub { font-size: 1rem; opacity: 0.85; margin-bottom: 28px; }
+  .app-cta-badges { display: flex; gap: 12px; flex-wrap: wrap; }
+
+  .store-badge {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(255,255,255,0.12);
+    border: 1.5px solid rgba(255,255,255,0.2);
+    border-radius: 14px;
+    padding: 12px 20px;
+    color: white;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .store-badge:hover { background: rgba(255,255,255,0.2); }
+  .store-badge.ios-soon { opacity: 0.6; cursor: default; }
+  .sb-small { font-size: 0.7rem; opacity: 0.8; }
+  .sb-big { font-size: 1rem; font-weight: 700; }
+
+  .app-feature-chips {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .feature-chip {
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 10px;
+    padding: 12px 16px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-align: center;
+  }
+
+  @media (max-width: 900px) {
+    .search-grid { grid-template-columns: 1fr 1fr; }
+    .cab-platforms { grid-template-columns: 1fr 1fr; }
+    .cb-inner { grid-template-columns: 1fr; }
+    .cb-rates { grid-template-columns: 1fr; }
+    .delay-inner { flex-direction: column; text-align: center; }
+    .app-cta-inner { grid-template-columns: 1fr; }
+  }
+
+  @media (max-width: 600px) {
+    .search-grid { grid-template-columns: 1fr; }
+    .swap-btn { display: none; }
+    .redirect-notice { flex-direction: column; text-align: center; }
+    .delay-steps { justify-content: center; }
+  }
+</style>

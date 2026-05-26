@@ -201,20 +201,134 @@ import Layout from '../layouts/Layout.astro';
     </div>
   </section>
 
+  <!-- VIREL CASH BACK / REWARDS SECTION -->
+  <section class="rewards-section">
+    <div class="container">
+      <div class="rewards-inner">
+        <div class="rewards-text">
+          <div class="section-label">Virel Cash Back</div>
+          <h2 class="section-title">Book travel, <span class="gradient-text">earn real cash</span></h2>
+          <p class="section-sub">
+            When you book flights or hotels through Virel, we earn an affiliate commission and share 30% of it with you. Stack it with your credit card rewards for up to 10% total savings.
+          </p>
+          <div class="rewards-rate-row">
+            <div class="rr-item">
+              <div class="rr-val">~0.45%</div>
+              <div class="rr-label">on flights</div>
+            </div>
+            <div class="rr-div"></div>
+            <div class="rr-item">
+              <div class="rr-val">~1.8%</div>
+              <div class="rr-label">on hotels</div>
+            </div>
+            <div class="rr-div"></div>
+            <div class="rr-item">
+              <div class="rr-val">₹150</div>
+              <div class="rr-label">per delay claim</div>
+            </div>
+          </div>
+          <div class="rewards-ctas">
+            <a href="/travel" class="btn-primary">Book Travel & Earn</a>
+            <a href="/offers" class="btn-secondary">View all offers</a>
+          </div>
+        </div>
+        <div class="rewards-visual">
+          <div class="rw-card">
+            <div class="rw-header">
+              <span class="rw-title">Virel Cash Back</span>
+              <span class="rw-live">LIVE</span>
+            </div>
+            <div class="rw-balance-row">
+              <div class="rw-balance">
+                <div class="rw-bal-label">Available</div>
+                <div class="rw-bal-val green">₹234</div>
+              </div>
+              <div class="rw-balance">
+                <div class="rw-bal-label">Pending</div>
+                <div class="rw-bal-val yellow">₹89</div>
+              </div>
+            </div>
+            <div class="rw-divider"></div>
+            <div class="rw-bookings">
+              <div class="rw-booking">
+                <span class="rw-route">✈ DEL → BOM · IndiGo</span>
+                <span class="rw-cb confirmed-cb">+₹38</span>
+              </div>
+              <div class="rw-booking">
+                <span class="rw-route">🏨 Taj Mumbai · 2 nights</span>
+                <span class="rw-cb confirmed-cb">+₹173</span>
+              </div>
+              <div class="rw-booking">
+                <span class="rw-route">✈ BOM → GOI · Air India</span>
+                <span class="rw-cb pending-cb">+₹23 pending</span>
+              </div>
+            </div>
+            <div class="rw-partners">
+              <span class="rw-partner-label">Powered by</span>
+              <span class="rw-partner-chip">Aviasales</span>
+              <span class="rw-partner-chip">Hotellook</span>
+              <span class="rw-partner-chip">Compensair</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRAVEL PROMO -->
+  <section class="travel-promo">
+    <div class="container">
+      <div class="tp-grid">
+        <a href="/travel" class="tp-card tp-flights">
+          <div class="tp-icon">✈️</div>
+          <div class="tp-body">
+            <div class="tp-title">Book Flights</div>
+            <div class="tp-sub">Live prices from 700+ airlines via Aviasales</div>
+          </div>
+          <div class="tp-arrow">→</div>
+        </a>
+        <a href="/travel#hotels" class="tp-card tp-hotels">
+          <div class="tp-icon">🏨</div>
+          <div class="tp-body">
+            <div class="tp-title">Book Hotels</div>
+            <div class="tp-sub">Compare rates from Booking, Agoda, Hotels.com</div>
+          </div>
+          <div class="tp-arrow">→</div>
+        </a>
+        <a href="/travel#trains" class="tp-card tp-trains">
+          <div class="tp-icon">🚆</div>
+          <div class="tp-body">
+            <div class="tp-title">Book Trains</div>
+            <div class="tp-sub">IRCTC with best card recommendation</div>
+          </div>
+          <div class="tp-arrow">→</div>
+        </a>
+        <a href="/travel#delay" class="tp-card tp-delay">
+          <div class="tp-icon">⚡</div>
+          <div class="tp-body">
+            <div class="tp-title">Claim Delay</div>
+            <div class="tp-sub">Up to €600 for delayed/cancelled flights</div>
+          </div>
+          <div class="tp-arrow">→</div>
+        </a>
+      </div>
+    </div>
+  </section>
+
   <!-- CTA BANNER -->
   <section class="cta-banner">
     <div class="container">
       <div class="cta-inner">
         <div class="cta-text">
           <h2>Ready to earn more from every swipe?</h2>
-          <p>Download Virel free and start maximizing your card rewards today.</p>
+          <p>Download Virel free and start maximizing your card rewards today. iOS coming soon.</p>
         </div>
         <div class="cta-buttons">
           <a href="https://play.google.com/store" class="btn-white" target="_blank" rel="noopener">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M3 20.5v-17c0-.83 1-.97 1.27-.38l13 8.5c.27.17.27.59 0 .76l-13 8.5C3.97 21.47 3 21.33 3 20.5z"/></svg>
             Get on Android
           </a>
-          <a href="/contact" class="btn-outline-white">Request iOS</a>
+          <a href="/contact" class="btn-outline-white">Request iOS →</a>
         </div>
       </div>
     </div>
@@ -740,6 +854,95 @@ import Layout from '../layouts/Layout.astro';
     background: rgba(255,255,255,0.1);
   }
 
+  /* REWARDS SECTION */
+  .rewards-section { padding: 100px 0; background: linear-gradient(180deg, #FAFBFF 0%, #F0F0FF 100%); }
+
+  .rewards-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 72px;
+    align-items: center;
+  }
+
+  .rewards-rate-row {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin: 28px 0 32px;
+    flex-wrap: wrap;
+  }
+
+  .rr-item { text-align: center; }
+  .rr-val { font-size: 1.5rem; font-weight: 800; color: #4F46E5; }
+  .rr-label { font-size: 0.75rem; color: #9CA3AF; font-weight: 600; margin-top: 2px; }
+  .rr-div { width: 1px; height: 36px; background: #E5E7EB; }
+
+  .rewards-ctas { display: flex; gap: 14px; flex-wrap: wrap; }
+
+  /* Rewards card visual */
+  .rw-card {
+    background: linear-gradient(135deg, #1E1B4B, #312E81);
+    border-radius: 22px;
+    padding: 28px;
+    color: white;
+    box-shadow: 0 24px 60px rgba(79,70,229,0.25);
+  }
+
+  .rw-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+  .rw-title { font-size: 0.85rem; font-weight: 700; opacity: 0.7; letter-spacing: 0.06em; text-transform: uppercase; }
+  .rw-live {
+    background: rgba(52,211,153,0.15);
+    color: #34D399;
+    font-size: 0.65rem;
+    font-weight: 800;
+    padding: 3px 8px;
+    border-radius: 6px;
+    letter-spacing: 0.08em;
+  }
+
+  .rw-balance-row { display: flex; gap: 24px; margin-bottom: 16px; }
+  .rw-bal-label { font-size: 0.75rem; opacity: 0.6; margin-bottom: 4px; }
+  .rw-bal-val { font-size: 1.6rem; font-weight: 800; }
+  .rw-bal-val.green { color: #34D399; }
+  .rw-bal-val.yellow { color: #FCD34D; }
+
+  .rw-divider { height: 1px; background: rgba(255,255,255,0.1); margin: 16px 0; }
+
+  .rw-bookings { display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px; }
+  .rw-booking { display: flex; align-items: center; justify-content: space-between; font-size: 0.82rem; }
+  .rw-route { opacity: 0.75; }
+  .rw-cb { font-weight: 700; font-size: 0.82rem; }
+  .confirmed-cb { color: #34D399; }
+  .pending-cb { color: #FCD34D; }
+
+  .rw-partners { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-top: 4px; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 14px; }
+  .rw-partner-label { font-size: 0.7rem; opacity: 0.5; }
+  .rw-partner-chip { font-size: 0.72rem; font-weight: 600; background: rgba(255,255,255,0.1); padding: 3px 10px; border-radius: 100px; }
+
+  /* Travel promo grid */
+  .travel-promo { padding: 0 0 80px; }
+  .tp-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+
+  .tp-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: white;
+    border: 1.5px solid #F3F4F6;
+    border-radius: 16px;
+    padding: 20px 18px;
+    transition: all 0.15s;
+    cursor: pointer;
+  }
+
+  .tp-card:hover { border-color: rgba(79,70,229,0.2); box-shadow: 0 4px 16px rgba(79,70,229,0.07); transform: translateY(-1px); }
+  .tp-icon { font-size: 1.5rem; flex-shrink: 0; }
+  .tp-body { flex: 1; min-width: 0; }
+  .tp-title { font-size: 0.9rem; font-weight: 700; color: #111827; margin-bottom: 3px; }
+  .tp-sub { font-size: 0.75rem; color: #9CA3AF; line-height: 1.4; }
+  .tp-arrow { color: #D1D5DB; font-weight: 700; font-size: 1.1rem; flex-shrink: 0; }
+  .tp-card:hover .tp-arrow { color: #4F46E5; }
+
   /* RESPONSIVE */
   @media (max-width: 900px) {
     .hero .container {
@@ -762,12 +965,15 @@ import Layout from '../layouts/Layout.astro';
     .hiw-inner {
       grid-template-columns: 1fr;
     }
+    .rewards-inner { grid-template-columns: 1fr; }
+    .tp-grid { grid-template-columns: 1fr 1fr; }
   }
 
   @media (max-width: 600px) {
     .features-grid {
       grid-template-columns: 1fr;
     }
+    .tp-grid { grid-template-columns: 1fr; }
     .cta-inner {
       text-align: center;
       justify-content: center;

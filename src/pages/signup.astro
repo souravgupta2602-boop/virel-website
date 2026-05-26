@@ -1,0 +1,435 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Sign Up Free — Virel" description="Create your free Virel account and start maximizing your credit card rewards today.">
+
+  <section class="auth-section">
+    <div class="auth-container">
+      <div class="auth-card">
+        <div class="auth-logo">
+          <div class="logo-icon">V</div>
+          <span class="logo-text">Virel</span>
+        </div>
+
+        <h1 class="auth-title">Create your account</h1>
+        <p class="auth-sub">Free forever. No credit card required.</p>
+
+        <div id="error-msg" class="error-msg" style="display:none"></div>
+        <div id="success-msg" class="success-msg" style="display:none"></div>
+
+        <form id="signup-form" class="auth-form">
+          <div class="field-row">
+            <div class="field-group">
+              <label class="field-label">First name</label>
+              <input type="text" id="firstName" class="field-input" placeholder="Rahul" required />
+            </div>
+            <div class="field-group">
+              <label class="field-label">Last name</label>
+              <input type="text" id="lastName" class="field-input" placeholder="Sharma" />
+            </div>
+          </div>
+
+          <div class="field-group">
+            <label class="field-label">Email address</label>
+            <input type="email" id="email" class="field-input" placeholder="you@example.com" required autocomplete="email" />
+          </div>
+
+          <div class="field-group">
+            <label class="field-label">Password</label>
+            <input type="password" id="password" class="field-input" placeholder="At least 8 characters" required autocomplete="new-password" minlength="8" />
+          </div>
+
+          <p class="terms-text">
+            By signing up, you agree to our <a href="/terms">Terms of Service</a> and <a href="/privacy">Privacy Policy</a>.
+          </p>
+
+          <button type="submit" class="btn-primary auth-btn" id="signup-btn">
+            <span id="signup-label">Create Free Account</span>
+            <span id="signup-spinner" class="spinner" style="display:none"></span>
+          </button>
+        </form>
+
+        <div class="divider"><span>or</span></div>
+
+        <button class="btn-google" id="google-btn">
+          <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+          Continue with Google
+        </button>
+
+        <p class="auth-switch">
+          Already have an account? <a href="/login">Log in</a>
+        </p>
+      </div>
+
+      <div class="auth-side">
+        <div class="side-content">
+          <div class="side-badge">Join thousands of smart spenders</div>
+          <h2 class="side-title">Start earning<br />more today</h2>
+          <div class="value-props">
+            <div class="vp">
+              <div class="vp-num">₹3,200</div>
+              <div class="vp-label">Average monthly savings</div>
+            </div>
+            <div class="vp">
+              <div class="vp-num">30%</div>
+              <div class="vp-label">Cash back on travel bookings</div>
+            </div>
+          </div>
+          <div class="side-features">
+            {[
+              'Best card recommendation at checkout',
+              'Live flight prices from Aviasales',
+              'Virel Cash Back on every booking',
+              'Delay claim up to €600 via Compensair',
+            ].map(t => (
+              <div class="side-feature">
+                <span class="sf-check">✓</span>
+                <span class="sf-text">{t}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</Layout>
+
+<script type="module">
+  import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+  import { getAuth, createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, updateProfile } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
+
+  const firebaseConfig = window.__VIREL_FIREBASE_CONFIG__ || {
+    apiKey: "AIzaSyPLACEHOLDER",
+    authDomain: "virel-app.firebaseapp.com",
+    projectId: "virel-app",
+    storageBucket: "virel-app.appspot.com",
+    messagingSenderId: "000000000000",
+    appId: "1:000000000000:web:placeholder"
+  };
+
+  let auth;
+  try {
+    const app = initializeApp(firebaseConfig, 'signup-app');
+    auth = getAuth(app);
+  } catch(e) {
+    showError('Firebase is not configured yet.');
+  }
+
+  function showError(msg) {
+    const el = document.getElementById('error-msg');
+    el.textContent = msg;
+    el.style.display = 'block';
+    document.getElementById('success-msg').style.display = 'none';
+  }
+
+  function showSuccess(msg) {
+    const el = document.getElementById('success-msg');
+    el.textContent = msg;
+    el.style.display = 'block';
+    document.getElementById('error-msg').style.display = 'none';
+  }
+
+  function setLoading(loading) {
+    document.getElementById('signup-btn').disabled = loading;
+    document.getElementById('signup-label').style.display = loading ? 'none' : 'inline';
+    document.getElementById('signup-spinner').style.display = loading ? 'inline-block' : 'none';
+  }
+
+  // Send notification email via FormSubmit (no backend needed)
+  async function notifyNewUser(email, name) {
+    try {
+      const fd = new FormData();
+      fd.append('_subject', `New Virel signup: ${name}`);
+      fd.append('email', email);
+      fd.append('name', name);
+      fd.append('signup_time', new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }));
+      fd.append('_captcha', 'false');
+      fd.append('_template', 'table');
+      await fetch('https://formsubmit.co/ajax/souravgupta2602@gmail.com', {
+        method: 'POST',
+        body: fd,
+      });
+    } catch(e) { /* non-critical */ }
+  }
+
+  document.getElementById('signup-form')?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (!auth) return showError('Firebase is not configured.');
+    const firstName = document.getElementById('firstName').value.trim();
+    const lastName = document.getElementById('lastName').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value;
+    const displayName = lastName ? `${firstName} ${lastName}` : firstName;
+
+    if (password.length < 8) return showError('Password must be at least 8 characters.');
+    setLoading(true);
+    try {
+      const cred = await createUserWithEmailAndPassword(auth, email, password);
+      await updateProfile(cred.user, { displayName });
+      await notifyNewUser(email, displayName);
+      showSuccess('Account created! Redirecting…');
+      setTimeout(() => { window.location.href = '/'; }, 1200);
+    } catch(err) {
+      const msgs = {
+        'auth/email-already-in-use': 'An account already exists with this email. Try logging in.',
+        'auth/invalid-email': 'Invalid email address.',
+        'auth/weak-password': 'Password is too weak. Use at least 8 characters.',
+      };
+      showError(msgs[err.code] || err.message);
+      setLoading(false);
+    }
+  });
+
+  document.getElementById('google-btn')?.addEventListener('click', async () => {
+    if (!auth) return showError('Firebase is not configured.');
+    try {
+      const provider = new GoogleAuthProvider();
+      const cred = await signInWithPopup(auth, provider);
+      const isNew = cred._tokenResponse?.isNewUser;
+      if (isNew) await notifyNewUser(cred.user.email, cred.user.displayName || '');
+      window.location.href = '/';
+    } catch(err) {
+      if (err.code !== 'auth/popup-closed-by-user') showError(err.message);
+    }
+  });
+</script>
+
+<style>
+  .auth-section {
+    min-height: calc(100vh - 80px);
+    display: flex;
+    align-items: center;
+    padding: 40px 24px;
+    background: linear-gradient(135deg, #F5F3FF 0%, #EEF2FF 100%);
+  }
+
+  .auth-container {
+    max-width: 980px;
+    width: 100%;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 0;
+    background: white;
+    border-radius: 24px;
+    box-shadow: 0 20px 60px rgba(79,70,229,0.12);
+    overflow: hidden;
+  }
+
+  .auth-card { padding: 48px 44px; }
+
+  .auth-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 28px;
+  }
+
+  .logo-icon {
+    width: 36px;
+    height: 36px;
+    background: linear-gradient(135deg, #4F46E5, #7C3AED);
+    border-radius: 10px;
+    color: white;
+    font-weight: 900;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .logo-text {
+    font-size: 1.3rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #4F46E5, #7C3AED);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .auth-title { font-size: 1.8rem; font-weight: 800; color: #111827; margin-bottom: 6px; }
+  .auth-sub { font-size: 0.95rem; color: #6B7280; margin-bottom: 24px; }
+
+  .error-msg {
+    background: rgba(239,68,68,0.08);
+    color: #DC2626;
+    border: 1px solid rgba(239,68,68,0.2);
+    border-radius: 10px;
+    padding: 12px 16px;
+    font-size: 0.88rem;
+    font-weight: 500;
+    margin-bottom: 16px;
+  }
+
+  .success-msg {
+    background: rgba(13,148,136,0.08);
+    color: #0D9488;
+    border: 1px solid rgba(13,148,136,0.2);
+    border-radius: 10px;
+    padding: 12px 16px;
+    font-size: 0.88rem;
+    font-weight: 500;
+    margin-bottom: 16px;
+  }
+
+  .auth-form { display: flex; flex-direction: column; gap: 16px; }
+
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+  .field-group { display: flex; flex-direction: column; gap: 5px; }
+
+  .field-label { font-size: 0.85rem; font-weight: 600; color: #374151; }
+
+  .field-input {
+    padding: 11px 14px;
+    border: 1.5px solid #E5E7EB;
+    border-radius: 12px;
+    font-size: 0.95rem;
+    font-family: inherit;
+    color: #111827;
+    background: #F9FAFB;
+    outline: none;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+
+  .field-input:focus {
+    border-color: #4F46E5;
+    background: white;
+    box-shadow: 0 0 0 3px rgba(79,70,229,0.08);
+  }
+
+  .terms-text {
+    font-size: 0.78rem;
+    color: #9CA3AF;
+    line-height: 1.5;
+  }
+
+  .terms-text a { color: #4F46E5; }
+
+  .auth-btn {
+    width: 100%;
+    justify-content: center;
+    padding: 13px 24px;
+    font-size: 1rem;
+  }
+
+  .spinner {
+    width: 18px;
+    height: 18px;
+    border: 2px solid rgba(255,255,255,0.3);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    display: inline-block;
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 18px 0;
+    color: #9CA3AF;
+    font-size: 0.85rem;
+  }
+
+  .divider::before, .divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: #F3F4F6;
+  }
+
+  .btn-google {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 11px 24px;
+    border: 1.5px solid #E5E7EB;
+    border-radius: 12px;
+    background: white;
+    font-size: 0.95rem;
+    font-weight: 600;
+    font-family: inherit;
+    color: #374151;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .btn-google:hover { border-color: #D1D5DB; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+
+  .auth-switch { text-align: center; margin-top: 20px; font-size: 0.88rem; color: #6B7280; }
+  .auth-switch a { color: #4F46E5; font-weight: 600; }
+
+  /* Side */
+  .auth-side {
+    background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%);
+    padding: 48px 40px;
+    display: flex;
+    align-items: center;
+    color: white;
+  }
+
+  .side-badge {
+    display: inline-block;
+    background: rgba(255,255,255,0.15);
+    border-radius: 100px;
+    padding: 6px 14px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+  }
+
+  .side-title { font-size: 1.9rem; font-weight: 800; line-height: 1.2; margin-bottom: 24px; }
+
+  .value-props {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+
+  .vp {
+    background: rgba(255,255,255,0.12);
+    border-radius: 14px;
+    padding: 16px;
+  }
+
+  .vp-num { font-size: 1.6rem; font-weight: 800; margin-bottom: 4px; }
+  .vp-label { font-size: 0.78rem; font-weight: 500; opacity: 0.85; }
+
+  .side-features { display: flex; flex-direction: column; gap: 10px; }
+
+  .side-feature {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 0.88rem;
+    font-weight: 500;
+  }
+
+  .sf-check {
+    background: rgba(255,255,255,0.2);
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  @media (max-width: 768px) {
+    .auth-container { grid-template-columns: 1fr; }
+    .auth-side { display: none; }
+    .auth-card { padding: 28px 20px; }
+    .field-row { grid-template-columns: 1fr; }
+  }
+</style>

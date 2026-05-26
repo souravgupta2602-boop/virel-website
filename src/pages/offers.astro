@@ -1,0 +1,560 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Offers & Rewards — Virel" description="Earn Virel Cash Back on flights, hotels, and delay claims. Discover the best credit card offers for travel, food, fuel, and more.">
+
+  <section class="page-hero">
+    <div class="container">
+      <div class="section-label">Offers & Rewards</div>
+      <h1 class="section-title">Every booking earns you <span class="gradient-text">cash back</span></h1>
+      <p class="section-sub" style="margin:0 auto;text-align:center;">
+        Virel shares 30% of affiliate commissions with you. Stack it with your credit card rewards for maximum returns.
+      </p>
+    </div>
+  </section>
+
+  <!-- Cash Back card -->
+  <section class="cb-hero-section">
+    <div class="container">
+      <div class="cb-hero-grid">
+        <div class="cb-hero-text">
+          <div class="section-label">Virel Cash Back</div>
+          <h2 class="section-title" style="font-size:2rem">How you earn</h2>
+          <p class="section-sub">When you book flights, hotels, or file a delay claim through Virel links, we earn an affiliate commission from our partners. We pass 30% of that directly to you.</p>
+
+          <div class="earn-steps">
+            <div class="earn-step">
+              <div class="es-num">01</div>
+              <div class="es-body">
+                <div class="es-title">Book through Virel</div>
+                <div class="es-sub">Click any "Book" button — we redirect you to Aviasales, Hotellook, or Compensair with affiliate tracking.</div>
+              </div>
+            </div>
+            <div class="earn-step">
+              <div class="es-num">02</div>
+              <div class="es-body">
+                <div class="es-title">We earn a commission</div>
+                <div class="es-sub">Partners pay us 1.5% on flights, 6% on hotels, or ₹500 flat for delay claims. This confirms within 30–45 days.</div>
+              </div>
+            </div>
+            <div class="earn-step">
+              <div class="es-num">03</div>
+              <div class="es-body">
+                <div class="es-title">You get 30%</div>
+                <div class="es-sub">Your share is credited as Cash Back in your Virel wallet. Withdraw to your Travelpayouts account anytime.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="cb-rate-cards">
+          {[
+            { type: 'Flights', rate: '1.5%', you: '~0.45%', flat: null, icon: '✈️', eg: 'On a ₹8,500 ticket → you earn ₹38', color: '#4F46E5' },
+            { type: 'Hotels', rate: '6%', you: '~1.8%', flat: null, icon: '🏨', eg: 'On a ₹10,000 booking → you earn ₹180', color: '#0D9488' },
+            { type: 'Delay Claim', rate: 'Flat', you: '₹150', flat: '₹500', icon: '⚡', eg: 'Per claim filed via Compensair', color: '#F59E0B' },
+          ].map(r => (
+            <div class="rate-card">
+              <div class="rc-icon">{r.icon}</div>
+              <div class="rc-type">{r.type}</div>
+              <div class="rc-rate-row">
+                <div class="rc-comm">
+                  <div class="rc-val">{r.rate}</div>
+                  <div class="rc-label">Commission</div>
+                </div>
+                <div class="rc-arrow">→</div>
+                <div class="rc-you">
+                  <div class="rc-you-val">{r.you}</div>
+                  <div class="rc-label">You earn</div>
+                </div>
+              </div>
+              <div class="rc-eg">{r.eg}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Partner deals -->
+  <section class="partners-section">
+    <div class="container">
+      <div class="section-header center" style="text-align:center;margin-bottom:48px">
+        <div class="section-label">Partner Offers</div>
+        <h2 class="section-title">Book through Virel partners</h2>
+        <p class="section-sub" style="margin:0 auto">All bookings below earn Virel Cash Back. Stack with your credit card rewards for up to 10% total savings.</p>
+      </div>
+
+      <div class="partners-grid">
+        <!-- Aviasales -->
+        <div class="partner-card featured">
+          <div class="partner-badge">Most popular</div>
+          <div class="partner-logo-area">
+            <div class="partner-icon" style="background:#FF6B35">✈</div>
+            <div>
+              <div class="partner-name">Aviasales</div>
+              <div class="partner-cat">Flights · 700+ airlines</div>
+            </div>
+          </div>
+          <p class="partner-desc">Compare live prices across all major Indian airlines and international carriers. No markup, best price guaranteed.</p>
+          <div class="partner-perks">
+            <div class="perk">Virel Cash Back: ~0.45%</div>
+            <div class="perk">Best card: HDFC Regalia (2x points)</div>
+            <div class="perk">Lounge access on premium cards</div>
+          </div>
+          <a href="https://www.aviasales.in/?marker=730930&subid=531590" target="_blank" rel="noopener" class="btn-primary partner-btn">Search Flights →</a>
+        </div>
+
+        <!-- Hotellook -->
+        <div class="partner-card">
+          <div class="partner-logo-area">
+            <div class="partner-icon" style="background:#0D9488">🏨</div>
+            <div>
+              <div class="partner-name">Hotellook</div>
+              <div class="partner-cat">Hotels · Best rates</div>
+            </div>
+          </div>
+          <p class="partner-desc">Compare hotel prices from Booking.com, Hotels.com, Agoda, and 30+ other sites in one search.</p>
+          <div class="partner-perks">
+            <div class="perk">Virel Cash Back: ~1.8%</div>
+            <div class="perk">Best card: Axis Magnus (travel points)</div>
+          </div>
+          <a href="https://hotellook.com/?marker=730930&subid=531590" target="_blank" rel="noopener" class="partner-btn-outline">Search Hotels →</a>
+        </div>
+
+        <!-- Compensair -->
+        <div class="partner-card">
+          <div class="partner-logo-area">
+            <div class="partner-icon" style="background:#F59E0B">⚡</div>
+            <div>
+              <div class="partner-name">Compensair</div>
+              <div class="partner-cat">Delay Claims · Up to €600</div>
+            </div>
+          </div>
+          <p class="partner-desc">Was your flight delayed, cancelled, or overbooked? EU regulations entitle you to up to €600. Compensair handles everything.</p>
+          <div class="partner-perks">
+            <div class="perk">Virel Cash Back: ₹150 per claim</div>
+            <div class="perk">No win, no fee model</div>
+          </div>
+          <a href="https://compensair.com/?utm_source=travelpayouts&utm_medium=affiliate&utm_campaign=730930&marker=730930&subid=531590" target="_blank" rel="noopener" class="partner-btn-outline">Check my flight →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Card offers by category -->
+  <section class="card-offers-section">
+    <div class="container">
+      <div class="section-header center" style="text-align:center;margin-bottom:40px">
+        <div class="section-label">Best Card Offers</div>
+        <h2 class="section-title">Top card rewards by category</h2>
+      </div>
+
+      <div class="offers-tabs" id="offers-tabs">
+        {['Flights', 'Hotels', 'Food', 'Fuel', 'Shopping', 'Cabs'].map((t, i) => (
+          <button class={`otab ${i === 0 ? 'active' : ''}`} data-cat={t}>{t}</button>
+        ))}
+      </div>
+
+      <div id="offers-content" class="offers-content">
+        <!-- Populated by JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Medicine / pharmacy -->
+  <section class="medicine-section">
+    <div class="container">
+      <div class="med-inner">
+        <div class="med-text">
+          <div class="section-label">Coming soon · App feature</div>
+          <h2 class="section-title" style="font-size:1.8rem">Medicine price scanner</h2>
+          <p class="section-sub">Scan any medicine box with your phone camera. Virel compares prices across PharmEasy, 1mg, Netmeds, and local pharmacies instantly — showing the best card to use for maximum cashback.</p>
+          <div class="med-platforms">
+            {['PharmEasy — 3x on SBI Card', '1mg — 5% Axis Flipkart', 'Netmeds — 2% Amazon Pay'].map(p => (
+              <div class="med-chip">{p}</div>
+            ))}
+          </div>
+          <a href="https://play.google.com/store" target="_blank" rel="noopener" class="btn-primary" style="margin-top:24px">Download App (Android)</a>
+        </div>
+        <div class="med-visual">
+          <div class="scan-mockup">
+            <div class="scan-frame">
+              <div class="scan-corner tl"></div>
+              <div class="scan-corner tr"></div>
+              <div class="scan-corner bl"></div>
+              <div class="scan-corner br"></div>
+              <div class="scan-pill-icon">💊</div>
+              <div class="scan-label">Point camera at medicine box</div>
+            </div>
+            <div class="scan-result">
+              <div class="sr-title">Dolo 650 (15 tabs)</div>
+              <div class="sr-prices">
+                <div class="sr-price best">PharmEasy ₹20 <span class="sr-best">Best</span></div>
+                <div class="sr-price">1mg ₹22</div>
+                <div class="sr-price">Netmeds ₹23</div>
+              </div>
+              <div class="sr-card">Use Axis Flipkart → 5% cashback</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Download CTA -->
+  <section class="final-cta">
+    <div class="container">
+      <div class="fc-inner">
+        <h2>Get the Android app — it's free</h2>
+        <p>All these features and more: family dashboard, AI voice assistant, spend insights, travel booking, medicine scanner.</p>
+        <a href="https://play.google.com/store" target="_blank" rel="noopener" class="btn-white-large">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M3 20.5v-17c0-.83 1-.97 1.27-.38l13 8.5c.27.17.27.59 0 .76l-13 8.5C3.97 21.47 3 21.33 3 20.5z"/></svg>
+          Download Free on Android
+        </a>
+      </div>
+    </div>
+  </section>
+
+</Layout>
+
+<script>
+  const offersData = {
+    Flights: [
+      { card: 'HDFC Regalia', bank: 'HDFC', offer: '2x reward points on flights + domestic lounge', fee: '₹2,500/yr' },
+      { card: 'Axis Magnus', bank: 'Axis', offer: '12 Reward Points per ₹200 on travel', fee: '₹10,000/yr' },
+      { card: 'AmEx Platinum Travel', bank: 'AmEx', offer: '5x Membership Rewards on Aviasales', fee: '₹5,000/yr' },
+      { card: 'IDFC FIRST Wealth', bank: 'IDFC', offer: '6x points on travel + unlimited lounge', fee: '₹0 (lifetime free)' },
+    ],
+    Hotels: [
+      { card: 'HDFC Diners Black', bank: 'HDFC', offer: '10x points on hotels, unlimited lounge', fee: '₹10,000/yr' },
+      { card: 'Axis Magnus', bank: 'Axis', offer: '12 RP/₹200 on international hotels', fee: '₹10,000/yr' },
+      { card: 'SBI Miles Elite', bank: 'SBI', offer: '3x miles on hotels, free night stays', fee: '₹4,999/yr' },
+      { card: 'YES First Preferred', bank: 'YES', offer: '12 RPs/₹100 on hotels + lounge', fee: '₹2,499/yr' },
+    ],
+    Food: [
+      { card: 'Axis Flipkart', bank: 'Axis', offer: '5% cashback on Swiggy, Zomato', fee: '₹500/yr' },
+      { card: 'HDFC Millennia', bank: 'HDFC', offer: '5% cashback on Swiggy, Zomato via SmartBuy', fee: '₹1,000/yr' },
+      { card: 'Amazon Pay ICICI', bank: 'ICICI', offer: '2% cashback on food delivery (Prime)', fee: '₹0 lifetime free' },
+      { card: 'ICICI Coral', bank: 'ICICI', offer: '2 reward points/₹100 on dining', fee: '₹500/yr' },
+    ],
+    Fuel: [
+      { card: 'BPCL SBI Octane', bank: 'SBI', offer: '7.25% value back on BPCL fuel', fee: '₹1,499/yr' },
+      { card: 'Indian Oil HDFC', bank: 'HDFC', offer: '50 FuelPoints/₹150 at Indian Oil', fee: '₹500/yr' },
+      { card: 'ICICI HPCL Coral', bank: 'ICICI', offer: '2.5% surcharge waiver + 4% back', fee: '₹199/yr' },
+      { card: 'Citibank Indian Oil', bank: 'Citi', offer: '4 Turbo Points/₹150 at HPCL', fee: '₹1,000/yr' },
+    ],
+    Shopping: [
+      { card: 'Amazon Pay ICICI', bank: 'ICICI', offer: '5% back on Amazon (Prime) + 2% elsewhere', fee: '₹0 lifetime free' },
+      { card: 'Axis Flipkart', bank: 'Axis', offer: '5% back on Flipkart + Myntra', fee: '₹500/yr' },
+      { card: 'HDFC Millennia', bank: 'HDFC', offer: '5% on Amazon, Flipkart via SmartBuy', fee: '₹1,000/yr' },
+      { card: 'Cashback SBI', bank: 'SBI', offer: '5% unlimited cashback on online shopping', fee: '₹999/yr' },
+    ],
+    Cabs: [
+      { card: 'Axis Flipkart', bank: 'Axis', offer: '5% cashback on Ola via Flipkart wallet', fee: '₹500/yr' },
+      { card: 'Paytm SBI Select', bank: 'SBI', offer: '2% back on Paytm (includes Ola Money)', fee: '₹1,499/yr' },
+      { card: 'Amazon Pay ICICI', bank: 'ICICI', offer: '2% on Uber via Amazon Pay balance', fee: '₹0 lifetime' },
+      { card: 'HDFC Millennia', bank: 'HDFC', offer: '1% back on Ola via SmartBuy', fee: '₹1,000/yr' },
+    ],
+  };
+
+  function renderOffers(cat) {
+    const cards = offersData[cat] || [];
+    const content = document.getElementById('offers-content');
+    content.innerHTML = `
+      <div class="offers-grid">
+        ${cards.map((c, i) => `
+          <div class="offer-card ${i === 0 ? 'top-pick' : ''}">
+            ${i === 0 ? '<div class="top-badge">Top Pick</div>' : ''}
+            <div class="oc-header">
+              <div class="oc-bank">${c.bank}</div>
+              <div class="oc-fee">${c.fee}</div>
+            </div>
+            <div class="oc-name">${c.card}</div>
+            <div class="oc-offer">${c.offer}</div>
+            <a href="/best-card" class="oc-cta">Compare all cards →</a>
+          </div>
+        `).join('')}
+      </div>
+    `;
+  }
+
+  // Tab switching
+  document.querySelectorAll('.otab').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.otab').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderOffers(btn.dataset.cat);
+    });
+  });
+
+  renderOffers('Flights');
+</script>
+
+<style>
+  .page-hero { padding: 80px 0 40px; text-align: center; }
+
+  /* CB Hero */
+  .cb-hero-section { padding: 40px 0 80px; }
+  .cb-hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start; }
+
+  .earn-steps { display: flex; flex-direction: column; gap: 20px; margin-top: 28px; }
+
+  .earn-step { display: flex; gap: 16px; align-items: flex-start; }
+  .es-num { font-size: 1.1rem; font-weight: 800; color: #4F46E5; flex-shrink: 0; width: 28px; }
+  .es-title { font-size: 0.95rem; font-weight: 700; color: #111827; margin-bottom: 4px; }
+  .es-sub { font-size: 0.85rem; color: #6B7280; line-height: 1.5; }
+
+  .cb-rate-cards { display: flex; flex-direction: column; gap: 14px; }
+
+  .rate-card {
+    background: white;
+    border: 1.5px solid #F3F4F6;
+    border-radius: 18px;
+    padding: 20px 24px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.04);
+  }
+
+  .rc-icon { font-size: 1.5rem; margin-bottom: 6px; }
+  .rc-type { font-size: 0.78rem; font-weight: 700; color: #9CA3AF; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 12px; }
+
+  .rc-rate-row { display: flex; align-items: center; gap: 16px; margin-bottom: 10px; }
+  .rc-comm, .rc-you { text-align: center; }
+  .rc-val, .rc-you-val { font-size: 1.4rem; font-weight: 800; color: #4F46E5; }
+  .rc-you-val { color: #0D9488; }
+  .rc-label { font-size: 0.7rem; color: #9CA3AF; font-weight: 600; }
+  .rc-arrow { font-size: 1.2rem; color: #D1D5DB; }
+  .rc-eg { font-size: 0.78rem; color: #6B7280; background: #F9FAFB; border-radius: 8px; padding: 6px 10px; }
+
+  /* Partners */
+  .partners-section { padding: 80px 0; background: #F9FAFB; }
+  .section-header.center { text-align: center; }
+
+  .partners-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr 1fr;
+    gap: 20px;
+    align-items: start;
+  }
+
+  .partner-card {
+    background: white;
+    border: 1.5px solid #F3F4F6;
+    border-radius: 20px;
+    padding: 28px;
+    position: relative;
+  }
+
+  .partner-card.featured {
+    border-color: rgba(79,70,229,0.25);
+    box-shadow: 0 8px 32px rgba(79,70,229,0.1);
+  }
+
+  .partner-badge {
+    position: absolute;
+    top: -12px;
+    left: 24px;
+    background: linear-gradient(135deg, #4F46E5, #7C3AED);
+    color: white;
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 4px 12px;
+    border-radius: 100px;
+  }
+
+  .partner-logo-area { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+  .partner-icon { width: 40px; height: 40px; border-radius: 10px; color: white; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0; }
+  .partner-name { font-size: 1.05rem; font-weight: 800; color: #111827; }
+  .partner-cat { font-size: 0.78rem; color: #9CA3AF; font-weight: 500; }
+  .partner-desc { font-size: 0.85rem; color: #6B7280; line-height: 1.6; margin-bottom: 16px; }
+
+  .partner-perks { display: flex; flex-direction: column; gap: 6px; margin-bottom: 20px; }
+  .perk {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: #374151;
+    background: #F9FAFB;
+    padding: 6px 10px;
+    border-radius: 8px;
+  }
+
+  .perk::before { content: '✓ '; color: #0D9488; font-weight: 700; }
+
+  .partner-btn { width: 100%; justify-content: center; font-size: 0.9rem; padding: 11px 20px; }
+
+  .partner-btn-outline {
+    display: block;
+    text-align: center;
+    padding: 10px 20px;
+    border: 1.5px solid rgba(79,70,229,0.3);
+    border-radius: 12px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #4F46E5;
+    transition: all 0.15s;
+  }
+
+  .partner-btn-outline:hover { background: rgba(79,70,229,0.04); border-color: #4F46E5; }
+
+  /* Card offers */
+  .card-offers-section { padding: 80px 0; }
+
+  .offers-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+  }
+
+  .otab {
+    padding: 8px 18px;
+    border-radius: 100px;
+    border: 1.5px solid #E5E7EB;
+    background: white;
+    font-size: 0.88rem;
+    font-weight: 600;
+    font-family: inherit;
+    color: #6B7280;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .otab.active, .otab:hover { border-color: #4F46E5; background: rgba(79,70,229,0.06); color: #4F46E5; }
+
+  .offers-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+  }
+
+  .offer-card {
+    background: white;
+    border: 1.5px solid #F3F4F6;
+    border-radius: 16px;
+    padding: 20px;
+    position: relative;
+    transition: all 0.15s;
+  }
+
+  .offer-card:hover { border-color: rgba(79,70,229,0.15); box-shadow: 0 4px 16px rgba(79,70,229,0.07); }
+  .offer-card.top-pick { border-color: rgba(79,70,229,0.2); }
+
+  .top-badge {
+    position: absolute;
+    top: -10px;
+    left: 16px;
+    background: linear-gradient(135deg, #4F46E5, #7C3AED);
+    color: white;
+    font-size: 0.68rem;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 100px;
+  }
+
+  .oc-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+  .oc-bank { font-size: 0.7rem; font-weight: 700; color: #9CA3AF; text-transform: uppercase; }
+  .oc-fee { font-size: 0.7rem; color: #6B7280; font-weight: 500; }
+  .oc-name { font-size: 0.95rem; font-weight: 700; color: #111827; margin-bottom: 6px; }
+  .oc-offer { font-size: 0.8rem; color: #0D9488; font-weight: 600; margin-bottom: 14px; line-height: 1.4; }
+  .oc-cta { font-size: 0.78rem; color: #4F46E5; font-weight: 600; }
+  .oc-cta:hover { text-decoration: underline; }
+
+  /* Medicine section */
+  .medicine-section { padding: 80px 0; background: #F9FAFB; }
+  .med-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+
+  .med-platforms { display: flex; flex-direction: column; gap: 8px; margin-top: 20px; }
+  .med-chip {
+    background: white;
+    border: 1px solid #E5E7EB;
+    border-radius: 10px;
+    padding: 10px 14px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #374151;
+  }
+
+  .scan-mockup { display: flex; flex-direction: column; gap: 16px; }
+
+  .scan-frame {
+    background: #111827;
+    border-radius: 20px;
+    height: 180px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    position: relative;
+    padding: 20px;
+  }
+
+  .scan-corner {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border-color: #4F46E5;
+    border-style: solid;
+  }
+
+  .scan-corner.tl { top: 12px; left: 12px; border-width: 2px 0 0 2px; border-radius: 4px 0 0 0; }
+  .scan-corner.tr { top: 12px; right: 12px; border-width: 2px 2px 0 0; border-radius: 0 4px 0 0; }
+  .scan-corner.bl { bottom: 12px; left: 12px; border-width: 0 0 2px 2px; border-radius: 0 0 0 4px; }
+  .scan-corner.br { bottom: 12px; right: 12px; border-width: 0 2px 2px 0; border-radius: 0 0 4px 0; }
+
+  .scan-pill-icon { font-size: 2rem; }
+  .scan-label { font-size: 0.78rem; color: rgba(255,255,255,0.6); text-align: center; }
+
+  .scan-result {
+    background: white;
+    border: 1.5px solid #E5E7EB;
+    border-radius: 14px;
+    padding: 16px 18px;
+  }
+
+  .sr-title { font-size: 0.9rem; font-weight: 700; color: #111827; margin-bottom: 10px; }
+  .sr-prices { display: flex; flex-direction: column; gap: 4px; margin-bottom: 10px; }
+  .sr-price { font-size: 0.82rem; color: #6B7280; }
+  .sr-price.best { color: #0D9488; font-weight: 700; }
+  .sr-best { background: rgba(13,148,136,0.1); color: #0D9488; padding: 1px 6px; border-radius: 6px; font-size: 0.7rem; margin-left: 4px; }
+  .sr-card { font-size: 0.78rem; color: #4F46E5; font-weight: 600; background: rgba(79,70,229,0.06); border-radius: 8px; padding: 6px 10px; }
+
+  /* Final CTA */
+  .final-cta {
+    padding: 80px 0;
+    background: linear-gradient(135deg, #4F46E5, #7C3AED);
+    text-align: center;
+    color: white;
+  }
+
+  .fc-inner { max-width: 600px; margin: 0 auto; }
+  .fc-inner h2 { font-size: 2rem; font-weight: 800; margin-bottom: 12px; }
+  .fc-inner p { font-size: 1rem; opacity: 0.85; margin-bottom: 32px; line-height: 1.6; }
+
+  .btn-white-large {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: white;
+    color: #4F46E5;
+    padding: 16px 32px;
+    border-radius: 14px;
+    font-size: 1.05rem;
+    font-weight: 700;
+    transition: all 0.2s;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+  }
+
+  .btn-white-large:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,0,0,0.2); }
+
+  @media (max-width: 900px) {
+    .cb-hero-grid { grid-template-columns: 1fr; }
+    .partners-grid { grid-template-columns: 1fr; }
+    .offers-grid { grid-template-columns: 1fr 1fr; }
+    .med-inner { grid-template-columns: 1fr; }
+  }
+
+  @media (max-width: 600px) {
+    .offers-grid { grid-template-columns: 1fr; }
+  }
+</style>
