@@ -1,15 +1,9 @@
-// Virel Firebase Configuration
-// Replace the placeholder values below with your real Firebase project credentials.
-// Get these from: Firebase Console → Project Settings → Your Apps → Web App → Config
-//
-// IMPORTANT: This file is public. Only include Firebase client-side keys here.
-// Never put admin SDK credentials or private keys in this file.
-
 window.__VIREL_FIREBASE_CONFIG__ = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_PROJECT_ID.appspot.com",
-  messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-  appId: "YOUR_APP_ID",
+  apiKey: "AIzaSyB7cp8AG1voWK9jJ6VHNAPpPMJ4UOFefzg",
+  authDomain: "virel-web-338f5.firebaseapp.com",
+  projectId: "virel-web-338f5",
+  storageBucket: "virel-web-338f5.firebasestorage.app",
+  messagingSenderId: "1031661999551",
+  appId: "1:1031661999551:web:f067b4b0577d197e157d0a",
+  measurementId: "G-1NBSVJFBP2"
 };
