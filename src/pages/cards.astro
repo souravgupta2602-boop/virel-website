@@ -1,725 +1,765 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { cards, categories } from '../data/cards.js';
-const cardsJson = JSON.stringify(cards);
-const catsJson  = JSON.stringify(categories);
+import { cards } from '../data/cards.js';
+const indiaCards = cards.filter(c => c.country === 'IN');
+const cardsJson = JSON.stringify(indiaCards);
 ---
 
-<Layout title="Browse Credit Cards — Virel" description="Compare 50+ credit cards. Find the best rewards, lowest fees, lounge access and apply online.">
+<Layout title="Browse Credit Cards — Virel" description="Compare 50+ India credit cards. Find the best rewards, lounge access, cashback and apply online.">
 
-  <!-- HERO -->
-  <section class="ch">
-    <div class="ch-bg"></div>
-    <div class="ch-glow cg1"></div>
-    <div class="ch-glow cg2"></div>
-    <div class="container ch-inner">
-      <div class="ch-left">
-        <span class="section-label">💳 Card Marketplace</span>
-        <h1 class="ch-title">Find your <span class="gradient-text">perfect card.</span></h1>
-        <p class="ch-sub">Compare 50+ credit cards across rewards, fees, lounge access and signup bonuses. Use Virel to pick the right one.</p>
-        <div class="ch-perks">
-          {['Exclusive signup bonuses','Best reward rates by category','Lounge access comparison','Fee waiver conditions'].map(p => (
-            <span class="ch-perk"><span class="ch-check">✓</span> {p}</span>
-          ))}
-        </div>
-        <div class="ch-btns">
-          <a href="#grid" class="btn-primary">Browse All Cards ↓</a>
-          <a href="/my-cards" class="btn-secondary">Analyse My Cards →</a>
-        </div>
-        <div class="app-pills">
-          <div class="app-pill app-pill-ios">
-            <span class="ap-icon">🍎</span>
-            <div><div class="ap-small">Download on the</div><div class="ap-big">App Store</div></div>
-          </div>
-          <div class="app-pill app-pill-android">
-            <span class="ap-icon">🤖</span>
-            <div><div class="ap-small">Android App</div><div class="ap-big">Coming Soon</div></div>
-            <span class="ap-soon">Soon</span>
-          </div>
-        </div>
-      </div>
-      <!-- Animated card fan -->
-      <div class="ch-right" aria-hidden="true">
-        <div class="card-fan">
-          <div class="vis-card vc1"><div class="vc-chip"></div><div class="vc-network">VISA</div><div class="vc-num">•••• •••• •••• 4821</div><div class="vc-bot"><span>HDFC Bank</span><span>Infinia</span></div></div>
-          <div class="vis-card vc2"><div class="vc-chip"></div><div class="vc-network">MC</div><div class="vc-num">•••• •••• •••• 7732</div><div class="vc-bot"><span>Axis Bank</span><span>Magnus</span></div></div>
-          <div class="vis-card vc3"><div class="vc-chip"></div><div class="vc-network">AMEX</div><div class="vc-num">•••• •••• 2291</div><div class="vc-bot"><span>Amex</span><span>Platinum</span></div></div>
-          <div class="vis-card vc4"><div class="vc-chip"></div><div class="vc-network">VISA</div><div class="vc-num">•••• •••• •••• 9910</div><div class="vc-bot"><span>ICICI Bank</span><span>Emeralde</span></div></div>
-        </div>
-      </div>
-    </div>
-  </section>
+<div class="cp-page">
 
-  <!-- QUICK STATS -->
-  <div class="qs-bar">
-    <div class="container qs-inner">
-      {[['50+','Cards listed'],['₹0','Best joining fee'],['Unlimited','Lounge access cards'],['10X','Max reward rate']].map(([v,l]) => (
-        <div class="qs-item">
-          <span class="qs-val">{v}</span>
-          <span class="qs-lbl">{l}</span>
-        </div>
-      ))}
+  <!-- TOP BAR -->
+  <div class="cp-topbar">
+    <div class="cp-topbar-inner">
+      <div class="cp-tb-left">
+        <h1 class="cp-heading">Credit Cards</h1>
+        <span class="cp-count-badge" id="cpCount">{indiaCards.length} cards</span>
+      </div>
+      <div class="cp-search-wrap">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" id="cardSearch" placeholder="Search by card name, bank, or category…" />
+      </div>
+      <div class="cp-tb-right">
+        <span class="cp-sub">Compare up to 3 cards</span>
+        <button class="cp-compare-btn" id="compareBtn" style="display:none" onclick="openCompare()">⚖️ Compare (<span id="compareCount">0</span>)</button>
+      </div>
     </div>
   </div>
 
-  <!-- FILTERS + GRID -->
-  <section class="browse-sec" id="grid">
-    <div class="container">
+  <div class="cp-layout">
 
-      <!-- SEARCH + FILTERS -->
-      <div class="filters-wrap">
-        <div class="search-row">
-          <div class="card-search">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-            <input type="text" id="cardSearch" placeholder="Search cards... (e.g. HDFC, travel, cashback)" />
-          </div>
-          <div class="view-toggle">
-            <button class="vt-btn active" id="gridViewBtn" title="Grid view">⊞</button>
-            <button class="vt-btn" id="listViewBtn" title="List view">☰</button>
-          </div>
-        </div>
-
-        <div class="filter-row">
-          <div class="fg">
-            <span class="fl">Annual Fee</span>
-            <div class="chips" id="f-fee">
-              <button class="fchip active" data-val="ALL">All</button>
-              <button class="fchip" data-val="free">Free forever</button>
-              <button class="fchip" data-val="waivable">Fee waivable</button>
-              <button class="fchip" data-val="paid">Paid</button>
-            </div>
-          </div>
-          <div class="fg">
-            <span class="fl">Best for</span>
-            <div class="chips" id="f-cat">
-              <button class="fchip active" data-val="ALL">All</button>
-              {categories.map(c => <button class="fchip" data-val={c}>{c}</button>)}
-            </div>
-          </div>
-        </div>
-        <div class="result-count"><span id="cardCount">0</span> cards</div>
+    <!-- SIDEBAR FILTERS -->
+    <aside class="cp-sidebar">
+      <div class="sb-hdr">
+        <span class="sb-hdr-title">Filters</span>
+        <button class="sb-clear" onclick="clearAllFilters()">Clear All</button>
       </div>
 
-      <!-- CARD GRID -->
-      <div class="card-grid" id="cardGrid">
-        <!-- Filled by JS -->
+      <!-- BANKS -->
+      <div class="sb-section">
+        <h3 class="sb-sec-title">BANKS</h3>
+        <div id="bankFilters" class="sb-checks"></div>
+        <button class="sb-show-more" id="bankToggle" onclick="toggleBankList()">+ Show More</button>
       </div>
 
-    </div>
-  </section>
+      <!-- CATEGORIES -->
+      <div class="sb-section">
+        <h3 class="sb-sec-title">CATEGORIES</h3>
+        <div id="catFilters" class="sb-checks"></div>
+        <div class="sb-note">Max. 3 selections allowed</div>
+      </div>
 
-  <!-- CARD DETAIL MODAL -->
-  <div class="modal-bg" id="modalBg">
-    <div class="modal" id="modal">
-      <button class="modal-close" id="modalClose">✕</button>
-      <div id="modalContent"></div>
+      <!-- FEE -->
+      <div class="sb-section">
+        <h3 class="sb-sec-title">FEE</h3>
+        <div class="sb-checks">
+          <label class="sb-check-item"><input type="checkbox" value="free" onchange="toggleFee(this)"> Lifetime Free</label>
+          <label class="sb-check-item"><input type="checkbox" value="low" onchange="toggleFee(this)"> ₹501 – ₹10K</label>
+          <label class="sb-check-item"><input type="checkbox" value="high" onchange="toggleFee(this)"> Above ₹10K</label>
+        </div>
+      </div>
+
+      <!-- ANDROID PILL -->
+      <div class="sb-app-pill">
+        <span class="sap-icon">🤖</span>
+        <div>
+          <div class="sap-small">Android App</div>
+          <div class="sap-big">Coming Soon</div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- CARD LIST -->
+    <main class="cp-main">
+      <div class="cp-list" id="cardList">
+        <!-- Rendered by JS -->
+      </div>
+    </main>
+
+  </div>
+</div>
+
+<!-- COMPARE BAR (bottom) -->
+<div class="compare-bar" id="compareBar" style="display:none">
+  <div class="compare-bar-inner">
+    <div class="cb-slots" id="cbSlots"></div>
+    <div class="cb-actions">
+      <button class="cb-compare-btn" onclick="runCompare()">Compare Now</button>
+      <button class="cb-clear" onclick="clearCompare()">Clear</button>
     </div>
   </div>
+</div>
+
+<!-- CARD MODAL -->
+<div class="card-modal-overlay" id="cardModalOverlay" onclick="closeModal()"></div>
+<div class="card-modal" id="cardModal">
+  <button class="modal-close-btn" onclick="closeModal()">✕</button>
+  <div id="cardModalContent"></div>
+</div>
 
 </Layout>
 
-<script define:vars={{ cardsJson, catsJson }}>
-const allCards = JSON.parse(cardsJson);
-let filtered = [...allCards];
-let viewMode = 'grid';
-let activeFilters = { country:'IN', fee:'ALL', cat:'ALL', search:'' };
+<script define:vars={{ cardsJson }}>
+const ALL_CARDS = JSON.parse(cardsJson);
 
-// ── Render a visual credit card ──────────────────────────────
-function cardVisual(c, size = 'md') {
-  const isSmall = size === 'sm';
-  const w = isSmall ? 120 : 200;
-  const h = isSmall ? 72  : 120;
-  const networkLogo = c.type?.toLowerCase().includes('visa') ? 'VISA' :
-                      c.type?.toLowerCase().includes('mastercard') ? '◉◉' :
-                      c.type?.toLowerCase().includes('amex') ? 'AMEX' : 'CARD';
-  const numLen = c.type?.toLowerCase().includes('amex') ? '•••• •••••• 2291' : '•••• •••• •••• 4821';
-  return `
-    <div class="crd-visual ${isSmall?'crd-sm':''}" style="
-      background:linear-gradient(135deg,${c.color||'#1a237e'} 0%,${c.color2||'#3949ab'} 100%);
-      width:${w}px;height:${h}px;
-    ">
-      <div class="cv-top">
-        <div class="cv-chip ${isSmall?'cv-chip-sm':''}"></div>
-        <span class="cv-network ${isSmall?'cv-net-sm':''}">${networkLogo}</span>
-      </div>
-      <div class="cv-num ${isSmall?'cv-num-sm':''}">${numLen}</div>
-      <div class="cv-bot ${isSmall?'cv-bot-sm':''}">
-        <span class="cv-bank">${c.bank}</span>
-        <span class="cv-name">${c.name}</span>
-      </div>
-    </div>
-  `;
+const state = { search:'', banks: new Set(), cats: new Set(), fees: new Set() };
+let bankShowAll = false;
+const compareSet = new Map(); // idx → card
+
+const CAT_DEFS = [
+  { id:'travel',    label:'Travel',        icon:'✈️',  test: c => !!(c.multipliers.Travel || c.multipliers.Flight) },
+  { id:'premium',   label:'Premium',       icon:'👑',  test: c => c.rewardRate >= 4 || c.fee >= 5000 },
+  { id:'rewards',   label:'Rewards',       icon:'⭐',  test: c => c.rewardRate >= 2 },
+  { id:'lounge',    label:'Lounge Access', icon:'🛋️', test: c => c.loungeDomestic === -1 || c.loungeIntl === -1 || c.loungeIntl >= 4 },
+  { id:'shopping',  label:'Shopping',      icon:'🛍️', test: c => !!(c.multipliers.Shopping) },
+  { id:'dining',    label:'Dining',        icon:'🍽️', test: c => !!(c.multipliers.Dining) },
+  { id:'cashback',  label:'Cashback',      icon:'💰',  test: c => !!(c.multipliers.Groceries) || c.name.toLowerCase().includes('ace') },
+  { id:'fuel',      label:'Fuel',          icon:'⛽',  test: c => !!(c.multipliers.Fuel) },
+  { id:'zeroforex', label:'Zero Forex',    icon:'💱',  test: c => c.forex === 0 },
+];
+
+const TAG_COLORS = {
+  'Travel':'#4F46E5','Premium':'#7C3AED','Rewards':'#D97706','Lounge Access':'#059669',
+  'Shopping':'#BE185D','Dining':'#FF6B35','Cashback':'#D97706','Fuel':'#475569','Zero Forex':'#0369A1',
+};
+
+function getCardTags(c) {
+  return CAT_DEFS.filter(cat => cat.test(c)).map(cat => cat.label).slice(0,4);
 }
 
-// ── Render card grid item ────────────────────────────────────
-function cardGridItem(c) {
-  const feeStr = c.fee === 0 ? '<span class="c-free">Free Forever</span>' :
-                 c.feeWaiver > 0 ? `<span class="c-waiv">₹${c.fee.toLocaleString()} (waivable)</span>` :
-                 `<span class="c-paid">₹${c.fee.toLocaleString()}/yr</span>`;
-  const lounge = c.loungeDomestic === -1 ? '∞ Unlimited' :
-                 c.loungeDomestic === 0  ? 'No lounge' :
-                 `${c.loungeDomestic}× domestic`;
-  const loungeColor = c.loungeDomestic === -1 ? '#10B981' :
-                      c.loungeDomestic === 0  ? '#94A3B8' : '#7C3AED';
-  const topMult = Object.entries(c.multipliers||{}).sort((a,b)=>b[1]-a[1])[0];
-  const signupBadge = c.signup ? `<div class="c-signup">🎁 ${c.signup}</div>` : '';
-  return `
-    <div class="crd-card" data-idx="${allCards.indexOf(c)}" onclick="openModal(${allCards.indexOf(c)})">
-      <div class="cc-visual-wrap">
-        ${cardVisual(c)}
-        ${c.signup ? `<span class="cc-bonus-tag">Signup Bonus</span>` : ''}
-      </div>
-      <div class="cc-body">
-        <div class="cc-header">
-          <div>
-            <div class="cc-bank">${c.bank}</div>
-            <div class="cc-name">${c.name}</div>
-          </div>
-          <span class="cc-type-badge">${c.type||'Credit'}</span>
-        </div>
-        <div class="cc-stats">
-          <div class="cc-stat">
-            <span class="ccs-val" style="color:#FF6B35">${c.rewardRate}%</span>
-            <span class="ccs-lbl">Max Reward</span>
-          </div>
-          <div class="cc-stat-sep"></div>
-          <div class="cc-stat">
-            <span class="ccs-val" style="color:${loungeColor}">${lounge}</span>
-            <span class="ccs-lbl">Lounge Access</span>
-          </div>
-          <div class="cc-stat-sep"></div>
-          <div class="cc-stat">
-            ${feeStr}
-            <span class="ccs-lbl">Annual Fee</span>
-          </div>
-        </div>
-        ${topMult ? `<div class="cc-best-cat"><span class="cc-cat-icon">⚡</span> Best for <strong>${topMult[0]}</strong> — <span style="color:#7C3AED;font-weight:800">${topMult[1]}x</span> rewards</div>` : ''}
-        ${signupBadge}
-        <div class="cc-benefits-preview">
-          ${c.benefits.slice(0,2).map(b=>`<div class="cc-benefit"><span>◆</span>${b}</div>`).join('')}
-        </div>
-        <div class="cc-actions">
-          <a href="${c.applyUrl}" target="_blank" rel="noopener" class="cc-apply" onclick="event.stopPropagation()">Apply Now →</a>
-          <button class="cc-details" onclick="event.stopPropagation();openModal(${allCards.indexOf(c)})">Full Details</button>
-        </div>
-      </div>
-    </div>
-  `;
+function feeMatch(c) {
+  if (state.fees.size === 0) return true;
+  if (state.fees.has('free') && c.fee === 0) return true;
+  if (state.fees.has('low')  && c.fee > 0 && c.fee <= 10000) return true;
+  if (state.fees.has('high') && c.fee > 10000) return true;
+  return false;
 }
 
-// ── Render list item ─────────────────────────────────────────
-function cardListItem(c) {
-  const lounge = c.loungeDomestic === -1 ? 'Unlimited' : c.loungeDomestic === 0 ? 'None' : `${c.loungeDomestic}×`;
-  return `
-    <div class="crd-list-item" onclick="openModal(${allCards.indexOf(c)})">
-      ${cardVisual(c, 'sm')}
-      <div class="cli-body">
-        <div class="cli-top">
-          <div>
-            <span class="cli-bank">${c.bank}</span>
-            <span class="cli-name">${c.name}</span>
-          </div>
-          <span class="cli-type">${c.type||'Credit'}</span>
-        </div>
-        <div class="cli-meta">
-          <span class="cli-m"><span style="color:#FF6B35;font-weight:800">${c.rewardRate}%</span> max reward</span>
-          <span class="cli-m">🛫 Lounge: <strong>${lounge}</strong></span>
-          <span class="cli-m">💳 Fee: ${c.fee===0?'Free':('₹'+c.fee.toLocaleString())}</span>
-          ${c.forex===0?'<span class="cli-m">✈️ <strong>0% forex</strong></span>':''}
-        </div>
-        ${c.signup?`<div class="cli-signup">🎁 ${c.signup}</div>`:''}
-      </div>
-      <div class="cli-actions">
-        <a href="${c.applyUrl}" target="_blank" rel="noopener" class="cc-apply" onclick="event.stopPropagation()">Apply</a>
-      </div>
-    </div>
-  `;
+function catMatch(c) {
+  if (state.cats.size === 0) return true;
+  return [...state.cats].every(cid => {
+    const def = CAT_DEFS.find(d => d.id === cid);
+    return def && def.test(c);
+  });
 }
 
-// ── Modal ────────────────────────────────────────────────────
-function openModal(idx) {
-  const c = allCards[idx];
-  if (!c) return;
-  const lounge = c.loungeDomestic === -1 ? 'Unlimited domestic' :
-                 c.loungeDomestic === 0 ? 'No domestic lounge' : `${c.loungeDomestic} domestic visits/year`;
-  const intlLounge = c.loungeIntl === -1 ? 'Unlimited international' :
-                     c.loungeIntl === 0 ? '' : `${c.loungeIntl} international visits/year`;
-  const mults = Object.entries(c.multipliers||{}).sort((a,b)=>b[1]-a[1]);
-
-  document.getElementById('modalContent').innerHTML = `
-    <div class="modal-top">
-      ${cardVisual(c)}
-      <div class="modal-header">
-        <div class="modal-bank">${c.bank}</div>
-        <h2 class="modal-name">${c.name}</h2>
-        <div class="modal-type">${c.type||'Credit Card'} · ${c.country==='IN'?'🇮🇳 India':'🇺🇸 US'}</div>
-      </div>
-    </div>
-    <div class="modal-stats-row">
-      <div class="ms-item">
-        <div class="ms-val" style="color:#FF6B35">${c.rewardRate}%</div>
-        <div class="ms-lbl">Max Reward Rate</div>
-      </div>
-      <div class="ms-item">
-        <div class="ms-val" style="color:#7C3AED">${c.fee===0?'₹0':('₹'+c.fee.toLocaleString())}</div>
-        <div class="ms-lbl">Annual Fee${c.feeWaiver>0?' (waivable)':''}</div>
-      </div>
-      <div class="ms-item">
-        <div class="ms-val" style="color:#9333EA">${c.forex||3.5}%</div>
-        <div class="ms-lbl">Forex Markup</div>
-      </div>
-    </div>
-    ${c.signup?`<div class="modal-signup-banner">🎁 Signup Bonus: <strong>${c.signup}</strong></div>`:''}
-    ${mults.length?`
-    <div class="modal-section">
-      <div class="modal-sec-title">⚡ Reward Multipliers</div>
-      <div class="modal-mults">
-        ${mults.map(([cat,r])=>`<div class="mult-chip"><span>${cat}</span><strong>${r}x</strong></div>`).join('')}
-      </div>
-    </div>`:''}
-    <div class="modal-section">
-      <div class="modal-sec-title">🛫 Lounge Access</div>
-      <div class="modal-lounge">
-        <span class="lounge-badge">${lounge}</span>
-        ${intlLounge?`<span class="lounge-badge lounge-intl">${intlLounge}</span>`:''}
-      </div>
-    </div>
-    <div class="modal-section">
-      <div class="modal-sec-title">✨ Key Benefits</div>
-      <ul class="modal-benefits">
-        ${c.benefits.map(b=>`<li><span class="mb-dot">◆</span>${b}</li>`).join('')}
-      </ul>
-    </div>
-    ${c.feeWaiver>0?`<div class="modal-waiver">💡 Fee waived on ₹${(c.feeWaiver/100000).toFixed(0)}L+ annual spend</div>`:''}
-    <a href="${c.applyUrl}" target="_blank" rel="noopener" class="modal-apply-btn">Apply for ${c.name} →</a>
-  `;
-  document.getElementById('modalBg').classList.add('open');
-  document.body.style.overflow = 'hidden';
-}
-window.openModal = openModal;
-document.getElementById('modalClose')?.addEventListener('click', closeModal);
-document.getElementById('modalBg')?.addEventListener('click', e => { if(e.target===e.currentTarget) closeModal(); });
-function closeModal() {
-  document.getElementById('modalBg').classList.remove('open');
-  document.body.style.overflow = '';
-}
-document.addEventListener('keydown', e => { if(e.key==='Escape') closeModal(); });
-
-// ── Filter & render ──────────────────────────────────────────
-function applyFilters() {
-  filtered = allCards.filter(c => {
-    if (activeFilters.country !== 'ALL' && c.country !== activeFilters.country) return false;
-    if (activeFilters.fee === 'free' && c.fee !== 0) return false;
-    if (activeFilters.fee === 'waivable' && c.feeWaiver === 0) return false;
-    if (activeFilters.fee === 'paid' && (c.fee === 0 || c.feeWaiver > 0)) return false;
-    if (activeFilters.cat !== 'ALL') {
-      const mult = c.multipliers?.[activeFilters.cat];
-      if (!mult || mult <= 1) return false;
-    }
-    if (activeFilters.search) {
-      const q = activeFilters.search.toLowerCase();
-      if (!c.bank.toLowerCase().includes(q) &&
-          !c.name.toLowerCase().includes(q) &&
-          !c.benefits.some(b=>b.toLowerCase().includes(q))) return false;
+function getFiltered() {
+  return ALL_CARDS.filter(c => {
+    if (state.banks.size > 0 && !state.banks.has(c.bank)) return false;
+    if (!catMatch(c)) return false;
+    if (!feeMatch(c)) return false;
+    if (state.search) {
+      const q = state.search.toLowerCase();
+      return (c.bank+' '+c.name+' '+c.benefits.join(' ')+' '+c.type).toLowerCase().includes(q);
     }
     return true;
   });
-  render();
 }
 
-function render() {
-  const grid = document.getElementById('cardGrid');
-  const cnt  = document.getElementById('cardCount');
-  if (!grid) return;
-  cnt.textContent = filtered.length;
+// ── CARD MOCKUP ────────────────────────────────────────────────
+function networkHTML(type) {
+  if (type.includes('Mastercard')) {
+    return `<div class="cm-mc"><span class="mc-l"></span><span class="mc-r"></span></div>`;
+  }
+  if (type.includes('Amex')) return `<span class="cm-net cm-amex">AMEX</span>`;
+  if (type.includes('Rupay')) return `<span class="cm-net cm-rupay">RuPay</span>`;
+  if (type.includes('Infinite')) return `<span class="cm-net cm-visa cm-infinite">VISA</span>`;
+  return `<span class="cm-net cm-visa">VISA</span>`;
+}
+
+function cardMockup(c, idx, size = 'md') {
+  const numSuffix = String((idx * 2791 + 4821) % 9000 + 1000);
+  const isLuxury = c.fee >= 10000;
+  return `
+    <div class="card-mock cm-${size} ${isLuxury ? 'cm-luxury' : ''}"
+         style="background:linear-gradient(135deg,${c.color} 0%,${c.color2} 100%)">
+      <div class="cm-sheen"></div>
+      <div class="cm-lines"></div>
+      <div class="cm-chip">
+        <div class="cmc-inner"></div>
+        <div class="cmc-line cmc-h"></div>
+        <div class="cmc-line cmc-v"></div>
+      </div>
+      ${networkHTML(c.type)}
+      <div class="cm-num">•••• •••• •••• ${numSuffix}</div>
+      <div class="cm-foot">
+        <div class="cm-bank-nm">${c.bank.replace(' Bank','').replace(' Mahindra','').replace(' Small Finance','').replace(' (SBM Bank)','')}</div>
+        <div class="cm-card-nm">${c.name}</div>
+      </div>
+    </div>
+  `;
+}
+
+// ── SIDEBAR ────────────────────────────────────────────────────
+function renderSidebar() {
+  const banks = [...new Set(ALL_CARDS.map(c => c.bank))].sort();
+  const shown = bankShowAll ? banks : banks.slice(0, 5);
+  document.getElementById('bankFilters').innerHTML = shown.map(b => `
+    <label class="sb-check-item ${state.banks.has(b)?'is-checked':''}">
+      <input type="checkbox" value="${b}" ${state.banks.has(b)?'checked':''} onchange="toggleBank('${b}')">
+      <span class="sbci-label">${b}</span>
+    </label>
+  `).join('');
+  const btn = document.getElementById('bankToggle');
+  btn.textContent = bankShowAll ? '− Show Less' : `+ Show More (${banks.length - 5})`;
+
+  document.getElementById('catFilters').innerHTML = CAT_DEFS.map(cat => `
+    <label class="sb-check-item ${state.cats.has(cat.id)?'is-checked':''}">
+      <input type="checkbox" value="${cat.id}" ${state.cats.has(cat.id)?'checked':''} onchange="toggleCat('${cat.id}')">
+      <span class="sbci-icon">${cat.icon}</span>
+      <span class="sbci-label">${cat.label}</span>
+    </label>
+  `).join('');
+}
+
+// ── CARD LIST ──────────────────────────────────────────────────
+function renderCards() {
+  const filtered = getFiltered();
+  document.getElementById('cpCount').textContent = `${filtered.length} card${filtered.length===1?'':'s'}`;
+
+  const list = document.getElementById('cardList');
+  if (!list) return;
+
   if (filtered.length === 0) {
-    grid.innerHTML = '<div class="no-results">😕 No cards match your filters. Try removing some.</div>';
+    list.innerHTML = `<div class="no-results">
+      <div class="nr-emoji">🔍</div>
+      <div class="nr-title">No cards match your filters</div>
+      <button class="nr-clear" onclick="clearAllFilters()">Clear all filters</button>
+    </div>`;
     return;
   }
-  grid.className = viewMode === 'grid' ? 'card-grid' : 'card-list';
-  grid.innerHTML = filtered.map(c => viewMode==='grid' ? cardGridItem(c) : cardListItem(c)).join('');
+
+  list.innerHTML = filtered.map((c, i) => {
+    const tags = getCardTags(c);
+    const isCompared = [...compareSet.values()].some(x => x.bank===c.bank && x.name===c.name);
+    const feeStr = c.fee === 0 ? '₹0 (Lifetime Free)' : `₹${c.fee.toLocaleString()}+ Taxes`;
+
+    return `
+      <div class="ci" data-idx="${i}">
+
+        <!-- LEFT: card image + compare -->
+        <div class="ci-left">
+          ${cardMockup(c, i)}
+          <label class="ci-compare-lbl">
+            <input type="checkbox" class="ci-cmp-chk" ${isCompared?'checked':''}
+              onchange="handleCompare(${i}, this.checked, '${c.bank.replace(/'/g,'\\'')}', '${c.name.replace(/'/g,'\\'')}')">
+            <span class="ci-cmp-text">Compare</span>
+          </label>
+        </div>
+
+        <!-- BODY: title, benefits, fees -->
+        <div class="ci-body">
+          <div class="ci-header-row">
+            <div class="ci-title-wrap">
+              <h3 class="ci-title">${c.bank} ${c.name} Credit Card</h3>
+              <span class="ci-type-badge">${c.type}</span>
+            </div>
+            <div class="ci-tags">
+              ${tags.map(t => `<span class="ci-tag" style="background:${TAG_COLORS[t]||'#475569'}18;color:${TAG_COLORS[t]||'#475569'};border-color:${TAG_COLORS[t]||'#475569'}30">${t}</span>`).join('')}
+            </div>
+          </div>
+
+          <div class="ci-benefits">
+            ${c.benefits.slice(0,4).map(b => `
+              <div class="ci-benefit-row">
+                <span class="ci-star">★</span>
+                <span>${b}</span>
+              </div>
+            `).join('')}
+          </div>
+
+          <div class="ci-footer-row">
+            <div class="ci-fees">
+              <span class="ci-fee-item">
+                <span class="fee-dot fee-join"></span>
+                Joining Fee: <strong>${feeStr}</strong>
+              </span>
+              <span class="ci-fee-item">
+                <span class="fee-dot fee-renew"></span>
+                Annual/Renewal Fee: <strong>${feeStr}</strong>
+              </span>
+            </div>
+            <div class="ci-actions">
+              <button class="ci-read-more" onclick="openModal(${i}, getFiltered())">Read More</button>
+              <a href="${c.applyUrl || '#'}" target="_blank" rel="noopener" class="ci-apply-btn">
+                Check Eligibility <span class="ci-arrow">›</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    `;
+  }).join('');
 }
 
-// ── Filter chips ─────────────────────────────────────────────
-function setupChips(id, key) {
-  document.getElementById(id)?.addEventListener('click', e => {
-    const btn = e.target.closest('.fchip');
-    if (!btn) return;
-    document.querySelectorAll(`#${id} .fchip`).forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    activeFilters[key] = btn.dataset.val;
-    applyFilters();
-  });
+// ── FILTER HANDLERS ────────────────────────────────────────────
+function toggleBank(bank) {
+  state.banks.has(bank) ? state.banks.delete(bank) : state.banks.add(bank);
+  renderSidebar(); renderCards();
 }
-setupChips('f-fee','fee');
-setupChips('f-cat','cat');
+function toggleCat(cat) {
+  if (state.cats.has(cat)) { state.cats.delete(cat); }
+  else if (state.cats.size < 3) { state.cats.add(cat); }
+  renderSidebar(); renderCards();
+}
+function toggleFee(el) {
+  el.checked ? state.fees.add(el.value) : state.fees.delete(el.value);
+  renderCards();
+}
+function toggleBankList() {
+  bankShowAll = !bankShowAll;
+  renderSidebar();
+}
+function clearAllFilters() {
+  state.banks.clear(); state.cats.clear(); state.fees.clear(); state.search = '';
+  document.getElementById('cardSearch').value = '';
+  document.querySelectorAll('.sb-check-item input[type=checkbox]').forEach(el => el.checked = false);
+  renderSidebar(); renderCards();
+}
+window.toggleBank=toggleBank; window.toggleCat=toggleCat;
+window.toggleFee=toggleFee; window.toggleBankList=toggleBankList;
+window.clearAllFilters=clearAllFilters;
 
 document.getElementById('cardSearch')?.addEventListener('input', e => {
-  activeFilters.search = e.target.value.trim();
-  applyFilters();
+  state.search = e.target.value;
+  renderCards();
 });
 
-document.getElementById('gridViewBtn')?.addEventListener('click', () => {
-  viewMode = 'grid';
-  document.getElementById('gridViewBtn').classList.add('active');
-  document.getElementById('listViewBtn').classList.remove('active');
-  render();
-});
-document.getElementById('listViewBtn')?.addEventListener('click', () => {
-  viewMode = 'list';
-  document.getElementById('listViewBtn').classList.add('active');
-  document.getElementById('gridViewBtn').classList.remove('active');
-  render();
-});
+// ── COMPARE ────────────────────────────────────────────────────
+function handleCompare(idx, checked, bank, name) {
+  const key = bank + '|' + name;
+  if (checked) {
+    if (compareSet.size >= 3) {
+      alert('You can compare up to 3 cards at once. Remove one first.');
+      document.querySelectorAll('.ci-cmp-chk')[idx].checked = false;
+      return;
+    }
+    const card = ALL_CARDS.find(c => c.bank === bank && c.name === name);
+    if (card) compareSet.set(key, card);
+  } else {
+    compareSet.delete(key);
+  }
+  updateCompareBar();
+}
+function updateCompareBar() {
+  const bar = document.getElementById('compareBar');
+  const btn = document.getElementById('compareBtn');
+  const cnt = document.getElementById('compareCount');
+  const slots = document.getElementById('cbSlots');
+  const n = compareSet.size;
+  bar.style.display = n > 0 ? 'flex' : 'none';
+  if (btn) { btn.style.display = n > 0 ? 'flex' : 'none'; if(cnt) cnt.textContent = n; }
+  if (slots) {
+    slots.innerHTML = [...compareSet.values()].map((c,i) => `
+      <div class="cb-slot">
+        ${cardMockup(c, i, 'sm')}
+        <div class="cb-slot-name">${c.name}</div>
+      </div>
+    `).join('') + (n < 3 ? `<div class="cb-slot cb-slot-empty">+ Add card</div>` : '');
+  }
+}
+function clearCompare() {
+  compareSet.clear();
+  document.querySelectorAll('.ci-cmp-chk').forEach(el => el.checked = false);
+  updateCompareBar();
+}
+window.handleCompare=handleCompare; window.clearCompare=clearCompare;
 
-applyFilters();
+// expose for inline onclick
+window.getFiltered = getFiltered;
+
+// ── MODAL ──────────────────────────────────────────────────────
+function openModal(idx, filteredCards) {
+  const list = filteredCards || getFiltered();
+  const c = list[idx];
+  if (!c) return;
+  const tags = getCardTags(c);
+  const feeStr = c.fee === 0 ? 'Lifetime Free' : `₹${c.fee.toLocaleString()}`;
+  document.getElementById('cardModalContent').innerHTML = `
+    <div class="modal-top">
+      ${cardMockup(c, idx, 'lg')}
+      <div class="modal-title-blk">
+        <h2 class="modal-card-title">${c.bank} ${c.name}</h2>
+        <div class="modal-type">${c.type}</div>
+        <div class="modal-tags">
+          ${tags.map(t => `<span class="ci-tag" style="background:${TAG_COLORS[t]||'#475569'}18;color:${TAG_COLORS[t]||'#475569'};border-color:${TAG_COLORS[t]||'#475569'}30">${t}</span>`).join('')}
+        </div>
+      </div>
+    </div>
+    <div class="modal-stats-grid">
+      <div class="ms-item"><div class="ms-val">${feeStr}</div><div class="ms-lbl">Annual Fee</div></div>
+      <div class="ms-item"><div class="ms-val">${c.rewardRate}X</div><div class="ms-lbl">Max Reward Rate</div></div>
+      <div class="ms-item"><div class="ms-val">${c.loungeDomestic === -1 ? '∞' : (c.loungeDomestic||0)}</div><div class="ms-lbl">Domestic Lounge</div></div>
+      <div class="ms-item"><div class="ms-val">${c.loungeIntl === -1 ? '∞' : (c.loungeIntl||'—')}</div><div class="ms-lbl">Intl Lounge</div></div>
+      <div class="ms-item"><div class="ms-val">${c.forex}%</div><div class="ms-lbl">Forex Markup</div></div>
+      <div class="ms-item"><div class="ms-val">₹${(c.feeWaiver||0).toLocaleString()}</div><div class="ms-lbl">Fee Waiver Spend</div></div>
+    </div>
+    ${c.signup ? `<div class="modal-welcome"><span class="mw-icon">🎁</span><div><strong>Welcome Offer:</strong> ${c.signup}</div></div>` : ''}
+    <h3 class="modal-section-title">All Benefits</h3>
+    <div class="modal-benefits-list">
+      ${c.benefits.map(b => `<div class="ci-benefit-row"><span class="ci-star">★</span><span>${b}</span></div>`).join('')}
+    </div>
+    <a href="${c.applyUrl || '#'}" target="_blank" rel="noopener" class="modal-apply-btn">
+      Check Eligibility & Apply →
+    </a>
+  `;
+  document.getElementById('cardModalOverlay').style.display = 'block';
+  document.getElementById('cardModal').classList.add('open');
+}
+function closeModal() {
+  document.getElementById('cardModalOverlay').style.display = 'none';
+  document.getElementById('cardModal').classList.remove('open');
+}
+window.openModal=openModal; window.closeModal=closeModal;
+
+// ── INIT ──────────────────────────────────────────────────────
+renderSidebar();
+renderCards();
 </script>
 
 <style>
-/* HERO */
-.ch {
-  position:relative;overflow:hidden;
-  background:linear-gradient(135deg,#0F172A 0%,#1E1B4B 40%,#4C1D95 100%);
-  padding:80px 0 60px;
-}
-.ch-bg {
-  position:absolute;inset:0;
-  background:radial-gradient(ellipse 70% 60% at 60% 50%,rgba(124,58,237,.4) 0%,transparent 70%),
-             radial-gradient(ellipse 40% 40% at 10% 80%,rgba(255,107,53,.2) 0%,transparent 60%);
-}
-.ch-glow { position:absolute;border-radius:50%;filter:blur(80px);opacity:.4;animation:cg 7s ease-in-out infinite }
-.cg1 { width:350px;height:350px;background:#7C3AED;right:-60px;top:-60px;animation-delay:0s }
-.cg2 { width:280px;height:280px;background:#FF6B35;left:10%;bottom:-40px;animation-delay:3.5s }
-@keyframes cg { 0%,100%{transform:translateY(0)}50%{transform:translateY(-22px)} }
-.ch-inner { display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;position:relative;z-index:2 }
-.ch-left { color:white }
-.ch-title { font-size:clamp(2rem,4.5vw,3.2rem);font-weight:900;letter-spacing:-.03em;margin:10px 0 16px;color:white }
-.ch-sub   { font-size:1rem;color:rgba(255,255,255,.72);line-height:1.7;margin-bottom:24px;max-width:460px }
-.ch-perks { display:flex;flex-direction:column;gap:7px;margin-bottom:28px }
-.ch-perk  { font-size:.84rem;color:rgba(255,255,255,.82);display:flex;align-items:center;gap:8px }
-.ch-check {
-  width:20px;height:20px;border-radius:50%;
-  background:linear-gradient(135deg,#10B981,#059669);
-  color:white;font-size:.65rem;font-weight:900;
-  display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;
-}
-.ch-btns { display:flex;gap:12px;flex-wrap:wrap }
-.app-pills { display:flex;gap:10px;flex-wrap:wrap;margin-top:4px }
-.app-pill {
-  display:flex;align-items:center;gap:9px;
-  background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);
-  backdrop-filter:blur(8px);border-radius:11px;padding:9px 16px;
-  color:white;transition:background .15s;position:relative;
-}
-.app-pill:hover { background:rgba(255,255,255,.14) }
-.app-pill-android { opacity:.72;cursor:default }
-.ap-icon { font-size:1.5rem;line-height:1 }
-.ap-small { font-size:.58rem;color:rgba(255,255,255,.65);font-weight:600;letter-spacing:.04em }
-.ap-big   { font-size:.88rem;font-weight:800;letter-spacing:-.01em }
-.ap-soon  {
-  position:absolute;top:-6px;right:-6px;
-  font-size:.52rem;font-weight:900;background:linear-gradient(135deg,#F59E0B,#EC4899);
-  color:white;padding:2px 6px;border-radius:100px;text-transform:uppercase;letter-spacing:.04em;
-}
+.cp-page { background:#F8FAFC;min-height:100vh }
 
-/* CARD FAN */
-.ch-right { display:flex;justify-content:center;align-items:center }
-.card-fan { position:relative;width:280px;height:200px }
-.vis-card {
-  position:absolute;width:200px;height:120px;border-radius:14px;
-  padding:14px;display:flex;flex-direction:column;justify-content:space-between;
-  box-shadow:0 8px 28px rgba(0,0,0,.35);transition:transform .2s;
+/* TOP BAR */
+.cp-topbar {
+  background:white;border-bottom:1px solid #E2E8F0;
+  position:sticky;top:68px;z-index:180;
+  box-shadow:0 2px 8px rgba(0,0,0,.04);
 }
-.vc1 { background:linear-gradient(135deg,#1a1a1a,#37474f)!important;top:60px;left:40px;z-index:4 }
-.vc2 { background:linear-gradient(135deg,#880e4f,#560027)!important;top:30px;left:20px;z-index:3;transform:rotate(-6deg) }
-.vc3 { background:linear-gradient(135deg,#424242,#1a1a1a)!important;top:20px;left:60px;z-index:2;transform:rotate(6deg) }
-.vc4 { background:linear-gradient(135deg,#1b5e20,#003300)!important;top:10px;left:10px;z-index:1;transform:rotate(-12deg) }
-.vc-chip { width:22px;height:17px;background:linear-gradient(135deg,#FCD34D,#F59E0B);border-radius:3px }
-.vc-network { font-size:.6rem;font-weight:900;color:rgba(255,255,255,.7);letter-spacing:.04em }
-.vc-top { display:flex;align-items:center;justify-content:space-between }
-.vc-num { font-size:.58rem;color:rgba(255,255,255,.8);letter-spacing:.12em;font-weight:600 }
-.vc-bot { display:flex;justify-content:space-between;font-size:.6rem;color:rgba(255,255,255,.7);font-weight:600 }
-
-/* QUICK STATS */
-.qs-bar { background:#F8FAFC;border-bottom:1px solid #E2E8F0;padding:16px 0 }
-.qs-inner { display:flex;justify-content:center;gap:40px;flex-wrap:wrap }
-.qs-item  { display:flex;flex-direction:column;align-items:center;gap:2px }
-.qs-val   { font-size:1.3rem;font-weight:900;color:#0F172A;letter-spacing:-.02em }
-.qs-lbl   { font-size:.7rem;color:#94A3B8;font-weight:700;text-transform:uppercase;letter-spacing:.06em }
-
-/* BROWSE */
-.browse-sec { padding:40px 0 80px }
-.filters-wrap {
-  background:white;border:1.5px solid #E2E8F0;border-radius:20px;
-  padding:20px;margin-bottom:32px;
-  box-shadow:0 2px 16px rgba(0,0,0,.04);
-}
-.search-row { display:flex;align-items:center;gap:12px;margin-bottom:18px }
-.card-search {
-  flex:1;display:flex;align-items:center;gap:8px;
-  background:#F8FAFC;border:1.5px solid #E2E8F0;
-  border-radius:12px;padding:10px 14px;
-  transition:border-color .15s;
-}
-.card-search:focus-within { border-color:#7C3AED;background:white }
-.card-search input {
-  flex:1;border:none;background:transparent;font-family:inherit;
-  font-size:.88rem;outline:none;color:#0F172A;
-}
-.card-search input::placeholder { color:#94A3B8 }
-.view-toggle { display:flex;gap:4px }
-.vt-btn {
-  width:34px;height:34px;border-radius:8px;border:1px solid #E2E8F0;
-  background:white;cursor:pointer;font-size:.95rem;
-  display:flex;align-items:center;justify-content:center;transition:all .15s;
-}
-.vt-btn.active { background:linear-gradient(135deg,#7C3AED,#EC4899);color:white;border-color:transparent }
-
-.filter-row { display:flex;gap:20px;flex-wrap:wrap;margin-bottom:14px }
-.fg { display:flex;flex-direction:column;gap:6px }
-.fl { font-size:.65rem;font-weight:800;color:#94A3B8;text-transform:uppercase;letter-spacing:.1em }
-.chips { display:flex;gap:5px;flex-wrap:wrap }
-.fchip {
-  padding:5px 12px;background:#F8FAFC;border:1.5px solid #E2E8F0;
-  border-radius:100px;font-size:.75rem;font-weight:700;color:#475569;
-  cursor:pointer;transition:all .15s;
-}
-.fchip:hover { border-color:#7C3AED;color:#7C3AED }
-.fchip.active {
-  background:linear-gradient(135deg,#7C3AED,#EC4899);
-  color:white;border-color:transparent;
-  box-shadow:0 3px 12px rgba(124,58,237,.3);
-}
-.result-count { font-size:.78rem;color:#94A3B8;font-weight:600 }
-
-/* CARD GRID */
-.card-grid {
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
-  gap:20px;
-}
-.card-list { display:flex;flex-direction:column;gap:12px }
-
-/* GRID CARD */
-.crd-card {
-  background:white;border:1.5px solid #E2E8F0;border-radius:20px;
-  overflow:hidden;transition:all .25s;cursor:pointer;display:flex;flex-direction:column;
-}
-.crd-card:hover {
-  box-shadow:0 12px 44px rgba(0,0,0,.12);
-  transform:translateY(-5px);
-  border-color:transparent;
-}
-.cc-visual-wrap {
-  position:relative;padding:20px;
-  background:linear-gradient(160deg,#F8FAFC,#F1F5F9);
-  display:flex;justify-content:center;align-items:center;
-  min-height:140px;
-}
-.cc-bonus-tag {
-  position:absolute;top:10px;right:10px;
-  font-size:.6rem;font-weight:800;
-  background:linear-gradient(135deg,#F59E0B,#EC4899);
-  color:white;padding:3px 9px;border-radius:100px;
-  text-transform:uppercase;letter-spacing:.04em;
-}
-
-/* Visual credit card component */
-.crd-visual {
-  border-radius:12px;
-  padding:12px;
-  display:flex;flex-direction:column;justify-content:space-between;
-  box-shadow:0 6px 24px rgba(0,0,0,.25);
-  position:relative;overflow:hidden;
-}
-.crd-visual::after {
-  content:'';position:absolute;top:-30%;left:-20%;
-  width:150%;height:150%;
-  background:radial-gradient(ellipse at 70% 20%,rgba(255,255,255,.15) 0%,transparent 60%);
-  pointer-events:none;
-}
-.crd-sm { width:120px!important;height:72px!important;padding:8px!important;border-radius:8px!important }
-.cv-top  { display:flex;align-items:center;justify-content:space-between }
-.cv-chip {
-  width:22px;height:17px;background:linear-gradient(135deg,#FCD34D,#F59E0B);
-  border-radius:3px;position:relative;
-}
-.cv-chip::after {
-  content:'';position:absolute;top:5px;left:0;right:0;height:1px;background:rgba(0,0,0,.2);
-}
-.cv-chip-sm { width:16px!important;height:12px!important }
-.cv-network { font-size:.62rem;font-weight:900;color:rgba(255,255,255,.8);letter-spacing:.04em }
-.cv-net-sm  { font-size:.5rem!important }
-.cv-num     { font-size:.62rem;color:rgba(255,255,255,.85);letter-spacing:.1em;font-weight:600 }
-.cv-num-sm  { font-size:.48rem!important }
-.cv-bot     { display:flex;justify-content:space-between;align-items:flex-end }
-.cv-bank    { font-size:.55rem;color:rgba(255,255,255,.65);font-weight:700 }
-.cv-name    { font-size:.65rem;color:white;font-weight:900;letter-spacing:.03em }
-.cv-bot-sm .cv-bank { font-size:.44rem!important }
-.cv-bot-sm .cv-name { font-size:.52rem!important }
-
-.cc-body { padding:16px;flex:1;display:flex;flex-direction:column;gap:10px }
-.cc-header { display:flex;align-items:flex-start;justify-content:space-between;gap:8px }
-.cc-bank { font-size:.72rem;color:#94A3B8;font-weight:700 }
-.cc-name { font-size:1rem;font-weight:900;color:#0F172A;letter-spacing:-.01em }
-.cc-type-badge {
-  font-size:.62rem;font-weight:700;white-space:nowrap;
-  background:#F1F5F9;color:#475569;padding:3px 8px;border-radius:6px;
-}
-.cc-stats {
-  display:flex;align-items:center;gap:0;
-  background:#F8FAFC;border-radius:10px;padding:10px;
-}
-.cc-stat { flex:1;display:flex;flex-direction:column;align-items:center;gap:2px }
-.cc-stat-sep { width:1px;height:24px;background:#E2E8F0 }
-.ccs-val  { font-size:.85rem;font-weight:900;line-height:1 }
-.ccs-lbl  { font-size:.58rem;color:#94A3B8;font-weight:700;text-align:center }
-.c-free   { font-size:.82rem;font-weight:900;color:#10B981 }
-.c-waiv   { font-size:.75rem;font-weight:800;color:#F59E0B }
-.c-paid   { font-size:.75rem;font-weight:800;color:#475569 }
-
-.cc-best-cat {
-  font-size:.75rem;color:#475569;
-  background:linear-gradient(135deg,#EDE9FE,#FCE7F3);
-  border-radius:8px;padding:6px 10px;
-}
-.cc-cat-icon { color:#7C3AED }
-
-.cc-signup {
-  font-size:.72rem;font-weight:700;
-  background:linear-gradient(135deg,#FEF3C7,#FDE68A);
-  color:#92400E;border-radius:8px;padding:6px 10px;
-}
-.cc-benefits-preview { display:flex;flex-direction:column;gap:4px;flex:1 }
-.cc-benefit {
-  display:flex;align-items:flex-start;gap:6px;
-  font-size:.72rem;color:#475569;line-height:1.4;
-}
-.cc-benefit span { color:#7C3AED;font-size:.55rem;flex-shrink:0;margin-top:3px }
-
-.cc-actions { display:flex;gap:8px;margin-top:auto;padding-top:10px }
-.cc-apply {
-  flex:1;text-align:center;padding:9px;
-  background:linear-gradient(135deg,#7C3AED,#EC4899);
-  color:white;border-radius:10px;font-size:.78rem;font-weight:800;
-  text-decoration:none;transition:all .15s;
-}
-.cc-apply:hover { opacity:.9 }
-.cc-details {
-  padding:9px 14px;background:#F8FAFC;border:1px solid #E2E8F0;
-  border-radius:10px;font-size:.78rem;font-weight:700;color:#475569;
-  cursor:pointer;transition:all .15s;
-}
-.cc-details:hover { border-color:#7C3AED;color:#7C3AED }
-
-/* LIST ITEM */
-.crd-list-item {
+.cp-topbar-inner {
+  max-width:1320px;margin:0 auto;padding:12px 24px;
   display:flex;align-items:center;gap:16px;
-  background:white;border:1.5px solid #E2E8F0;border-radius:16px;
-  padding:14px;cursor:pointer;transition:all .2s;
 }
-.crd-list-item:hover { box-shadow:0 6px 24px rgba(0,0,0,.07);border-color:#DDD6FE;transform:translateX(4px) }
-.cli-body { flex:1;min-width:0 }
-.cli-top  { display:flex;align-items:center;gap:10px;margin-bottom:6px }
-.cli-bank { font-size:.7rem;color:#94A3B8;font-weight:700;margin-right:4px }
-.cli-name { font-size:.9rem;font-weight:800;color:#0F172A }
-.cli-type { font-size:.62rem;font-weight:700;background:#F1F5F9;color:#475569;padding:2px 7px;border-radius:6px;margin-left:auto;white-space:nowrap }
-.cli-meta { display:flex;gap:12px;flex-wrap:wrap;margin-bottom:4px }
-.cli-m    { font-size:.73rem;color:#64748B;font-weight:600 }
-.cli-signup { font-size:.7rem;font-weight:700;color:#92400E;background:#FEF3C7;padding:3px 8px;border-radius:6px;display:inline-block }
-.cli-actions { flex-shrink:0 }
+.cp-tb-left { display:flex;align-items:center;gap:10px;flex-shrink:0 }
+.cp-heading { font-size:1.2rem;font-weight:900;color:#0F172A;letter-spacing:-.02em }
+.cp-count-badge {
+  font-size:.7rem;font-weight:800;background:#F1F5F9;color:#475569;
+  padding:3px 10px;border-radius:100px;border:1px solid #E2E8F0;
+}
+.cp-search-wrap {
+  flex:1;display:flex;align-items:center;gap:8px;
+  background:#F8FAFC;border:1.5px solid #E2E8F0;border-radius:10px;
+  padding:9px 14px;transition:border-color .15s;
+}
+.cp-search-wrap:focus-within { border-color:#7C3AED;background:white }
+.cp-search-wrap input {
+  flex:1;border:none;background:transparent;font-size:.88rem;color:#0F172A;outline:none;font-family:inherit;
+}
+.cp-tb-right { display:flex;align-items:center;gap:10px;flex-shrink:0 }
+.cp-sub { font-size:.72rem;color:#94A3B8;font-weight:600;white-space:nowrap }
+.cp-compare-btn {
+  display:flex;align-items:center;gap:6px;
+  padding:7px 14px;background:linear-gradient(135deg,#7C3AED,#EC4899);
+  color:white;border:none;border-radius:8px;font-size:.78rem;font-weight:800;cursor:pointer;
+}
+
+/* LAYOUT */
+.cp-layout {
+  max-width:1320px;margin:0 auto;padding:24px;
+  display:flex;gap:24px;align-items:flex-start;
+}
+
+/* SIDEBAR */
+.cp-sidebar {
+  width:250px;flex-shrink:0;background:white;border-radius:16px;
+  border:1px solid #E2E8F0;overflow:hidden;position:sticky;top:130px;
+}
+.sb-hdr {
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px 16px;border-bottom:1px solid #F1F5F9;
+}
+.sb-hdr-title { font-size:.9rem;font-weight:800;color:#0F172A }
+.sb-clear {
+  font-size:.72rem;font-weight:700;color:#7C3AED;background:none;border:none;cursor:pointer;padding:0;
+}
+.sb-section { padding:14px 16px;border-bottom:1px solid #F1F5F9 }
+.sb-section:last-of-type { border-bottom:none }
+.sb-sec-title {
+  font-size:.62rem;font-weight:900;color:#94A3B8;
+  text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px;
+}
+.sb-checks { display:flex;flex-direction:column;gap:6px }
+.sb-check-item {
+  display:flex;align-items:center;gap:8px;
+  font-size:.8rem;color:#475569;cursor:pointer;
+  padding:4px 6px;border-radius:6px;transition:background .1s;
+}
+.sb-check-item:hover { background:#F8FAFC }
+.sb-check-item.is-checked { color:#7C3AED;font-weight:700 }
+.sb-check-item input[type=checkbox] { accent-color:#7C3AED;width:14px;height:14px;cursor:pointer }
+.sbci-icon { font-size:.85rem }
+.sbci-label { flex:1 }
+.sb-show-more {
+  margin-top:8px;font-size:.72rem;color:#7C3AED;font-weight:700;
+  background:none;border:none;cursor:pointer;padding:0;
+}
+.sb-note { font-size:.62rem;color:#F59E0B;font-weight:700;margin-top:8px;background:#FEF9C3;padding:4px 8px;border-radius:6px;border:1px solid #FDE68A }
+.sb-app-pill {
+  display:flex;align-items:center;gap:10px;
+  padding:12px 16px;background:linear-gradient(135deg,#0F172A,#1E293B);
+}
+.sap-icon { font-size:1.4rem }
+.sap-small { font-size:.6rem;color:rgba(255,255,255,.6);font-weight:600;text-transform:uppercase }
+.sap-big { font-size:.82rem;font-weight:900;color:white }
+
+/* MAIN LIST */
+.cp-main { flex:1;min-width:0 }
+.cp-list { display:flex;flex-direction:column;gap:12px }
+
+/* CARD ITEM */
+.ci {
+  background:white;border:1px solid #E2E8F0;border-radius:16px;
+  display:flex;gap:0;overflow:hidden;transition:all .2s;
+}
+.ci:hover { box-shadow:0 6px 24px rgba(0,0,0,.08);border-color:#CBD5E1;transform:translateY(-1px) }
+
+.ci-left {
+  display:flex;flex-direction:column;align-items:center;gap:10px;
+  padding:20px 16px 16px;background:#FAFAFA;border-right:1px solid #F1F5F9;
+  flex-shrink:0;
+}
+.ci-compare-lbl {
+  display:flex;align-items:center;gap:5px;
+  font-size:.72rem;color:#64748B;cursor:pointer;font-weight:600;
+}
+.ci-compare-lbl input[type=checkbox] { accent-color:#7C3AED;width:13px;height:13px }
+.ci-cmp-text { font-size:.72rem;color:#64748B }
+
+.ci-body { flex:1;padding:18px 20px;display:flex;flex-direction:column;gap:12px;min-width:0 }
+
+.ci-header-row { display:flex;justify-content:space-between;align-items:flex-start;gap:12px }
+.ci-title-wrap { flex:1;min-width:0 }
+.ci-title { font-size:.98rem;font-weight:800;color:#0F172A;line-height:1.35;margin-bottom:3px }
+.ci-type-badge {
+  font-size:.6rem;font-weight:700;color:#64748B;background:#F1F5F9;
+  padding:2px 8px;border-radius:4px;display:inline-block;
+}
+.ci-tags { display:flex;flex-wrap:wrap;gap:5px;flex-shrink:0 }
+.ci-tag {
+  font-size:.62rem;font-weight:700;padding:3px 8px;border-radius:6px;border:1px solid;white-space:nowrap;
+}
+
+.ci-benefits { display:flex;flex-direction:column;gap:5px }
+.ci-benefit-row {
+  display:flex;align-items:baseline;gap:7px;
+  font-size:.78rem;color:#334155;line-height:1.4;
+}
+.ci-star { color:#F59E0B;font-size:.7rem;flex-shrink:0 }
+
+.ci-footer-row { display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:auto }
+.ci-fees { display:flex;flex-direction:column;gap:4px }
+.ci-fee-item { font-size:.73rem;color:#64748B;display:flex;align-items:center;gap:6px }
+.ci-fee-item strong { color:#0F172A }
+.fee-dot { width:7px;height:7px;border-radius:50%;flex-shrink:0 }
+.fee-join { background:#F59E0B }
+.fee-renew { background:#10B981 }
+.ci-actions { display:flex;align-items:center;gap:8px;flex-shrink:0 }
+.ci-read-more {
+  padding:8px 14px;border:1.5px solid #E2E8F0;border-radius:8px;
+  font-size:.78rem;font-weight:700;color:#475569;background:white;cursor:pointer;
+  transition:all .15s;white-space:nowrap;
+}
+.ci-read-more:hover { border-color:#7C3AED;color:#7C3AED }
+.ci-apply-btn {
+  display:inline-flex;align-items:center;gap:4px;
+  padding:8px 16px;background:#7C3AED;color:white;
+  border-radius:8px;font-size:.78rem;font-weight:800;
+  text-decoration:none;transition:all .15s;white-space:nowrap;
+}
+.ci-apply-btn:hover { background:#6D28D9;transform:translateX(2px) }
+.ci-arrow { font-size:.9rem }
 
 /* NO RESULTS */
-.no-results {
-  grid-column:1/-1;text-align:center;
-  padding:60px;font-size:1rem;color:#94A3B8;font-weight:600;
+.no-results { text-align:center;padding:60px 24px;background:white;border-radius:16px;border:1px solid #E2E8F0 }
+.nr-emoji { font-size:2.5rem;margin-bottom:12px }
+.nr-title { font-size:1rem;font-weight:700;color:#475569;margin-bottom:16px }
+.nr-clear {
+  padding:10px 24px;background:linear-gradient(135deg,#7C3AED,#EC4899);
+  color:white;border:none;border-radius:10px;font-size:.85rem;font-weight:800;cursor:pointer;
+}
+
+/* CARD MOCKUP */
+.card-mock {
+  border-radius:10px;position:relative;overflow:hidden;
+  box-shadow:0 6px 20px rgba(0,0,0,.3),0 1px 4px rgba(0,0,0,.2),inset 0 1px rgba(255,255,255,.15);
+}
+.cm-md { width:152px;height:96px }
+.cm-sm { width:100px;height:63px }
+.cm-lg { width:200px;height:126px }
+
+.cm-sheen {
+  position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(255,255,255,.18) 0%,transparent 50%,rgba(0,0,0,.1) 100%);
+  z-index:1;
+}
+.cm-lines {
+  position:absolute;bottom:0;left:0;right:0;height:40%;
+  background:linear-gradient(to top,rgba(0,0,0,.2),transparent);
+  z-index:1;
+}
+.cm-luxury .cm-sheen {
+  background:linear-gradient(135deg,rgba(255,255,255,.25) 0%,transparent 40%,rgba(255,200,100,.08) 100%);
+}
+
+/* Chip */
+.cm-chip {
+  position:absolute;top:18%;left:9%;width:22%;height:28%;
+  border-radius:3px;
+  background:linear-gradient(135deg,#c8a420 0%,#f0d060 40%,#c8a420 70%,#b89820 100%);
+  box-shadow:0 1px 4px rgba(0,0,0,.4);z-index:2;overflow:hidden;
+}
+.cmc-inner {
+  position:absolute;inset:15%;border-radius:1px;
+  background:linear-gradient(135deg,#d4ac30,#f5d870);
+  border:0.5px solid rgba(0,0,0,.15);
+}
+.cmc-line {
+  position:absolute;background:rgba(0,0,0,.12);z-index:3;
+}
+.cmc-h { top:50%;left:0;right:0;height:1px;transform:translateY(-50%) }
+.cmc-v { left:50%;top:0;bottom:0;width:1px;transform:translateX(-50%) }
+
+/* Network logos */
+.cm-net {
+  position:absolute;top:10%;right:6%;font-weight:900;letter-spacing:.04em;z-index:2;
+}
+.cm-md .cm-net { font-size:.55rem }
+.cm-sm .cm-net { font-size:.38rem }
+.cm-lg .cm-net { font-size:.7rem }
+.cm-visa { color:rgba(255,255,255,.9);font-style:italic }
+.cm-infinite { color:rgba(255,215,100,.95) }
+.cm-amex { color:rgba(255,255,255,.9);font-size:.45rem!important }
+.cm-rupay {
+  background:linear-gradient(135deg,#FF6B35,#7C3AED);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.cm-mc {
+  position:absolute;top:10%;right:6%;z-index:2;display:flex;align-items:center;
+}
+.cm-md .cm-mc { width:26px;height:16px }
+.cm-sm .cm-mc { width:18px;height:11px }
+.cm-lg .cm-mc { width:34px;height:21px }
+.mc-l,.mc-r {
+  position:absolute;border-radius:50%;
+  width:60%;height:100%;
+}
+.mc-l { left:0;background:rgba(235,0,27,.85) }
+.mc-r { right:0;background:rgba(255,163,0,.85) }
+
+/* Card number */
+.cm-num {
+  position:absolute;left:9%;right:6%;z-index:2;
+  font-family:'Courier New',monospace;letter-spacing:.12em;color:rgba(255,255,255,.75);
+}
+.cm-md .cm-num { bottom:28%;font-size:.48rem }
+.cm-sm .cm-num { bottom:28%;font-size:.32rem;letter-spacing:.08em }
+.cm-lg .cm-num { bottom:28%;font-size:.62rem }
+
+/* Footer */
+.cm-foot {
+  position:absolute;bottom:7%;left:9%;right:6%;z-index:2;
+}
+.cm-bank-nm {
+  color:rgba(255,255,255,.65);text-transform:uppercase;letter-spacing:.08em;font-weight:600;
+}
+.cm-card-nm { color:rgba(255,255,255,.95);font-weight:800;letter-spacing:.02em }
+.cm-md .cm-bank-nm { font-size:.38rem }
+.cm-md .cm-card-nm { font-size:.5rem }
+.cm-sm .cm-bank-nm { font-size:.26rem }
+.cm-sm .cm-card-nm { font-size:.34rem }
+.cm-lg .cm-bank-nm { font-size:.5rem }
+.cm-lg .cm-card-nm { font-size:.65rem }
+
+/* COMPARE BAR */
+.compare-bar {
+  position:fixed;bottom:0;left:0;right:0;z-index:300;
+  background:white;border-top:2px solid #E2E8F0;
+  box-shadow:0 -8px 32px rgba(0,0,0,.12);
+  padding:12px 24px;
+  justify-content:center;align-items:center;
+}
+.compare-bar-inner {
+  max-width:1000px;display:flex;align-items:center;gap:16px;
+}
+.cb-slots { display:flex;gap:12px;flex:1 }
+.cb-slot { display:flex;align-items:center;gap:8px }
+.cb-slot-name { font-size:.72rem;font-weight:700;color:#0F172A }
+.cb-slot-empty {
+  width:100px;height:63px;border-radius:10px;border:2px dashed #E2E8F0;
+  display:flex;align-items:center;justify-content:center;
+  font-size:.72rem;color:#94A3B8;cursor:pointer;
+}
+.cb-actions { display:flex;gap:8px }
+.cb-compare-btn {
+  padding:10px 24px;background:linear-gradient(135deg,#7C3AED,#EC4899);
+  color:white;border:none;border-radius:10px;font-weight:800;font-size:.85rem;cursor:pointer;
+}
+.cb-clear {
+  padding:10px 16px;background:#F1F5F9;border:1px solid #E2E8F0;
+  border-radius:10px;font-size:.82rem;font-weight:700;color:#475569;cursor:pointer;
 }
 
 /* MODAL */
-.modal-bg {
-  position:fixed;inset:0;z-index:500;
-  background:rgba(0,0,0,.5);backdrop-filter:blur(6px);
-  display:none;align-items:center;justify-content:center;padding:20px;
+.card-modal-overlay {
+  position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:400;display:none;backdrop-filter:blur(4px);
 }
-.modal-bg.open { display:flex }
-.modal {
-  background:white;border-radius:24px;
-  width:100%;max-width:540px;
-  max-height:85vh;overflow-y:auto;
-  padding:28px;position:relative;
-  box-shadow:0 24px 80px rgba(0,0,0,.25);
-  scrollbar-width:thin;
+.card-modal {
+  position:fixed;top:50%;left:50%;transform:translate(-50%,-60%);z-index:401;
+  width:520px;max-width:95vw;max-height:88vh;overflow-y:auto;
+  background:white;border-radius:24px;padding:28px;
+  transition:transform .3s;box-shadow:0 24px 80px rgba(0,0,0,.2);display:none;
 }
-.modal-close {
+.card-modal.open { display:block;transform:translate(-50%,-50%) }
+.modal-close-btn {
   position:sticky;top:0;float:right;
-  width:32px;height:32px;border-radius:50%;border:1px solid #E2E8F0;
-  background:white;cursor:pointer;font-size:.9rem;color:#475569;
+  width:30px;height:30px;border-radius:50%;border:1px solid #E2E8F0;
+  background:white;cursor:pointer;font-size:.8rem;color:#475569;
   display:flex;align-items:center;justify-content:center;
-  transition:background .15s;z-index:2;
 }
-.modal-close:hover { background:#F8FAFC }
-.modal-top { display:flex;gap:20px;align-items:flex-start;margin-bottom:20px }
-.modal-header {}
-.modal-bank { font-size:.75rem;color:#94A3B8;font-weight:700;margin-bottom:4px }
-.modal-name { font-size:1.3rem;font-weight:900;color:#0F172A;margin-bottom:4px }
-.modal-type { font-size:.8rem;color:#64748B;font-weight:600 }
-.modal-stats-row {
-  display:flex;gap:0;background:#F8FAFC;border-radius:14px;
-  padding:14px;margin-bottom:16px;
-}
-.ms-item { flex:1;display:flex;flex-direction:column;align-items:center;gap:3px }
-.ms-item+.ms-item { border-left:1px solid #E2E8F0 }
-.ms-val  { font-size:1.1rem;font-weight:900;line-height:1 }
-.ms-lbl  { font-size:.62rem;color:#94A3B8;font-weight:700;text-align:center }
-.modal-signup-banner {
-  background:linear-gradient(135deg,#FEF3C7,#FDE68A);
-  color:#92400E;border-radius:10px;padding:10px 14px;
-  font-size:.82rem;font-weight:600;margin-bottom:16px;
-}
-.modal-section { margin-bottom:18px }
-.modal-sec-title {
-  font-size:.78rem;font-weight:900;color:#94A3B8;
-  text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;
-}
-.modal-mults { display:flex;flex-wrap:wrap;gap:7px }
-.mult-chip {
-  display:flex;align-items:center;gap:6px;
-  background:linear-gradient(135deg,#EDE9FE,#F5F3FF);
-  border:1px solid #DDD6FE;border-radius:8px;padding:6px 12px;
-  font-size:.75rem;color:#5B21B6;font-weight:700;
-}
-.mult-chip strong { color:#7C3AED;font-size:.85rem }
-.modal-lounge { display:flex;flex-wrap:wrap;gap:8px }
-.lounge-badge {
-  font-size:.78rem;font-weight:700;
-  background:#DCFCE7;color:#166534;border-radius:8px;padding:6px 12px;
-}
-.lounge-intl { background:#F3E8FF;color:#7C3AED }
-.modal-benefits { list-style:none;display:flex;flex-direction:column;gap:8px }
-.modal-benefits li { display:flex;align-items:flex-start;gap:8px;font-size:.82rem;color:#475569;line-height:1.5 }
-.mb-dot { color:#7C3AED;font-size:.6rem;flex-shrink:0;margin-top:3px }
-.modal-waiver {
-  background:linear-gradient(135deg,#F3E8FF,#EDE9FE);
-  color:#7C3AED;border-radius:10px;padding:10px 14px;
-  font-size:.78rem;font-weight:600;margin-bottom:16px;
-}
-.modal-apply-btn {
-  display:block;text-align:center;
-  background:linear-gradient(135deg,#7C3AED,#EC4899);
-  color:white;padding:14px;border-radius:14px;
-  font-weight:800;font-size:.95rem;text-decoration:none;
-  transition:all .2s;box-shadow:0 4px 20px rgba(124,58,237,.3);
-}
-.modal-apply-btn:hover { transform:translateY(-2px);box-shadow:0 8px 28px rgba(124,58,237,.4) }
+.modal-top { display:flex;gap:20px;align-items:flex-start;margin-bottom:20px;clear:right }
+.modal-title-blk { flex:1;min-width:0 }
+.modal-card-title { font-size:1.1rem;font-weight:900;color:#0F172A;margin-bottom:4px;line-height:1.3 }
+.modal-type { font-size:.7rem;font-weight:700;color:#64748B;background:#F1F5F9;padding:2px 8px;border-radius:4px;display:inline-block;margin-bottom:10px }
+.modal-tags { display:flex;flex-wrap:wrap;gap:5px }
 
-@media (max-width:900px) {
-  .ch-inner { grid-template-columns:1fr;padding:40px 0 }
-  .ch-right { display:none }
-  .card-grid { grid-template-columns:repeat(auto-fill,minmax(260px,1fr)) }
+.modal-stats-grid {
+  display:grid;grid-template-columns:repeat(3,1fr);gap:10px;
+  margin-bottom:20px;background:#F8FAFC;border-radius:14px;padding:14px;
+}
+.ms-item { text-align:center }
+.ms-val { font-size:1.05rem;font-weight:900;color:#0F172A;margin-bottom:3px }
+.ms-lbl { font-size:.62rem;color:#94A3B8;font-weight:600 }
+
+.modal-welcome {
+  display:flex;align-items:flex-start;gap:8px;
+  background:#FFF7ED;border:1px solid #FDE68A;border-radius:10px;
+  padding:12px;margin-bottom:16px;font-size:.8rem;color:#92400E;
+}
+.mw-icon { font-size:1rem;flex-shrink:0 }
+.modal-section-title { font-size:.82rem;font-weight:900;color:#0F172A;margin:0 0 10px }
+.modal-benefits-list { display:flex;flex-direction:column;gap:7px;margin-bottom:20px }
+
+.modal-apply-btn {
+  display:block;width:100%;padding:13px;text-align:center;
+  background:linear-gradient(135deg,#7C3AED,#EC4899);color:white;
+  border-radius:12px;font-weight:800;font-size:.9rem;text-decoration:none;transition:opacity .15s;
+}
+.modal-apply-btn:hover { opacity:.9 }
+
+@media (max-width:960px) {
+  .cp-layout { flex-direction:column;padding:16px }
+  .cp-sidebar { width:100%;position:static;border-radius:12px }
+  .ci { flex-direction:row }
+  .ci-left { padding:14px 12px }
+  .cm-md { width:120px;height:76px }
 }
 @media (max-width:640px) {
-  .card-grid { grid-template-columns:1fr }
-  .modal { border-radius:20px 20px 0 0;max-height:90vh }
-  .modal-bg { align-items:flex-end;padding:0 }
+  .cp-topbar-inner { flex-wrap:wrap;gap:10px }
+  .cp-tb-right { display:none }
+  .ci { flex-direction:column }
+  .ci-left { flex-direction:row;border-right:none;border-bottom:1px solid #F1F5F9;padding:12px 16px }
+  .ci-footer-row { flex-direction:column;align-items:flex-start }
 }
 </style>

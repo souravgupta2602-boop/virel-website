@@ -1,784 +1,418 @@
 ---
 import Layout from '../layouts/Layout.astro';
 
-const hotelsByDest = {
-  'Bali': [
-    { name:'Four Seasons Resort Bali', area:'Sayan, Ubud', price:18200, rating:9.4, reviews:1842, source2rating:9.2, source2reviews:340, verified:true, tags:['Infinity Pool','Jungle View','Spa'], amenities:['Free Breakfast Included','Airport Transfer Available','Spa & Wellness Centre'], img:'linear-gradient(160deg,#059669,#10B981,#34D399)', emoji:'🌿', badge:'Top Pick' },
-    { name:'W Bali – Seminyak',        area:'Beachfront, Seminyak', price:12400, rating:8.8, reviews:2340, source2rating:8.6, source2reviews:890, verified:true, tags:['Beach Access','Rooftop Bar','Pool'], amenities:['Beachfront Location','Infinity Pool','Nightlife Nearby'], img:'linear-gradient(160deg,#EC4899,#7C3AED,#4C1D95)', emoji:'🌊', badge:'' },
-    { name:'Alaya Resort Ubud',         area:'Rice Terrace View, Ubud', price:7800, rating:9.1, reviews:675, source2rating:9.0, source2reviews:200, verified:true, tags:['Rice Views','Private Villa','Yoga'], amenities:['Private Plunge Pool','Yoga Studio','Cultural Tours'], img:'linear-gradient(160deg,#166534,#16A34A,#4ADE80)', emoji:'🌾', badge:'Best Value' },
-    { name:'Komaneka at Bisma',         area:'Bisma Ridge, Ubud', price:14600, rating:9.3, reviews:412, source2rating:9.1, source2reviews:95, verified:true, tags:['Valley View','Luxury','Adults Only'], amenities:['Valley View Rooms','Fine Dining','Couples Spa'], img:'linear-gradient(160deg,#7C2D12,#EA580C,#FED7AA)', emoji:'🌅', badge:'' },
-    { name:'Potato Head Suites & Studios', area:'Petitenget, Seminyak', price:9600, rating:8.5, reviews:1230, source2rating:8.3, source2reviews:445, verified:false, tags:['Design Hotel','Beach Club','Bar'], amenities:['Award-Winning Beach Club','Design Rooms','Party Atmosphere'], img:'linear-gradient(160deg,#9D174D,#EC4899,#FBCFE8)', emoji:'🎨', badge:'' },
-    { name:'Anantara Seminyak Bali Resort', area:'Seminyak Beach', price:11200, rating:8.9, reviews:1870, source2rating:8.7, source2reviews:620, verified:true, tags:['Beachfront','Sunset Views','Pool'], amenities:['Beachfront Location','Sunset Bar','Outdoor Pool'], img:'linear-gradient(160deg,#B45309,#D97706,#FCD34D)', emoji:'🌇', badge:'' },
-  ],
-  'Goa': [
-    { name:'Taj Fort Aguada Resort', area:'Sinquerim Beach', price:16800, rating:9.1, reviews:2100, source2rating:8.9, source2reviews:780, verified:true, tags:['Heritage','Beach','Pool'], amenities:['Private Beach Access','Heritage Property','Multiple Restaurants'], img:'linear-gradient(160deg,#7C3AED,#EC4899,#FB923C)', emoji:'🏰', badge:'Top Pick' },
-    { name:'W Goa',                   area:'Vagator Beach', price:13500, rating:8.7, reviews:1560, source2rating:8.5, source2reviews:530, verified:true, tags:['Party','Beach','Design'], amenities:['Beachfront','Infinity Pool','Award-Winning Bar'], img:'linear-gradient(160deg,#7C3AED,#A78BFA,#EDE9FE)', emoji:'🎉', badge:'' },
-    { name:'Aloft North Goa',         area:'Candolim', price:6400, rating:8.3, reviews:3200, source2rating:8.1, source2reviews:1100, verified:true, tags:['Value','Pool','Tech-Friendly'], amenities:['Near Calangute Beach','Rooftop Pool','Fast WiFi'], img:'linear-gradient(160deg,#059669,#10B981,#A7F3D0)', emoji:'🌴', badge:'Best Value' },
-    { name:'ITC Grand Goa',           area:'South Goa, Arossim', price:18900, rating:9.2, reviews:890, source2rating:9.0, source2reviews:280, verified:true, tags:['Luxury','Secluded','Spa'], amenities:['Secluded Beach','Award-Winning Spa','Golf Course'], img:'linear-gradient(160deg,#B45309,#D97706,#FEF3C7)', emoji:'👑', badge:'' },
-    { name:'Park Hyatt Goa',          area:'Arossim Beach, South Goa', price:15200, rating:9.0, reviews:1340, source2rating:8.8, source2reviews:460, verified:true, tags:['Portuguese Style','Pool','Spa'], amenities:['Free Breakfast','Lagoon Pool','Direct Beach Access'], img:'linear-gradient(160deg,#0F172A,#5B21B6,#8B5CF6)', emoji:'🏖️', badge:'' },
-    { name:'Pousada Tauma',           area:'Calangute', price:4200, rating:8.6, reviews:540, source2rating:8.4, source2reviews:110, verified:false, tags:['Boutique','Pool','Quiet'], amenities:['Boutique Property','Small Pool','Walking to Beach'], img:'linear-gradient(160deg,#BE185D,#EC4899,#F9A8D4)', emoji:'🌸', badge:'Hidden Gem' },
-  ],
-  'Dubai': [
-    { name:'Burj Al Arab Jumeirah', area:'Jumeirah Beach', price:98000, rating:9.5, reviews:4200, source2rating:9.3, source2reviews:1800, verified:true, tags:['Iconic','Luxury','Helipad'], amenities:['Private Beach','Michelin Dining','Butler Service'], img:'linear-gradient(160deg,#B45309,#D97706,#FCD34D)', emoji:'🏙️', badge:'Iconic' },
-    { name:'Atlantis The Palm',      area:'Palm Jumeirah', price:38500, rating:8.8, reviews:6700, source2rating:8.6, source2reviews:2400, verified:true, tags:['Waterpark','Beach','Resort'], amenities:['Aquaventure Waterpark','Private Beach','Multiple Pools'], img:'linear-gradient(160deg,#7C3AED,#EC4899,#FF6B35)', emoji:'🌊', badge:'Top Pick' },
-    { name:'Armani Hotel Dubai',     area:'Downtown, Burj Khalifa', price:42000, rating:9.2, reviews:1900, source2rating:9.0, source2reviews:650, verified:true, tags:['Design','Luxury','Downtown'], amenities:['Burj Khalifa Location','Armani Spa','Designer Rooms'], img:'linear-gradient(160deg,#1E293B,#334155,#94A3B8)', emoji:'✨', badge:'' },
-    { name:'Jumeirah Beach Hotel',   area:'Jumeirah Beach Residence', price:22000, rating:8.9, reviews:3400, source2rating:8.7, source2reviews:1200, verified:true, tags:['Beach','Family','Pool'], amenities:['Private Beach','Water Sports','Kids Club'], img:'linear-gradient(160deg,#047857,#10B981,#6EE7B7)', emoji:'🏄', badge:'Family Choice' },
-  ],
-  'Jaipur': [
-    { name:'Rambagh Palace',          area:'Bhawani Singh Road', price:42000, rating:9.4, reviews:1200, source2rating:9.2, source2reviews:480, verified:true, tags:['Royal Heritage','Palace','Spa'], amenities:['Heritage Palace Stay','Royal Spa','Polo Ground'], img:'linear-gradient(160deg,#BE185D,#EC4899,#F9A8D4)', emoji:'🏰', badge:'Most Iconic' },
-    { name:'Jai Mahal Palace',        area:'Jacob Road, Civil Lines', price:18500, rating:9.0, reviews:870, source2rating:8.8, source2reviews:310, verified:true, tags:['Heritage','Garden','Pool'], amenities:['Mughal Gardens','Heritage Architecture','Candlelit Dining'], img:'linear-gradient(160deg,#D97706,#F59E0B,#FEF3C7)', emoji:'🌹', badge:'' },
-    { name:'The Oberoi Rajvilas',     area:'Goner Road', price:52000, rating:9.5, reviews:640, source2rating:9.3, source2reviews:200, verified:true, tags:['Luxury Villa','Pool','Spa'], amenities:['Private Pool Villas','Award-Winning Spa','Rajasthani Cuisine'], img:'linear-gradient(160deg,#7C2D12,#EA580C,#FB923C)', emoji:'🏡', badge:'Top Luxury' },
-    { name:'Hotel Narain Niwas Palace', area:'Kanota Bagh', price:9800, rating:8.4, reviews:1560, source2rating:8.2, source2reviews:580, verified:false, tags:['Budget Palace','Garden','Heritage'], amenities:['Heritage Havelis','Garden','Value for Money'], img:'linear-gradient(160deg,#166534,#16A34A,#4ADE80)', emoji:'🌿', badge:'Best Value' },
-  ],
-};
+const destinations = ['Goa','Bali','Dubai','Jaipur','Maldives','Kerala','Manali','Bangkok','Singapore','Paris','Tokyo','Rishikesh'];
 
-const aiQuestionsByDest = {
-  'Bali':   ['Which Ubud area is best for rice terrace views?','Show me hotels with infinity pools and jungle views.','Best boutique villas for a honeymoon in Seminyak?','Are there adults-only resorts near Nusa Penida?'],
-  'Goa':    ['Best beachfront hotels in North Goa under ₹10,000?','Which hotels have the best sunset views?','Show me heritage hotels in South Goa.','Family-friendly resorts near Calangute Beach?'],
-  'Dubai':  ['Best hotels near Burj Khalifa for a 3-night stay?','Show me hotels with private beach access.','Which hotel offers best desert views?','Kid-friendly resorts on Palm Jumeirah?'],
-  'Jaipur': ['Which palace hotels are authentic royal stays?','Best heritage hotels near Amber Fort?','Show me hotels with rooftop dining and fort views.','Are there any villas with private pools in Jaipur?'],
-};
-
-const defaultDest = 'Bali';
+const curated = [
+  { name:'Four Seasons Bali Sayan',  dest:'Bali',      area:'Ubud',           price:18200, rating:9.4, reviews:1842, tags:['Infinity Pool','Jungle View','Free Breakfast'], img:'photo-1566073771259-6a8506099945', badge:'Top Pick',    grad:'linear-gradient(135deg,#059669,#10B981)' },
+  { name:'Taj Fort Aguada Resort',   dest:'Goa',       area:'Sinquerim Beach', price:16800, rating:9.1, reviews:2100, tags:['Heritage','Private Beach','Pool'], img:'photo-1520250497591-112f2f40a3f4', badge:'Heritage',   grad:'linear-gradient(135deg,#7C3AED,#EC4899)' },
+  { name:'Burj Al Arab Jumeirah',    dest:'Dubai',     area:'Jumeirah Beach',  price:98000, rating:9.5, reviews:4200, tags:['Iconic','Michelin Dining','Helipad'], img:'photo-1582719478250-c89cae4dc85b', badge:'Iconic',     grad:'linear-gradient(135deg,#B45309,#D97706)' },
+  { name:'Rambagh Palace',           dest:'Jaipur',    area:'Civil Lines',     price:42000, rating:9.4, reviews:1200, tags:['Royal Heritage','Palace Stay','Spa'], img:'photo-1552832025-e7297b0e7af9', badge:'Most Iconic', grad:'linear-gradient(135deg,#BE185D,#EC4899)' },
+  { name:'Soneva Jani',              dest:'Maldives',  area:'Noonu Atoll',     price:125000,rating:9.8, reviews:880,  tags:['Overwater Villa','Retractable Roof','Lagoon'],img:'photo-1573843981267-be1999ff37cd', badge:'Ultra Lux', grad:'linear-gradient(135deg,#7C3AED,#A78BFA)' },
+  { name:'Kumarakom Lake Resort',    dest:'Kerala',    area:'Kumarakom',       price:28000, rating:9.3, reviews:970,  tags:['Backwater View','Ayurveda','Heritage'],img:'photo-1602216056096-3b40cc0c9944', badge:'',          grad:'linear-gradient(135deg,#047857,#059669)' },
+  { name:'Marina Bay Sands',         dest:'Singapore', area:'Marina Bay',      price:45000, rating:9.1, reviews:6700, tags:['Infinity Pool 57F','Casino','City View'],img:'photo-1525625293386-3f8f99389edd', badge:'Iconic',     grad:'linear-gradient(135deg,#7C3AED,#EC4899)' },
+  { name:'Mandarin Oriental Bangkok',dest:'Bangkok',   area:'Riverside',       price:38000, rating:9.6, reviews:3200, tags:['Riverside','Michelin Dining','Spa'],img:'photo-1508009603885-50cf7c579365', badge:'Legend',     grad:'linear-gradient(135deg,#D97706,#F59E0B)' },
+  { name:'Alaya Resort Ubud',        dest:'Bali',      area:'Rice Terrace',    price:7800,  rating:9.1, reviews:675,  tags:['Private Villa','Yoga Studio','Rice Views'],img:'photo-1559599101-f09722fb4948', badge:'Best Value', grad:'linear-gradient(135deg,#166534,#16A34A)' },
+  { name:'W Goa',                    dest:'Goa',       area:'Vagator Beach',   price:13500, rating:8.7, reviews:1560, tags:['Beach Front','Infinity Pool','Bar'],img:'photo-1544551763-46a013bb70d5', badge:'',          grad:'linear-gradient(135deg,#7C3AED,#A78BFA)' },
+  { name:'Park Hyatt Tokyo',         dest:'Tokyo',     area:'Shinjuku',        price:55000, rating:9.5, reviews:2100, tags:['Skyline Views','Spa','Grill Room'],img:'photo-1540959733332-eab4deabeeaf', badge:'',          grad:'linear-gradient(135deg,#9D174D,#EC4899)' },
+  { name:'The Himalayan HPTDC',      dest:'Manali',    area:'Old Manali',      price:12000, rating:8.8, reviews:890,  tags:['Mountain View','Heritage','Gardens'],img:'photo-1548013146-72479768bada', badge:'',          grad:'linear-gradient(135deg,#475569,#7C3AED)' },
+];
+const curatedJson = JSON.stringify(curated);
 ---
 
-<Layout title="Stays — Hotel Search | Virel" description="Find the best hotels and stays for your trip. AI-curated picks, real-time prices, and best credit card to use. Compare Booking.com, Hotellook and more.">
+<Layout title="Stays — Find Hotels | Virel" description="Search hotels worldwide via Hotellook. Curated luxury picks, best credit card for hotels, and Travelpayouts integration.">
 
-  <!-- STICKY TOP SEARCH BAR -->
-  <div class="stays-topbar">
-    <div class="stb-left">
-      <button class="stb-menu" aria-label="Menu">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
-      </button>
-      <span class="stb-title">Stays</span>
-    </div>
+<!-- HERO SEARCH -->
+<section class="stays-hero">
+  <div class="sh-bg"></div>
+  <div class="container sh-inner">
+    <h1 class="sh-title">Find your perfect stay</h1>
+    <p class="sh-sub">Real-time hotel prices powered by Hotellook · 700,000+ hotels worldwide</p>
 
-    <div class="stb-search-pill" id="searchPill">
-      <div class="stb-field" id="sf-where" onclick="focusWhere()">
-        <span class="stb-field-label">WHERE</span>
-        <span class="stb-field-val" id="dest-display">Bali</span>
+    <form class="stays-search-form" id="staysForm" onsubmit="searchHotels(event)">
+      <div class="ssf-field ssf-dest">
+        <label class="ssf-label">🏙️ Destination</label>
+        <input type="text" id="ssf-dest-input" placeholder="City or hotel name…"
+               list="destList" value="Goa" autocomplete="off" />
+        <datalist id="destList">
+          {destinations.map(d => <option value={d} />)}
+          <option value="Mumbai" /><option value="Delhi" /><option value="Udaipur" />
+          <option value="London" /><option value="New York" /><option value="Rome" />
+        </datalist>
       </div>
-      <div class="stb-divider"></div>
-      <div class="stb-field" id="sf-when">
-        <span class="stb-field-label">WHEN</span>
-        <span class="stb-field-val" id="dates-display">Select dates</span>
+      <div class="ssf-sep"></div>
+      <div class="ssf-field">
+        <label class="ssf-label">📅 Check-in</label>
+        <input type="date" id="ssf-checkin" />
       </div>
-      <div class="stb-divider"></div>
-      <div class="stb-field" id="sf-guests">
-        <span class="stb-field-label">GUESTS</span>
-        <span class="stb-field-val">2 Guests</span>
+      <div class="ssf-sep"></div>
+      <div class="ssf-field">
+        <label class="ssf-label">📅 Check-out</label>
+        <input type="date" id="ssf-checkout" />
       </div>
-      <div class="stb-divider"></div>
-      <div class="stb-field stb-prefs" id="sf-prefs">
-        <span class="stb-field-label">PREFERENCES</span>
-        <span class="stb-field-val">Couple, Leisure</span>
+      <div class="ssf-sep"></div>
+      <div class="ssf-field ssf-guests">
+        <label class="ssf-label">👥 Guests</label>
+        <select id="ssf-guests-sel">
+          <option value="1">1 Guest</option>
+          <option value="2" selected>2 Guests</option>
+          <option value="3">3 Guests</option>
+          <option value="4">4 Guests</option>
+        </select>
       </div>
-      <button class="stb-search-btn" id="searchBtn">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-        Search
+      <button type="submit" class="ssf-search-btn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        Search Hotels
       </button>
-    </div>
+    </form>
 
-    <div class="stb-right">
-      <button class="stb-icon-btn" title="Filters">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="11" y1="18" x2="13" y2="18"/></svg>
-      </button>
-      <button class="stb-icon-btn" title="Sort">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="6" y1="12" x2="18" y2="12"/><line x1="9" y1="18" x2="15" y2="18"/></svg>
-      </button>
-      <button class="stb-trip-badge" id="tripBadge">Bali Trip ✏️</button>
+    <div class="sh-powered">
+      <span>🔗 Powered by</span>
+      <span class="sh-tp-badge">Hotellook · Travelpayouts</span>
+      <span>· 700K+ properties</span>
     </div>
   </div>
+</section>
 
-  <!-- DESTINATION SEARCH DROPDOWN (hidden by default) -->
-  <div class="dest-dropdown" id="destDropdown" style="display:none">
-    <div class="dest-dropdown-inner">
-      <input type="text" id="destSearchInput" placeholder="Search destinations..." class="dest-search-input" />
-      <div class="dest-suggestions">
-        {Object.keys(hotelsByDest).map(d => (
-          <button class="dest-suggestion" onclick={`selectDest('${d}')`}>
-            <span class="dest-sug-icon">{d === 'Bali' ? '🌴' : d === 'Goa' ? '🏖️' : d === 'Dubai' ? '🏙️' : '🏰'}</span>
-            <div>
-              <div style="font-weight:700;font-size:.88rem;color:#0F172A">{d}</div>
-              <div style="font-size:.72rem;color:#94A3B8">{d === 'Bali' ? 'Indonesia' : d === 'Goa' ? 'India' : d === 'Dubai' ? 'UAE' : 'India'}</div>
-            </div>
-          </button>
+<!-- QUICK DEST CHIPS -->
+<div class="dest-chips-bar">
+  <div class="container dcb-inner">
+    {destinations.slice(0,8).map(d => (
+      <button class="dest-chip" onclick={`quickSearch('${d}')`}>{d}</button>
+    ))}
+  </div>
+</div>
+
+<!-- CURATED PICKS -->
+<section class="curated-section">
+  <div class="container">
+    <div class="cs-header">
+      <div>
+        <h2 class="cs-title">🏆 Virel Curated Picks</h2>
+        <p class="cs-sub">Handpicked top stays — book via Hotellook for best rates</p>
+      </div>
+      <div class="cs-filters" id="csFilters">
+        <button class="csf-btn active" onclick="filterHotels('all', this)">All</button>
+        {destinations.slice(0,6).map(d => (
+          <button class="csf-btn" onclick={`filterHotels('${d}', this)`}>{d}</button>
         ))}
       </div>
     </div>
-  </div>
 
-  <!-- AI QUESTION CHIPS -->
-  <div class="ai-chips-bar">
-    <div class="aic-scroll" id="aiChipsRow">
-      <!-- filled by JS -->
+    <div class="hotels-grid" id="hotelsGrid">
+      <!-- rendered by JS -->
     </div>
   </div>
+</section>
 
-  <!-- MAIN CONTENT -->
-  <div class="stays-layout">
-
-    <!-- HOTELS PANEL -->
-    <div class="hotels-panel" id="hotelsPanel">
-      <p class="price-note">Prices displayed are per room · per night · Taxes may apply</p>
-
-      <!-- HANDPICKED SECTION -->
-      <div class="handpicked-section" id="handpickedSection">
-        <div class="hp-header">
-          <span class="hp-trophy">🏆</span>
-          <span class="hp-label">Handpicked</span>
-          <span class="hp-sub"> top hotels for you</span>
-        </div>
-        <div class="hotels-grid" id="hotelsGrid">
-          <!-- filled by JS -->
-        </div>
+<!-- BEST CARD FOR HOTELS -->
+<section class="card-tip-section">
+  <div class="container">
+    <div class="cts-card">
+      <div class="cts-left">
+        <span class="cts-badge">💳 Best Card for Hotels</span>
+        <h3 class="cts-title">Earn up to 10X rewards on hotel bookings</h3>
+        <p class="cts-sub">Use the right card and earn back 3–10% of your hotel spend as reward points or cashback.</p>
       </div>
-
-      <!-- MORE HOTELS -->
-      <div class="more-hotels-hdr">
-        <h3 class="mh-title" id="moreTitle">All Hotels in Bali</h3>
-        <div class="mh-sort">
-          <span style="font-size:.75rem;color:#94A3B8;font-weight:600">Sort by:</span>
-          <button class="sort-chip active" onclick="setSortActive(this)">Our Picks</button>
-          <button class="sort-chip" onclick="setSortActive(this)">Price ↑</button>
-          <button class="sort-chip" onclick="setSortActive(this)">Rating</button>
-        </div>
-      </div>
-      <div class="hotels-grid hotels-grid-full" id="moreGrid">
-        <!-- filled by JS (same cards, all shown) -->
-      </div>
-    </div>
-
-    <!-- MAP SIDEBAR -->
-    <div class="map-panel" id="mapPanel">
-      <div class="map-header">
-        <button class="map-back-btn">←</button>
-        <div class="map-area-btn">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-          Best areas ▾
-        </div>
-      </div>
-      <div class="map-container" id="mapContainer">
-        <div class="map-bg">
-          <div class="map-placeholder">
-            <div class="map-grid"></div>
-            <!-- Price pins (positioned) -->
-            <div class="map-pins" id="mapPins"></div>
-            <div class="map-label" id="mapCityLabel">Bali, Indonesia</div>
-          </div>
-        </div>
-        <div class="map-count" id="mapCount">6 stays on map</div>
-      </div>
-      <!-- Best Card for Hotels -->
-      <div class="map-card-tip" id="cardTip">
-        <div class="mct-header">
-          <span style="font-size:.7rem;font-weight:800;color:#0F172A;text-transform:uppercase;letter-spacing:.06em">💳 Best Card for Hotels</span>
-        </div>
-        <div class="mct-cards" id="bestCards">
-          <div class="mct-card">
-            <div class="mct-dot" style="background:linear-gradient(135deg,#7C3AED,#EC4899)"></div>
-            <div>
-              <div style="font-size:.72rem;font-weight:800;color:#0F172A">HDFC Infinia</div>
-              <div style="font-size:.62rem;color:#10B981;font-weight:700">5x reward points on hotels</div>
+      <div class="cts-cards">
+        {[
+          { name:'HDFC Infinia',   bank:'HDFC Bank',  reward:'10X on Smartbuy',   color:'#1a1a1a', color2:'#37474f' },
+          { name:'Axis Magnus',    bank:'Axis Bank',   reward:'4X EDGE Miles',     color:'#880e4f', color2:'#560027' },
+          { name:'Amex Platinum',  bank:'Amex',        reward:'5X MR Points',      color:'#424242', color2:'#1a1a1a' },
+        ].map(c => (
+          <div class="cts-card-chip">
+            <div class="ccc-mock" style={`background:linear-gradient(135deg,${c.color},${c.color2})`}>
+              <div class="ccc-chip"></div>
             </div>
-            <div style="font-size:.7rem;font-weight:900;color:#7C3AED;margin-left:auto">Best</div>
-          </div>
-          <div class="mct-card">
-            <div class="mct-dot" style="background:linear-gradient(135deg,#7C3AED,#EC4899)"></div>
-            <div>
-              <div style="font-size:.72rem;font-weight:800;color:#0F172A">Axis Magnus</div>
-              <div style="font-size:.62rem;color:#64748B;font-weight:600">4x on travel booking</div>
+            <div class="ccc-info">
+              <div class="ccc-name">{c.name}</div>
+              <div class="ccc-bank">{c.bank}</div>
+              <div class="ccc-reward">{c.reward}</div>
             </div>
           </div>
-        </div>
+        ))}
       </div>
+      <a href="/cards" class="cts-link-btn">Compare all hotel cards →</a>
     </div>
   </div>
-
-  <!-- AI ASK BOTTOM BAR -->
-  <div class="ai-ask-bar">
-    <div class="aab-inner">
-      <span class="aab-icon">✨</span>
-      <input type="text" class="aab-input" placeholder='Ask: "Best local food spots near my stay"' id="aiAskInput" />
-      <button class="aab-send" onclick="handleAiAsk()">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="white"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22,2 15,22 11,13 2,9"/></svg>
-      </button>
-    </div>
-  </div>
+</section>
 
 </Layout>
 
-<script define:vars={{ hotelsByDest, aiQuestionsByDest }}>
+<script define:vars={{ curatedJson }}>
+const HOTELS = JSON.parse(curatedJson);
 
-let currentDest = 'Bali';
+// Set default dates
+const today = new Date();
+const checkin  = new Date(today); checkin.setDate(today.getDate() + 14);
+const checkout = new Date(today); checkout.setDate(today.getDate() + 17);
+const fmt = d => d.toISOString().split('T')[0];
+document.getElementById('ssf-checkin').value  = fmt(checkin);
+document.getElementById('ssf-checkout').value = fmt(checkout);
+document.getElementById('ssf-checkin').min    = fmt(today);
+document.getElementById('ssf-checkout').min   = fmt(checkin);
 
-const pinPositions = [
-  { x:'22%',  y:'35%', label:'₹6,276' },
-  { x:'38%',  y:'28%', label:'₹9,252' },
-  { x:'55%',  y:'42%', label:'₹2,279' },
-  { x:'68%',  y:'55%', label:'₹13,416' },
-  { x:'45%',  y:'62%', label:'₹5,705' },
-  { x:'78%',  y:'38%', label:'₹2,754' },
-  { x:'30%',  y:'68%', label:'₹3,323' },
-  { x:'60%',  y:'75%', label:'₹7,593' },
-];
-
-function renderAiChips(dest) {
-  const chips = aiQuestionsByDest[dest] || aiQuestionsByDest['Bali'];
-  const row = document.getElementById('aiChipsRow');
-  if (!row) return;
-  row.innerHTML = chips.map(q => `
-    <button class="aic-chip" onclick="handleAiChip(this)">
-      <span class="aic-sparkle">✨</span>${q}
-    </button>
-  `).join('');
-}
-
-function renderHotels(dest) {
-  const hotels = hotelsByDest[dest] || hotelsByDest['Bali'];
-  const grid = document.getElementById('hotelsGrid');
-  const moreGrid = document.getElementById('moreGrid');
-  const moreTitle = document.getElementById('moreTitle');
-  if (moreTitle) moreTitle.textContent = `All Hotels in ${dest}`;
-
-  const hotelCard = (h) => `
-    <div class="hotel-card">
-      <div class="hc-photo" style="background:${h.img}">
-        <button class="hc-heart" onclick="toggleHeart(this)" aria-label="Save">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-        </button>
-        <div class="hc-photo-inner">${h.emoji}</div>
-        ${h.badge ? `<span class="hc-badge">${h.badge}</span>` : ''}
-        <div class="hc-tags">
-          ${h.tags.slice(0,2).map(t => `<span class="hc-tag">${t}</span>`).join('')}
-        </div>
-      </div>
-      <div class="hc-body">
-        <div class="hc-ratings">
-          <span class="hc-rating booking">
-            <span class="hc-rating-src">B</span>
-            ${h.rating} <span class="hc-rating-count">(${h.reviews.toLocaleString()})</span>
-          </span>
-          <span class="hc-rating tripadvisor">
-            <span class="hc-rating-src">M</span>
-            ${h.source2rating} <span class="hc-rating-count">(${h.source2reviews.toLocaleString()})</span>
-          </span>
-        </div>
-        <div class="hc-name-row">
-          <h3 class="hc-name">${h.name}${h.verified ? ' <svg width="13" height="13" viewBox="0 0 24 24" fill="#7C3AED"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>' : ''}</h3>
-        </div>
-        <div class="hc-area-price">
-          <span class="hc-area">${h.area}</span>
-          <span class="hc-price">₹${h.price.toLocaleString()}<span class="hc-per">/night</span></span>
-        </div>
-        <ul class="hc-amenities">
-          ${h.amenities.map(a => `<li class="hc-amenity"><span class="hc-bullet">◆</span>${a}</li>`).join('')}
-        </ul>
-        <div class="hc-actions">
-          <a href="https://www.booking.com/search.html?ss=${encodeURIComponent(h.name)}" target="_blank" class="hc-book-btn">Book Now</a>
-          <button class="hc-save-btn" onclick="this.textContent=this.textContent==='Saved ✓'?'Save':'Saved ✓'">Save</button>
-        </div>
-      </div>
-    </div>
-  `;
-
-  if (grid)     grid.innerHTML     = hotels.slice(0,3).map(hotelCard).join('');
-  if (moreGrid) moreGrid.innerHTML = hotels.map(hotelCard).join('');
-}
-
-function renderMapPins(dest) {
-  const hotels = hotelsByDest[dest] || [];
-  const container = document.getElementById('mapPins');
-  const cityLabel  = document.getElementById('mapCityLabel');
-  const mapCount   = document.getElementById('mapCount');
-  if (cityLabel) cityLabel.textContent = dest + ', ' + (dest === 'Bali' ? 'Indonesia' : dest === 'Dubai' ? 'UAE' : 'India');
-  if (mapCount)  mapCount.textContent  = `${hotels.length} stays on map`;
-  if (!container) return;
-  container.innerHTML = hotels.slice(0,Math.min(hotels.length, pinPositions.length)).map((h, i) => `
-    <div class="map-pin" style="left:${pinPositions[i].x};top:${pinPositions[i].y}" onclick="highlightHotel(${i})">
-      ₹${Math.round(h.price/1000)}K
-    </div>
-  `).join('');
-}
-
-function selectDest(dest) {
-  currentDest = dest;
-  const display = document.getElementById('dest-display');
-  const badge = document.getElementById('tripBadge');
-  if (display) display.textContent = dest;
-  if (badge)   badge.textContent   = dest + ' Trip ✏️';
-  document.getElementById('destDropdown').style.display = 'none';
-  renderAiChips(dest);
-  renderHotels(dest);
-  renderMapPins(dest);
-  document.getElementById('moreTitle').textContent = `All Hotels in ${dest}`;
-}
-
-function focusWhere() {
-  const dd = document.getElementById('destDropdown');
-  dd.style.display = dd.style.display === 'none' ? 'block' : 'none';
-  setTimeout(() => document.getElementById('destSearchInput')?.focus(), 50);
-}
-window.focusWhere = focusWhere;
-window.selectDest = selectDest;
-
-document.getElementById('searchBtn')?.addEventListener('click', () => {
-  renderHotels(currentDest);
-  document.getElementById('destDropdown').style.display = 'none';
-});
-
-document.addEventListener('click', e => {
-  const dd = document.getElementById('destDropdown');
-  if (!e.target.closest('#destDropdown') && !e.target.closest('#sf-where')) {
-    if (dd) dd.style.display = 'none';
+document.getElementById('ssf-checkin').addEventListener('change', e => {
+  const d = new Date(e.target.value); d.setDate(d.getDate()+1);
+  document.getElementById('ssf-checkout').min   = fmt(d);
+  if (document.getElementById('ssf-checkout').value <= e.target.value) {
+    document.getElementById('ssf-checkout').value = fmt(d);
   }
 });
 
-function handleAiChip(btn) {
-  btn.style.background = 'linear-gradient(135deg,#7C3AED,#EC4899)';
-  btn.style.color = 'white';
-  document.getElementById('aiAskInput').value = btn.textContent.replace('✨','').trim();
+function searchHotels(e) {
+  e.preventDefault();
+  const dest     = document.getElementById('ssf-dest-input').value.trim() || 'Goa';
+  const checkIn  = document.getElementById('ssf-checkin').value;
+  const checkOut = document.getElementById('ssf-checkout').value;
+  const adults   = document.getElementById('ssf-guests-sel').value;
+  const url = `https://hotellook.com/search?destination=${encodeURIComponent(dest)}&checkIn=${checkIn}&checkOut=${checkOut}&adults=${adults}&lang=en&currency=inr`;
+  window.open(url, '_blank');
 }
-window.handleAiChip = handleAiChip;
+window.searchHotels = searchHotels;
 
-function handleAiAsk() {
-  const input = document.getElementById('aiAskInput');
-  if (!input?.value) return;
-  const val = input.value;
-  input.value = '';
-  const bar = document.querySelector('.ai-ask-bar .aab-inner');
-  const prev = bar.innerHTML;
-  bar.innerHTML = `<span class="aab-icon">🤔</span><span style="color:#64748B;font-size:.85rem">AI is finding: "${val}"...</span>`;
-  setTimeout(() => { bar.innerHTML = prev; }, 2500);
+function quickSearch(dest) {
+  document.getElementById('ssf-dest-input').value = dest;
+  const checkIn  = document.getElementById('ssf-checkin').value;
+  const checkOut = document.getElementById('ssf-checkout').value;
+  const url = `https://hotellook.com/search?destination=${encodeURIComponent(dest)}&checkIn=${checkIn}&checkOut=${checkOut}&adults=2&lang=en&currency=inr`;
+  window.open(url, '_blank');
 }
-window.handleAiAsk = handleAiAsk;
+window.quickSearch = quickSearch;
 
-function highlightHotel(idx) {
-  const pins = document.querySelectorAll('.map-pin');
-  pins.forEach((p,i) => p.classList.toggle('active', i === idx));
-}
-window.highlightHotel = highlightHotel;
+let currentFilter = 'all';
 
-function toggleHeart(btn) {
-  btn.classList.toggle('saved');
-}
-window.toggleHeart = toggleHeart;
-
-function setSortActive(btn) {
-  document.querySelectorAll('.sort-chip').forEach(b => b.classList.remove('active'));
+function filterHotels(dest, btn) {
+  currentFilter = dest;
+  document.querySelectorAll('.csf-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
+  renderHotels();
 }
-window.setSortActive = setSortActive;
+window.filterHotels = filterHotels;
 
-// Init with default destination
-document.addEventListener('DOMContentLoaded', () => {
-  renderAiChips(currentDest);
-  renderHotels(currentDest);
-  renderMapPins(currentDest);
+function renderHotels() {
+  const filtered = currentFilter === 'all' ? HOTELS : HOTELS.filter(h => h.dest === currentFilter);
+  const grid = document.getElementById('hotelsGrid');
+  if (!grid) return;
 
-  // Set today + tomorrow as default dates
-  const today = new Date();
-  const tomorrow = new Date(today); tomorrow.setDate(today.getDate() + 1);
-  const fmt = d => d.toLocaleDateString('en-GB',{day:'numeric',month:'short'});
-  const datesEl = document.getElementById('dates-display');
-  if (datesEl) datesEl.textContent = `${fmt(today)} – ${fmt(tomorrow)}`;
-});
+  grid.innerHTML = filtered.map(h => `
+    <div class="hotel-card">
+      <div class="hc-img-wrap">
+        <img src="https://images.unsplash.com/${h.img}?w=600&q=80&auto=format&fit=crop"
+             alt="${h.name}" class="hc-img" loading="lazy"
+             onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
+        <div class="hc-img-fallback" style="background:${h.grad};display:none">
+          <span style="font-size:2rem">🏨</span>
+        </div>
+        ${h.badge ? `<span class="hc-badge">${h.badge}</span>` : ''}
+        <div class="hc-rating-pill">⭐ ${h.rating} · ${(h.reviews/1000).toFixed(1)}K reviews</div>
+      </div>
+      <div class="hc-body">
+        <div class="hc-dest-tag">${h.dest}</div>
+        <h3 class="hc-name">${h.name}</h3>
+        <div class="hc-area">📍 ${h.area}</div>
+        <div class="hc-tags">
+          ${h.tags.map(t => `<span class="hc-tag">${t}</span>`).join('')}
+        </div>
+        <div class="hc-footer">
+          <div class="hc-price-wrap">
+            <span class="hc-price">₹${h.price.toLocaleString()}</span>
+            <span class="hc-per">/night</span>
+          </div>
+          <button class="hc-book-btn" onclick="bookHotel('${h.name}','${h.dest}')">
+            Book via Hotellook →
+          </button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function bookHotel(name, dest) {
+  const checkIn  = document.getElementById('ssf-checkin').value;
+  const checkOut = document.getElementById('ssf-checkout').value;
+  const query    = encodeURIComponent(name + ' ' + dest);
+  window.open(`https://hotellook.com/search?destination=${query}&checkIn=${checkIn}&checkOut=${checkOut}&adults=2&lang=en&currency=inr`, '_blank');
+}
+window.bookHotel = bookHotel;
+
+renderHotels();
 </script>
 
 <style>
-/* ── TOP SEARCH BAR ── */
-.stays-topbar {
-  position:sticky;top:72px;z-index:150;
-  background:white;border-bottom:1px solid #E2E8F0;
-  display:flex;align-items:center;justify-content:space-between;
-  padding:10px 20px;gap:12px;
-  box-shadow:0 2px 12px rgba(0,0,0,.05);
+/* HERO */
+.stays-hero {
+  position:relative;padding:60px 0 40px;
+  background:linear-gradient(160deg,#0F172A 0%,#1E1B4B 60%,#312E81 100%);overflow:hidden;
 }
-.stb-left { display:flex;align-items:center;gap:10px;flex-shrink:0 }
-.stb-menu {
-  width:36px;height:36px;border-radius:9px;border:1px solid #E2E8F0;
-  background:white;cursor:pointer;display:flex;align-items:center;justify-content:center;
-  color:#475569;transition:all .15s;
+.sh-bg {
+  position:absolute;inset:0;
+  background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(124,58,237,.5),transparent);
 }
-.stb-menu:hover { background:#F8FAFC }
-.stb-title { font-size:1.1rem;font-weight:900;color:#0F172A;letter-spacing:-.02em }
+.sh-inner { position:relative;z-index:2;text-align:center }
+.sh-title {
+  font-size:clamp(1.8rem,4vw,2.8rem);font-weight:900;color:white;
+  letter-spacing:-.03em;margin-bottom:10px;
+}
+.sh-sub { font-size:.9rem;color:rgba(255,255,255,.7);margin-bottom:32px }
 
-.stb-search-pill {
+/* SEARCH FORM */
+.stays-search-form {
   display:flex;align-items:center;
-  border:1.5px solid #E2E8F0;border-radius:100px;
-  overflow:hidden;background:white;
-  box-shadow:0 2px 8px rgba(0,0,0,.06);
-  flex:1;max-width:760px;cursor:pointer;
-  transition:box-shadow .2s;
+  background:white;border-radius:16px;
+  box-shadow:0 16px 48px rgba(0,0,0,.3);
+  overflow:hidden;max-width:960px;margin:0 auto 16px;
 }
-.stb-search-pill:hover { box-shadow:0 4px 16px rgba(0,0,0,.1) }
-.stb-field {
-  display:flex;flex-direction:column;padding:8px 16px;flex:1;
-  cursor:pointer;transition:background .15s;min-width:0;
+.ssf-field {
+  display:flex;flex-direction:column;padding:14px 16px;flex:1;min-width:0;
 }
-.stb-field:hover { background:#F8FAFC }
-.stb-prefs { max-width:180px }
-.stb-field-label {
-  font-size:.55rem;font-weight:800;color:#94A3B8;
-  text-transform:uppercase;letter-spacing:.1em;line-height:1;margin-bottom:2px;
+.ssf-dest { flex:1.8 }
+.ssf-guests { max-width:140px }
+.ssf-label {
+  font-size:.58rem;font-weight:800;color:#94A3B8;text-transform:uppercase;
+  letter-spacing:.08em;margin-bottom:4px;
 }
-.stb-field-val {
-  font-size:.82rem;font-weight:700;color:#0F172A;
-  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+.ssf-field input,.ssf-field select {
+  border:none;outline:none;font-size:.88rem;font-weight:700;color:#0F172A;
+  background:transparent;font-family:inherit;width:100%;
 }
-.stb-divider { width:1px;height:28px;background:#E2E8F0;flex-shrink:0 }
-.stb-search-btn {
-  display:flex;align-items:center;gap:7px;
+.ssf-field select { cursor:pointer }
+.ssf-sep { width:1px;height:44px;background:#E2E8F0;flex-shrink:0;align-self:center }
+.ssf-search-btn {
+  display:flex;align-items:center;gap:8px;
+  padding:0 28px;height:100%;min-height:72px;
   background:linear-gradient(135deg,#7C3AED,#EC4899);
-  color:white;padding:10px 20px;
-  font-weight:800;font-size:.82rem;border:none;cursor:pointer;
-  transition:all .2s;flex-shrink:0;border-radius:0 100px 100px 0;
-  white-space:nowrap;
+  color:white;border:none;font-size:.9rem;font-weight:800;cursor:pointer;
+  transition:opacity .15s;white-space:nowrap;flex-shrink:0;
 }
-.stb-search-btn:hover { background:linear-gradient(135deg,#6D28D9,#DB2777);box-shadow:0 2px 12px rgba(124,58,237,.35) }
-
-.stb-right { display:flex;align-items:center;gap:8px;flex-shrink:0 }
-.stb-icon-btn {
-  width:36px;height:36px;border-radius:10px;border:1px solid #E2E8F0;
-  background:white;cursor:pointer;display:flex;align-items:center;justify-content:center;
-  color:#475569;transition:all .15s;
-}
-.stb-icon-btn:hover { background:#F8FAFC;border-color:#CBD5E1 }
-.stb-trip-badge {
-  padding:7px 14px;background:#EDE9FE;color:#7C3AED;
-  border-radius:100px;font-size:.78rem;font-weight:700;
-  border:none;cursor:pointer;transition:all .15s;white-space:nowrap;
-}
-.stb-trip-badge:hover { background:#DDD6FE }
-
-/* DEST DROPDOWN */
-.dest-dropdown {
-  position:fixed;top:137px;left:50%;transform:translateX(-50%);
-  z-index:200;width:360px;
-  background:white;border-radius:20px;
-  box-shadow:0 20px 60px rgba(0,0,0,.2);
-  border:1px solid #E2E8F0;overflow:hidden;
-}
-.dest-dropdown-inner { padding:12px }
-.dest-search-input {
-  width:100%;padding:10px 14px;border:1.5px solid #E2E8F0;
-  border-radius:10px;font-family:inherit;font-size:.88rem;
-  outline:none;margin-bottom:8px;
-}
-.dest-search-input:focus { border-color:#7C3AED }
-.dest-suggestions { display:flex;flex-direction:column;gap:4px }
-.dest-suggestion {
-  display:flex;align-items:center;gap:10px;
-  padding:10px 12px;border-radius:10px;border:none;
-  background:transparent;cursor:pointer;text-align:left;
-  transition:background .15s;width:100%;
-}
-.dest-suggestion:hover { background:#F8FAFC }
-.dest-sug-icon { font-size:1.3rem;flex-shrink:0 }
-
-/* AI CHIPS */
-.ai-chips-bar {
-  background:white;border-bottom:1px solid #F1F5F9;
-  padding:10px 20px;overflow:hidden;
-}
-.aic-scroll {
-  display:flex;gap:8px;overflow-x:auto;
-  scrollbar-width:none;-ms-overflow-style:none;
-  padding-bottom:2px;
-}
-.aic-scroll::-webkit-scrollbar { display:none }
-.aic-chip {
-  display:flex;align-items:center;gap:6px;
-  white-space:nowrap;padding:8px 14px;
-  background:#F8F5FF;border:1px solid #EDE9FE;
-  border-radius:100px;font-size:.78rem;font-weight:600;color:#475569;
-  cursor:pointer;transition:all .2s;flex-shrink:0;
-}
-.aic-chip:hover { border-color:#7C3AED;color:#7C3AED;background:#EDE9FE }
-.aic-sparkle { font-size:.9rem;color:#7C3AED }
-
-/* STAYS LAYOUT */
-.stays-layout {
-  display:flex;
-  min-height:calc(100vh - 170px);
+.ssf-search-btn:hover { opacity:.9 }
+.sh-powered { font-size:.72rem;color:rgba(255,255,255,.55) }
+.sh-tp-badge {
+  font-size:.72rem;font-weight:800;color:rgba(255,255,255,.85);
+  background:rgba(255,255,255,.1);padding:2px 10px;border-radius:100px;margin:0 4px;
 }
 
-/* HOTELS PANEL */
-.hotels-panel {
-  flex:1;padding:16px 20px 80px;overflow-y:auto;
-  min-width:0;
+/* DEST CHIPS */
+.dest-chips-bar {
+  background:white;border-bottom:1px solid #E2E8F0;overflow-x:auto;
 }
-.price-note {
-  font-size:.72rem;color:#94A3B8;font-weight:500;margin-bottom:16px;
-  display:flex;align-items:center;gap:5px;
+.dcb-inner {
+  display:flex;gap:8px;padding:12px 24px;align-items:center;min-width:max-content;
 }
+.dest-chip {
+  padding:6px 16px;border-radius:100px;border:1.5px solid #E2E8F0;
+  background:white;font-size:.78rem;font-weight:700;color:#475569;cursor:pointer;
+  transition:all .15s;white-space:nowrap;
+}
+.dest-chip:hover { border-color:#7C3AED;color:#7C3AED;background:#F5F3FF }
 
-/* HANDPICKED SECTION */
-.handpicked-section {
-  background:linear-gradient(135deg,#FAF5FF 0%,#FDF2FF 100%);
-  border:1.5px solid #EDE9FE;border-radius:20px;
-  padding:20px;margin-bottom:28px;
+/* CURATED */
+.curated-section { padding:48px 0 }
+.cs-header { display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin-bottom:28px;flex-wrap:wrap }
+.cs-title { font-size:1.4rem;font-weight:900;color:#0F172A;margin-bottom:4px }
+.cs-sub { font-size:.82rem;color:#64748B }
+.cs-filters { display:flex;gap:8px;flex-wrap:wrap }
+.csf-btn {
+  padding:6px 14px;border-radius:100px;border:1.5px solid #E2E8F0;
+  background:white;font-size:.75rem;font-weight:700;color:#475569;cursor:pointer;transition:all .15s;
 }
-.hp-header {
-  display:flex;align-items:center;gap:8px;margin-bottom:16px;
+.csf-btn:hover,.csf-btn.active {
+  background:linear-gradient(135deg,#7C3AED,#EC4899);color:white;border-color:transparent;
 }
-.hp-trophy { font-size:1.2rem }
-.hp-label  { font-size:1.05rem;font-weight:900;color:#7C3AED;letter-spacing:-.01em }
-.hp-sub    { font-size:1.05rem;font-weight:600;color:#0F172A }
 
 .hotels-grid {
-  display:grid;grid-template-columns:repeat(3,1fr);gap:14px;
-}
-.hotels-grid-full { margin-top:0; }
-.more-hotels-hdr {
-  display:flex;align-items:center;justify-content:space-between;
-  margin-bottom:16px;gap:12px;flex-wrap:wrap;
-}
-.mh-title { font-size:1.1rem;font-weight:800;color:#0F172A }
-.mh-sort  { display:flex;align-items:center;gap:8px }
-.sort-chip {
-  padding:5px 12px;background:#F8FAFC;border:1px solid #E2E8F0;
-  border-radius:100px;font-size:.75rem;font-weight:700;color:#475569;
-  cursor:pointer;transition:all .15s;
-}
-.sort-chip.active {
-  background:linear-gradient(135deg,#7C3AED,#EC4899);
-  color:white;border-color:transparent;
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px;
 }
 
 /* HOTEL CARD */
 .hotel-card {
-  background:white;border:1.5px solid #E2E8F0;border-radius:16px;
-  overflow:hidden;transition:all .25s;display:flex;flex-direction:column;
-}
-.hotel-card:hover { box-shadow:0 10px 36px rgba(0,0,0,.1);transform:translateY(-3px);border-color:transparent }
-.hc-photo {
-  height:170px;position:relative;display:flex;
-  align-items:center;justify-content:center;overflow:hidden;
-}
-.hc-photo-inner { font-size:3.5rem;opacity:.8 }
-.hc-heart {
-  position:absolute;top:10px;right:10px;
-  width:32px;height:32px;border-radius:50%;
-  background:rgba(0,0,0,.3);backdrop-filter:blur(6px);
-  border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;
+  background:white;border-radius:16px;border:1px solid #E2E8F0;overflow:hidden;
   transition:all .2s;
 }
-.hc-heart:hover,.hc-heart.saved { background:rgba(255,107,53,.85) }
+.hotel-card:hover { box-shadow:0 12px 40px rgba(0,0,0,.1);transform:translateY(-4px) }
+.hc-img-wrap { position:relative;height:200px;overflow:hidden }
+.hc-img { width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s }
+.hotel-card:hover .hc-img { transform:scale(1.05) }
+.hc-img-fallback {
+  width:100%;height:100%;display:flex;align-items:center;justify-content:center;
+}
 .hc-badge {
-  position:absolute;top:10px;left:10px;
-  background:rgba(255,255,255,.92);backdrop-filter:blur(6px);
-  font-size:.6rem;font-weight:800;color:#7C3AED;
-  padding:4px 9px;border-radius:100px;
-  text-transform:uppercase;letter-spacing:.05em;
+  position:absolute;top:12px;left:12px;
+  background:linear-gradient(135deg,#7C3AED,#EC4899);color:white;
+  font-size:.62rem;font-weight:800;padding:3px 10px;border-radius:100px;
 }
-.hc-tags {
-  position:absolute;bottom:8px;left:8px;
-  display:flex;gap:4px;
+.hc-rating-pill {
+  position:absolute;bottom:10px;right:10px;
+  background:rgba(0,0,0,.6);backdrop-filter:blur(4px);color:white;
+  font-size:.65rem;font-weight:700;padding:4px 10px;border-radius:100px;
 }
+.hc-body { padding:16px }
+.hc-dest-tag {
+  font-size:.62rem;font-weight:800;color:#7C3AED;text-transform:uppercase;
+  letter-spacing:.08em;margin-bottom:5px;
+}
+.hc-name { font-size:.95rem;font-weight:800;color:#0F172A;margin-bottom:4px;line-height:1.3 }
+.hc-area { font-size:.72rem;color:#64748B;margin-bottom:10px }
+.hc-tags { display:flex;flex-wrap:wrap;gap:5px;margin-bottom:12px }
 .hc-tag {
-  background:rgba(0,0,0,.4);backdrop-filter:blur(6px);
-  color:white;font-size:.58rem;font-weight:700;
-  padding:2px 7px;border-radius:100px;
+  font-size:.6rem;font-weight:700;background:#F8FAFC;border:1px solid #E2E8F0;
+  color:#475569;padding:2px 8px;border-radius:6px;
 }
-
-.hc-body { padding:12px;flex:1;display:flex;flex-direction:column;gap:7px }
-.hc-ratings { display:flex;gap:6px;flex-wrap:wrap }
-.hc-rating {
-  display:flex;align-items:center;gap:4px;
-  font-size:.72rem;font-weight:700;color:#0F172A;
-}
-.hc-rating-src {
-  width:17px;height:17px;border-radius:4px;
-  display:flex;align-items:center;justify-content:center;
-  font-size:.62rem;font-weight:900;color:white;
-  flex-shrink:0;
-}
-.hc-rating.booking   .hc-rating-src { background:#003580 }
-.hc-rating.tripadvisor .hc-rating-src { background:#00AA6C }
-.hc-rating-count { font-size:.62rem;color:#94A3B8;font-weight:500 }
-.hc-name-row { display:flex;align-items:flex-start;gap:4px }
-.hc-name {
-  font-size:.82rem;font-weight:800;color:#0F172A;line-height:1.3;
-}
-.hc-area-price {
-  display:flex;align-items:baseline;justify-content:space-between;gap:8px;
-}
-.hc-area  { font-size:.7rem;color:#94A3B8;font-weight:600;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap }
-.hc-price { font-size:.85rem;font-weight:900;color:#0F172A;white-space:nowrap }
-.hc-per   { font-size:.62rem;font-weight:600;color:#94A3B8 }
-.hc-amenities { list-style:none;display:flex;flex-direction:column;gap:3px }
-.hc-amenity {
-  display:flex;align-items:flex-start;gap:5px;
-  font-size:.68rem;color:#475569;line-height:1.4;
-}
-.hc-bullet { color:#7C3AED;font-size:.55rem;flex-shrink:0;margin-top:2px }
-.hc-actions { display:flex;gap:7px;margin-top:auto;padding-top:7px }
+.hc-footer { display:flex;align-items:center;justify-content:space-between;gap:10px }
+.hc-price-wrap { display:flex;align-items:baseline;gap:3px }
+.hc-price { font-size:1.1rem;font-weight:900;color:#7C3AED }
+.hc-per { font-size:.65rem;color:#94A3B8 }
 .hc-book-btn {
-  flex:1;text-align:center;padding:8px;
-  background:linear-gradient(135deg,#7C3AED,#EC4899);
-  color:white;border-radius:9px;font-size:.75rem;font-weight:700;
-  text-decoration:none;transition:all .15s;
-}
-.hc-book-btn:hover { opacity:.9 }
-.hc-save-btn {
-  padding:8px 12px;background:#F8FAFC;border:1px solid #E2E8F0;
-  border-radius:9px;font-size:.75rem;font-weight:700;color:#475569;
+  padding:8px 14px;background:linear-gradient(135deg,#7C3AED,#EC4899);
+  color:white;border:none;border-radius:10px;font-size:.72rem;font-weight:800;
   cursor:pointer;transition:all .15s;white-space:nowrap;
 }
-.hc-save-btn:hover { border-color:#7C3AED;color:#7C3AED }
+.hc-book-btn:hover { opacity:.9;transform:translateY(-1px) }
 
-/* MAP PANEL */
-.map-panel {
-  width:400px;flex-shrink:0;
-  border-left:1px solid #E2E8F0;
-  display:flex;flex-direction:column;
-  position:sticky;top:172px;
-  height:calc(100vh - 172px);
-  overflow:hidden;
+/* CARD TIP */
+.card-tip-section { padding:0 0 60px }
+.cts-card {
+  background:linear-gradient(160deg,#0F172A,#1E1B4B);
+  border-radius:24px;padding:40px;
+  display:grid;grid-template-columns:1fr 2fr auto;gap:32px;align-items:center;
 }
-.map-header {
-  display:flex;align-items:center;justify-content:space-between;
-  padding:10px 14px;border-bottom:1px solid #F1F5F9;
+.cts-badge {
+  font-size:.7rem;font-weight:800;color:#A78BFA;text-transform:uppercase;letter-spacing:.1em;
+  display:block;margin-bottom:10px;
 }
-.map-back-btn {
-  width:30px;height:30px;border-radius:8px;border:1px solid #E2E8F0;
-  background:white;cursor:pointer;font-size:.9rem;
-  display:flex;align-items:center;justify-content:center;color:#475569;
-  transition:background .15s;
+.cts-title { font-size:1.2rem;font-weight:900;color:white;margin-bottom:8px;line-height:1.3 }
+.cts-sub { font-size:.82rem;color:rgba(255,255,255,.6);line-height:1.6 }
+.cts-cards { display:flex;gap:12px;flex-wrap:wrap }
+.cts-card-chip {
+  display:flex;align-items:center;gap:10px;
+  background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);
+  border-radius:12px;padding:10px 14px;flex:1;min-width:160px;
 }
-.map-back-btn:hover { background:#F8FAFC }
-.map-area-btn {
-  display:flex;align-items:center;gap:5px;padding:6px 12px;
-  background:#F8FAFC;border:1px solid #E2E8F0;border-radius:100px;
-  font-size:.75rem;font-weight:700;color:#475569;cursor:pointer;
+.ccc-mock {
+  width:40px;height:26px;border-radius:4px;position:relative;flex-shrink:0;
 }
-.map-container { flex:1;overflow:hidden;position:relative }
-.map-bg {
-  width:100%;height:100%;
-  background:linear-gradient(160deg,#cfe2f3 0%,#a8c8e8 30%,#7eb3d9 60%,#4a9ac4 100%);
-  position:relative;overflow:hidden;
+.ccc-chip {
+  position:absolute;top:4px;left:5px;width:12px;height:9px;
+  background:linear-gradient(135deg,#c8a420,#f0d060);border-radius:2px;
 }
-.map-placeholder {
-  position:absolute;inset:0;
+.ccc-name { font-size:.78rem;font-weight:800;color:white }
+.ccc-bank { font-size:.62rem;color:rgba(255,255,255,.5) }
+.ccc-reward { font-size:.62rem;color:#10B981;font-weight:700 }
+.cts-link-btn {
+  padding:12px 24px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);
+  border-radius:12px;color:white;font-size:.82rem;font-weight:800;
+  text-decoration:none;white-space:nowrap;transition:all .2s;
 }
-.map-grid {
-  position:absolute;inset:0;
-  background-image:
-    linear-gradient(rgba(255,255,255,.15) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(255,255,255,.15) 1px,transparent 1px);
-  background-size:40px 40px;
-}
-/* Land masses - decorative */
-.map-bg::before {
-  content:'';position:absolute;
-  top:20%;left:15%;width:70%;height:60%;
-  background:linear-gradient(135deg,#b8d8a0,#8ec07c,#6aaa56);
-  border-radius:40% 55% 48% 38%;opacity:.7;
-}
-.map-bg::after {
-  content:'';position:absolute;
-  top:50%;left:30%;width:40%;height:35%;
-  background:linear-gradient(135deg,#c9e0b0,#a4c97a);
-  border-radius:50% 38% 45% 55%;opacity:.6;
-}
+.cts-link-btn:hover { background:rgba(255,255,255,.2) }
 
-.map-pins { position:absolute;inset:0;z-index:2 }
-.map-pin {
-  position:absolute;
-  background:white;color:#0F172A;
-  font-size:.65rem;font-weight:800;
-  padding:4px 8px;border-radius:6px;
-  box-shadow:0 2px 10px rgba(0,0,0,.2);
-  cursor:pointer;transition:all .2s;
-  transform:translate(-50%,-50%);
-  border:1px solid #E2E8F0;white-space:nowrap;
-}
-.map-pin:hover,.map-pin.active {
-  background:linear-gradient(135deg,#7C3AED,#EC4899);
-  color:white;border-color:transparent;
-  transform:translate(-50%,-50%) scale(1.1);
-  box-shadow:0 4px 16px rgba(124,58,237,.4);
-  z-index:3;
-}
-.map-label {
-  position:absolute;bottom:10px;left:50%;transform:translateX(-50%);
-  font-size:.7rem;font-weight:700;color:#0F172A;
-  background:rgba(255,255,255,.85);backdrop-filter:blur(6px);
-  padding:4px 10px;border-radius:100px;
-  box-shadow:0 2px 8px rgba(0,0,0,.1);
-  white-space:nowrap;
-}
-.map-count {
-  position:absolute;bottom:0;left:0;right:0;
-  background:rgba(255,255,255,.92);backdrop-filter:blur(8px);
-  border-top:1px solid rgba(0,0,0,.06);
-  padding:8px 14px;font-size:.75rem;font-weight:700;color:#475569;
-  text-align:center;
-}
-
-/* BEST CARD TIP */
-.map-card-tip {
-  padding:12px 14px;border-top:1px solid #F1F5F9;
-  background:#FAFAFA;
-}
-.mct-header { margin-bottom:8px }
-.mct-cards  { display:flex;flex-direction:column;gap:6px }
-.mct-card {
-  display:flex;align-items:center;gap:8px;
-  background:white;border:1px solid #E2E8F0;
-  border-radius:10px;padding:8px 10px;
-}
-.mct-dot {
-  width:28px;height:20px;border-radius:5px;flex-shrink:0;
-}
-
-/* AI ASK BAR */
-.ai-ask-bar {
-  position:fixed;bottom:0;left:0;
-  /* Don't cover the map panel */
-  width:calc(100% - 400px);
-  z-index:100;
-  padding:10px 20px;
-  background:rgba(255,255,255,.95);backdrop-filter:blur(12px);
-  border-top:1px solid #E2E8F0;
-}
-.aab-inner {
-  display:flex;align-items:center;gap:8px;
-  max-width:760px;
-  background:#F8FAFC;border:1.5px solid #EDE9FE;
-  border-radius:100px;padding:8px 8px 8px 16px;
-}
-.aab-icon { font-size:1rem }
-.aab-input {
-  flex:1;border:none;background:transparent;
-  font-family:inherit;font-size:.82rem;outline:none;color:#0F172A;
-}
-.aab-input::placeholder { color:#94A3B8 }
-.aab-send {
-  width:30px;height:30px;border-radius:50%;
-  background:linear-gradient(135deg,#7C3AED,#EC4899);
-  border:none;cursor:pointer;
-  display:flex;align-items:center;justify-content:center;
-  transition:all .2s;flex-shrink:0;
-}
-.aab-send:hover { transform:scale(1.1) }
-
-/* RESPONSIVE */
-@media (max-width:1200px) {
-  .map-panel { width:320px }
-  .ai-ask-bar { width:calc(100% - 320px) }
-  .hotels-grid { grid-template-columns:repeat(2,1fr) }
-}
-@media (max-width:900px) {
-  .map-panel { display:none }
-  .ai-ask-bar { width:100% }
-  .stays-topbar { flex-wrap:wrap;gap:8px }
-  .stb-prefs { display:none }
+@media (max-width:960px) {
+  .stays-search-form { flex-direction:column;border-radius:16px }
+  .ssf-sep { width:100%;height:1px }
+  .ssf-search-btn { width:100%;justify-content:center;padding:14px }
+  .cts-card { grid-template-columns:1fr }
 }
 @media (max-width:640px) {
+  .stays-hero { padding:40px 0 30px }
   .hotels-grid { grid-template-columns:1fr }
-  .stb-search-pill { border-radius:14px;padding:4px }
-  .stb-field { padding:6px 10px }
 }
 </style>

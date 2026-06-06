@@ -18,8 +18,8 @@ const destData = {
       { n:6, name:"Nusa Penida Day Trip",     emoji:"🏝️", cat:"Adventure", desc:"Snorkel with manta rays, visit Kelingking cliff and Angel's Billabong.",             price:"₹3,500–6,000", dur:"Full day",card:"HDFC Infinia: 5x rewards" },
     ],
     areas: [
-      { name:"Nusa Penida",    known:"Kelingking Beach, Crystal Bay, Manta Ray Snorkeling",   emoji:"🏝️", grad:"linear-gradient(160deg,#0284C7,#38BDF8)" },
-      { name:"Nusa Lembongan", known:"Beaches, Diving & Snorkeling, Surfing, Relaxed Vibe",   emoji:"🤿", grad:"linear-gradient(160deg,#0891B2,#06B6D4)" },
+      { name:"Nusa Penida",    known:"Kelingking Beach, Crystal Bay, Manta Ray Snorkeling",   emoji:"🏝️", grad:"linear-gradient(160deg,#059669,#10B981)" },
+      { name:"Nusa Lembongan", known:"Beaches, Diving & Snorkeling, Surfing, Relaxed Vibe",   emoji:"🤿", grad:"linear-gradient(160deg,#047857,#10B981)" },
       { name:"Gili Islands",   known:"Beaches, Diving & Snorkeling, Relaxation, Island Hopping", emoji:"🐠", grad:"linear-gradient(160deg,#059669,#10B981)" },
       { name:"Seminyak",       known:"Beaches, Nightlife, Shopping, Surfing, Luxury Resorts", emoji:"🍹", grad:"linear-gradient(160deg,#7C2D12,#EA580C,#FB923C)" },
       { name:"Kuta",           known:"Surfing, Beaches, Nightlife, Affordable Prices",        emoji:"🏄", grad:"linear-gradient(160deg,#D97706,#F59E0B)" },
@@ -31,7 +31,7 @@ const destData = {
     budget: { min: 1200, max: 5500 }, budgetNote: "2–3 activities per day",
     weather: { temp: "28°C – 34°C", desc: "Sunny with sea breeze, ideal for beaches", icon: "🌊" },
     crowd: { level: "Medium", color: "#F59E0B", note: "Pleasant weather, moderate crowds" },
-    grad: "linear-gradient(160deg,#0891B2,#06B6D4,#0EA5E9)",
+    grad: "linear-gradient(160deg,#059669,#10B981,#D97706)",
     emoji: "🏖️",
     highlights: [
       { n:1, name:"Dudhsagar Waterfalls",    emoji:"💦", cat:"Nature",    desc:"Trek to one of India's tallest waterfalls through the Western Ghats jungle.",       price:"₹1,200–2,000", dur:"Full day", card:"Axis Magnus: 4x rewards" },
@@ -64,7 +64,7 @@ const destData = {
       { n:6, name:"Skydiving – Palm Jumeirah",  emoji:"🪂", cat:"Adventure", desc:"Tandem skydive at 13,000 ft with iconic aerial views of The Palm.",            price:"₹28,000–42,000", dur:"3 hrs",   card:"Amex Plat: Max MR points" },
     ],
     areas: [
-      { name:"Downtown Dubai",    known:"Burj Khalifa, Dubai Mall, Fountain Show",       emoji:"🌆", grad:"linear-gradient(160deg,#0F172A,#1E3A5F,#3B82F6)" },
+      { name:"Downtown Dubai",    known:"Burj Khalifa, Dubai Mall, Fountain Show",       emoji:"🌆", grad:"linear-gradient(160deg,#0F172A,#1E293B,#7C3AED)" },
       { name:"Jumeirah Beach",    known:"Beach clubs, luxury hotels, water sports",      emoji:"🏖️", grad:"linear-gradient(160deg,#0284C7,#38BDF8)" },
       { name:"Old Dubai / Deira", known:"Gold Souk, Spice Souk, Creek, Dhow cruise",    emoji:"🛕", grad:"linear-gradient(160deg,#B45309,#D97706)" },
       { name:"Palm Jumeirah",     known:"Atlantis, skydiving, luxury dining, beaches",   emoji:"🌴", grad:"linear-gradient(160deg,#9D174D,#EC4899)" },
@@ -102,7 +102,7 @@ const categoryColors = {
   Heritage:  { bg:'#FEF3C7', text:'#92400E', border:'#FDE68A' },
   Shopping:  { bg:'#FCE7F3', text:'#9D174D', border:'#FBCFE8' },
   Food:      { bg:'#FFF7ED', text:'#C2410C', border:'#FED7AA' },
-  Landmark:  { bg:'#EFF6FF', text:'#1D4ED8', border:'#BFDBFE' },
+  Landmark:  { bg:'#F3E8FF', text:'#6D28D9', border:'#DDD6FE' },
   Craft:     { bg:'#F0FDF4', text:'#15803D', border:'#BBF7D0' },
 };
 ---
@@ -527,13 +527,11 @@ function handleAiAsk() {
 }
 window.handleAiAsk = handleAiAsk;
 
-// Init
-document.addEventListener('DOMContentLoaded', () => {
-  const now = new Date();
-  document.getElementById('month-val').textContent =
-    now.toLocaleDateString('en-US', { month:'short', year:'numeric' });
-  setDest('Bali');
-});
+// Init — Astro defers scripts so DOM is already ready; no DOMContentLoaded needed
+const now = new Date();
+const monthEl = document.getElementById('month-val');
+if (monthEl) monthEl.textContent = now.toLocaleDateString('en-US', { month:'short', year:'numeric' });
+setDest('Bali');
 </script>
 
 <style>

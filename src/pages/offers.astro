@@ -4,13 +4,51 @@ import Layout from '../layouts/Layout.astro';
 
 <Layout title="Offers & Rewards — Virel" description="Earn Virel Cash Back on flights, hotels, and delay claims. Discover the best credit card offers for travel, food, fuel, and more.">
 
-  <section class="page-hero">
-    <div class="container">
-      <div class="section-label">Offers & Rewards</div>
-      <h1 class="section-title">Every booking earns you <span class="gradient-text">cash back</span></h1>
-      <p class="section-sub" style="margin:0 auto;text-align:center;">
+  <section class="page-hero offers-hero">
+    <div class="oh-bg"></div>
+    <div class="container oh-inner">
+      <span class="section-label" style="background:rgba(255,255,255,.12);color:white;border-color:rgba(255,255,255,.2)">💰 Earn While You Travel</span>
+      <h1 class="section-title" style="color:white;font-size:clamp(2rem,5vw,3.2rem)">Every booking earns you <span style="background:linear-gradient(90deg,#FCD34D,#F59E0B);-webkit-background-clip:text;-webkit-text-fill-color:transparent">cash back</span></h1>
+      <p class="section-sub" style="margin:0 auto;text-align:center;color:rgba(255,255,255,.75)">
         Virel shares 30% of affiliate commissions with you. Stack it with your credit card rewards for maximum returns.
       </p>
+    </div>
+  </section>
+
+  <!-- DEALS SPOTLIGHT (real images) -->
+  <section class="deals-spotlight">
+    <div class="container">
+      <div class="ds-header">
+        <div class="section-label">🔥 Live Deals</div>
+        <h2 class="section-title" style="font-size:1.7rem">Handpicked travel deals right now</h2>
+      </div>
+      <div class="deals-grid">
+        {[
+          { dest:'Goa Beaches', img:'photo-1507525428034-b723cf961d3e', badge:'Flights from ₹3,200', sub:'Mumbai → Goa (IndiGo)', tag:'✈️ Flight Deal', tagColor:'#7C3AED' },
+          { dest:'Bali Villas', img:'photo-1537953773345-d172ccf13cf1', badge:'Hotels from ₹4,500/night', sub:'Ubud · Pool Villa · Breakfast', tag:'🏨 Hotel Deal', tagColor:'#059669' },
+          { dest:'Dubai Luxury', img:'photo-1512453979798-5ea266f8880c', badge:'Package from ₹85,000', sub:'4N · Flight + Hotel · Return', tag:'✨ Package', tagColor:'#D97706' },
+          { dest:'Maldives Escape', img:'photo-1573843981267-be1999ff37cd', badge:'Overwater villa ₹28,000/night', sub:'All Inclusive · 3N+', tag:'👑 Luxury', tagColor:'#EC4899' },
+          { dest:'Rajasthan Heritage', img:'photo-1477587458883-47145ed94245', badge:'Palace stay from ₹9,800/night', sub:'Jaipur · Jaisalmer · Jodhpur', tag:'🏰 Heritage', tagColor:'#7C3AED' },
+          { dest:'Kerala Backwaters', img:'photo-1602216056096-3b40cc0c9944', badge:'Houseboat from ₹8,000', sub:'Alleppey · 1N cruise + meals', tag:'⛵ Experience', tagColor:'#047857' },
+        ].map(d => (
+          <div class="deal-card">
+            <div class="dc-img-wrap">
+              <img src={`https://images.unsplash.com/${d.img}?w=600&q=75&auto=format&fit=crop`}
+                   alt={d.dest} loading="lazy"
+                   onerror="this.parentElement.style.background='#1E1B4B';this.style.display='none'" />
+              <div class="dc-overlay">
+                <span class="dc-tag" style={`background:${d.tagColor}`}>{d.tag}</span>
+              </div>
+            </div>
+            <div class="dc-body">
+              <div class="dc-dest">{d.dest}</div>
+              <div class="dc-badge">{d.badge}</div>
+              <div class="dc-sub">{d.sub}</div>
+              <a href="/travel" class="dc-btn" style={`background:${d.tagColor}`}>Book now →</a>
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   </section>
 
@@ -292,6 +330,50 @@ import Layout from '../layouts/Layout.astro';
 </script>
 
 <style>
+  /* HERO */
+  .offers-hero {
+    position:relative;padding:80px 0 56px;text-align:center;overflow:hidden;
+    background:linear-gradient(160deg,#0F172A 0%,#1E1B4B 55%,#312E81 100%);
+  }
+  .oh-bg {
+    position:absolute;inset:0;
+    background:radial-gradient(ellipse 70% 60% at 50% 30%,rgba(124,58,237,.5),transparent);
+  }
+  .oh-inner { position:relative;z-index:2 }
+
+  /* DEALS SPOTLIGHT */
+  .deals-spotlight { padding:56px 0 48px }
+  .ds-header { margin-bottom:28px }
+  .deals-grid {
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:16px;
+  }
+  .deal-card {
+    background:white;border-radius:16px;overflow:hidden;
+    border:1px solid #E2E8F0;transition:all .25s;
+  }
+  .deal-card:hover { transform:translateY(-5px);box-shadow:0 16px 40px rgba(0,0,0,.1) }
+  .dc-img-wrap { position:relative;height:160px;overflow:hidden;background:#F1F5F9 }
+  .dc-img-wrap img { width:100%;height:100%;object-fit:cover;transition:transform .4s }
+  .deal-card:hover .dc-img-wrap img { transform:scale(1.06) }
+  .dc-overlay { position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.3),transparent) }
+  .dc-tag {
+    position:absolute;top:10px;left:10px;
+    font-size:.62rem;font-weight:800;color:white;
+    padding:3px 10px;border-radius:100px;
+  }
+  .dc-body { padding:14px }
+  .dc-dest { font-size:.92rem;font-weight:900;color:#0F172A;margin-bottom:4px }
+  .dc-badge { font-size:.78rem;font-weight:700;color:#7C3AED;margin-bottom:3px }
+  .dc-sub   { font-size:.7rem;color:#64748B;margin-bottom:12px }
+  .dc-btn {
+    display:inline-block;padding:7px 14px;border-radius:100px;
+    font-size:.72rem;font-weight:800;color:white;text-decoration:none;
+    transition:opacity .15s;
+  }
+  .dc-btn:hover { opacity:.85 }
+
   .page-hero { padding: 80px 0 40px; text-align: center; }
 
   /* CB Hero */
@@ -552,9 +634,11 @@ import Layout from '../layouts/Layout.astro';
     .partners-grid { grid-template-columns: 1fr; }
     .offers-grid { grid-template-columns: 1fr 1fr; }
     .med-inner { grid-template-columns: 1fr; }
+    .deals-grid { grid-template-columns: 1fr 1fr; }
   }
 
   @media (max-width: 600px) {
     .offers-grid { grid-template-columns: 1fr; }
+    .deals-grid  { grid-template-columns: 1fr; }
   }
 </style>
