@@ -75,6 +75,36 @@ const cardsJson = JSON.stringify(indiaCards);
       <div class="cp-list" id="cardList">
         <!-- Rendered by JS -->
       </div>
+
+      <!-- BANKBAZAAR FULL COMPARISON EMBED -->
+      <div class="bb-embed-wrap">
+        <div class="bb-embed-hdr">
+          <div class="bb-embed-left">
+            <span class="bb-logo-badge">BankBazaar</span>
+            <div>
+              <div class="bb-embed-title">Compare 500+ credit cards</div>
+              <div class="bb-embed-sub">Full comparison · Apply directly · Virel earns affiliate income per approval</div>
+            </div>
+          </div>
+          <a href="https://www.bankbazaar.com/credit-card.html?utm_source=virel&utm_medium=affiliate&utm_campaign=cards_embed"
+             target="_blank" rel="noopener" class="bb-open-full">Open full site ↗</a>
+        </div>
+        <div class="bb-iframe-outer">
+          <iframe
+            src="https://www.bankbazaar.com/credit-card.html?utm_source=virel&utm_medium=embed&utm_campaign=cards_page"
+            title="Credit Card Comparison — BankBazaar"
+            width="100%" height="820"
+            frameborder="0"
+            loading="lazy"
+            allow="payment"
+          ></iframe>
+        </div>
+        <div class="bb-pb-row">
+          <span>Also compare on</span>
+          <a href="https://www.paisabazaar.com/credit-card/?utm_source=virel&utm_medium=affiliate"
+             target="_blank" rel="noopener" class="bb-pb-link">PaisaBazaar ↗</a>
+        </div>
+      </div>
     </main>
 
   </div>
@@ -193,16 +223,25 @@ function cardMockup(c, idx, size = 'md') {
 
 // ── SIDEBAR ────────────────────────────────────────────────────
 function renderSidebar() {
-  const banks = [...new Set(ALL_CARDS.map(c => c.bank))].sort();
-  const shown = bankShowAll ? banks : banks.slice(0, 5);
-  document.getElementById('bankFilters').innerHTML = shown.map(b => `
+  if (!ALL_CARDS || ALL_CARDS.length === 0) return;
+  const bankEl = document.getElementById('bankFilters');
+  if (!bankEl) return;
+
+  const banks = [...new Set(ALL_CARDS.map(c => c.bank).filter(Boolean))].sort();
+  const shown  = bankShowAll ? banks : banks.slice(0, 6);
+  bankEl.innerHTML = shown.map(b => `
     <label class="sb-check-item ${state.banks.has(b)?'is-checked':''}">
       <input type="checkbox" value="${b}" ${state.banks.has(b)?'checked':''} onchange="toggleBank('${b}')">
       <span class="sbci-label">${b}</span>
     </label>
   `).join('');
+
   const btn = document.getElementById('bankToggle');
-  btn.textContent = bankShowAll ? '− Show Less' : `+ Show More (${banks.length - 5})`;
+  if (btn) {
+    const extra = banks.length - 6;
+    btn.textContent = bankShowAll ? '− Show Less' : (extra > 0 ? `+ ${extra} more` : '');
+    btn.style.display = (extra > 0 || bankShowAll) ? '' : 'none';
+  }
 
   document.getElementById('catFilters').innerHTML = CAT_DEFS.map(cat => `
     <label class="sb-check-item ${state.cats.has(cat.id)?'is-checked':''}">
@@ -747,6 +786,39 @@ renderCards();
   border-radius:12px;font-weight:800;font-size:.9rem;text-decoration:none;transition:opacity .15s;
 }
 .modal-apply-btn:hover { opacity:.9 }
+
+/* BANKBAZAAR EMBED */
+.bb-embed-wrap {
+  margin-top:40px;border:1.5px solid #E2E8F0;border-radius:20px;overflow:hidden;
+  background:white;
+}
+.bb-embed-hdr {
+  display:flex;align-items:center;justify-content:space-between;
+  padding:16px 20px;background:#F8FAFC;border-bottom:1px solid #E2E8F0;gap:12px;flex-wrap:wrap;
+}
+.bb-embed-left   { display:flex;align-items:center;gap:12px }
+.bb-logo-badge   {
+  font-size:.72rem;font-weight:900;background:linear-gradient(135deg,#FF6B35,#F59E0B);
+  color:white;padding:5px 12px;border-radius:100px;white-space:nowrap;
+}
+.bb-embed-title  { font-size:.9rem;font-weight:800;color:#0F172A }
+.bb-embed-sub    { font-size:.7rem;color:#64748B;margin-top:2px }
+.bb-open-full    {
+  padding:7px 14px;border-radius:100px;background:white;border:1.5px solid #7C3AED;
+  color:#7C3AED;font-size:.75rem;font-weight:700;text-decoration:none;white-space:nowrap;
+  transition:all .15s;
+}
+.bb-open-full:hover { background:#7C3AED;color:white }
+.bb-iframe-outer { width:100%;overflow:hidden }
+.bb-iframe-outer iframe { display:block;width:100%;border:none }
+.bb-pb-row {
+  padding:12px 20px;background:#F8FAFC;border-top:1px solid #E2E8F0;
+  font-size:.75rem;color:#64748B;display:flex;align-items:center;gap:8px;
+}
+.bb-pb-link {
+  color:#7C3AED;font-weight:700;text-decoration:none;
+}
+.bb-pb-link:hover { text-decoration:underline }
 
 @media (max-width:960px) {
   .cp-layout { flex-direction:column;padding:16px }

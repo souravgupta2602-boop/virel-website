@@ -29,48 +29,26 @@ const curatedJson = JSON.stringify(curated);
     <h1 class="sh-title">Find your perfect stay</h1>
     <p class="sh-sub">Real-time hotel prices powered by Hotellook · 700,000+ hotels worldwide</p>
 
-    <form class="stays-search-form" id="staysForm" onsubmit="searchHotels(event)">
-      <div class="ssf-field ssf-dest">
-        <label class="ssf-label">🏙️ Destination</label>
-        <input type="text" id="ssf-dest-input" placeholder="City or hotel name…"
-               list="destList" value="Goa" autocomplete="off" />
-        <datalist id="destList">
-          {destinations.map(d => <option value={d} />)}
-          <option value="Mumbai" /><option value="Delhi" /><option value="Udaipur" />
-          <option value="London" /><option value="New York" /><option value="Rome" />
-        </datalist>
-      </div>
-      <div class="ssf-sep"></div>
-      <div class="ssf-field">
-        <label class="ssf-label">📅 Check-in</label>
-        <input type="date" id="ssf-checkin" />
-      </div>
-      <div class="ssf-sep"></div>
-      <div class="ssf-field">
-        <label class="ssf-label">📅 Check-out</label>
-        <input type="date" id="ssf-checkout" />
-      </div>
-      <div class="ssf-sep"></div>
-      <div class="ssf-field ssf-guests">
-        <label class="ssf-label">👥 Guests</label>
-        <select id="ssf-guests-sel">
-          <option value="1">1 Guest</option>
-          <option value="2" selected>2 Guests</option>
-          <option value="3">3 Guests</option>
-          <option value="4">4 Guests</option>
-        </select>
-      </div>
-      <button type="submit" class="ssf-search-btn">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-        Search Hotels
-      </button>
-    </form>
+    <!-- Travelpayouts hotel search widget — full-page results with affiliate tracking -->
+    <div class="tp-widget-wrap">
+      <script
+        src="https://tp.media/content?promo_id=4132&shmarker=730930&locale=en&currency=inr&powered_by=true&border_radius=10&plain=true&color_scheme=dark&target_host=hotellook.com"
+        charset="utf-8"
+        async
+      ></script>
+    </div>
 
     <div class="sh-powered">
       <span>🔗 Powered by</span>
-      <span class="sh-tp-badge">Hotellook · Travelpayouts</span>
-      <span>· 700K+ properties</span>
+      <span class="sh-tp-badge">Travelpayouts · Hotellook</span>
+      <span>· 700K+ properties · opens full results page</span>
     </div>
+
+    <!-- Hidden inputs used by curated card buttons -->
+    <input type="hidden" id="ssf-checkin" />
+    <input type="hidden" id="ssf-checkout" />
+    <input type="hidden" id="ssf-dest-input" value="Goa" />
+    <input type="hidden" id="ssf-guests-sel" value="2" />
   </div>
 </section>
 
@@ -142,40 +120,21 @@ const curatedJson = JSON.stringify(curated);
 <script define:vars={{ curatedJson }}>
 const HOTELS = JSON.parse(curatedJson);
 
-// Set default dates
+// Default dates for curated card booking buttons
 const today = new Date();
 const checkin  = new Date(today); checkin.setDate(today.getDate() + 14);
 const checkout = new Date(today); checkout.setDate(today.getDate() + 17);
 const fmt = d => d.toISOString().split('T')[0];
-document.getElementById('ssf-checkin').value  = fmt(checkin);
-document.getElementById('ssf-checkout').value = fmt(checkout);
-document.getElementById('ssf-checkin').min    = fmt(today);
-document.getElementById('ssf-checkout').min   = fmt(checkin);
+const ciEl = document.getElementById('ssf-checkin');
+const coEl = document.getElementById('ssf-checkout');
+if (ciEl) ciEl.value = fmt(checkin);
+if (coEl) coEl.value = fmt(checkout);
 
-document.getElementById('ssf-checkin').addEventListener('change', e => {
-  const d = new Date(e.target.value); d.setDate(d.getDate()+1);
-  document.getElementById('ssf-checkout').min   = fmt(d);
-  if (document.getElementById('ssf-checkout').value <= e.target.value) {
-    document.getElementById('ssf-checkout').value = fmt(d);
-  }
-});
-
-function searchHotels(e) {
-  e.preventDefault();
-  const dest     = document.getElementById('ssf-dest-input').value.trim() || 'Goa';
-  const checkIn  = document.getElementById('ssf-checkin').value;
-  const checkOut = document.getElementById('ssf-checkout').value;
-  const adults   = document.getElementById('ssf-guests-sel').value;
-  const url = `https://hotellook.com/search?destination=${encodeURIComponent(dest)}&checkIn=${checkIn}&checkOut=${checkOut}&adults=${adults}&lang=en&currency=inr`;
-  window.open(url, '_blank');
-}
-window.searchHotels = searchHotels;
+function getCheckIn()  { return (ciEl && ciEl.value) || fmt(checkin); }
+function getCheckOut() { return (coEl && coEl.value) || fmt(checkout); }
 
 function quickSearch(dest) {
-  document.getElementById('ssf-dest-input').value = dest;
-  const checkIn  = document.getElementById('ssf-checkin').value;
-  const checkOut = document.getElementById('ssf-checkout').value;
-  const url = `https://hotellook.com/search?destination=${encodeURIComponent(dest)}&checkIn=${checkIn}&checkOut=${checkOut}&adults=2&lang=en&currency=inr`;
+  const url = `https://hotellook.com/search?destination=${encodeURIComponent(dest)}&checkIn=${getCheckIn()}&checkOut=${getCheckOut()}&adults=2&lang=en&currency=inr&marker=730930&subid=virel_stays`;
   window.open(url, '_blank');
 }
 window.quickSearch = quickSearch;
@@ -229,10 +188,8 @@ function renderHotels() {
 }
 
 function bookHotel(name, dest) {
-  const checkIn  = document.getElementById('ssf-checkin').value;
-  const checkOut = document.getElementById('ssf-checkout').value;
-  const query    = encodeURIComponent(name + ' ' + dest);
-  window.open(`https://hotellook.com/search?destination=${query}&checkIn=${checkIn}&checkOut=${checkOut}&adults=2&lang=en&currency=inr`, '_blank');
+  const query = encodeURIComponent(name + ' ' + dest);
+  window.open(`https://hotellook.com/search?destination=${query}&checkIn=${getCheckIn()}&checkOut=${getCheckOut()}&adults=2&lang=en&currency=inr&marker=730930&subid=virel_stays`, '_blank');
 }
 window.bookHotel = bookHotel;
 
@@ -286,6 +243,11 @@ renderHotels();
   transition:opacity .15s;white-space:nowrap;flex-shrink:0;
 }
 .ssf-search-btn:hover { opacity:.9 }
+.tp-widget-wrap {
+  width:100%;max-width:920px;margin:0 auto 12px;border-radius:14px;overflow:hidden;
+  box-shadow:0 4px 32px rgba(0,0,0,.25);
+}
+.tp-widget-wrap > script { display:none }
 .sh-powered { font-size:.72rem;color:rgba(255,255,255,.55) }
 .sh-tp-badge {
   font-size:.72rem;font-weight:800;color:rgba(255,255,255,.85);
