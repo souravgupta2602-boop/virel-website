@@ -1,0 +1,244 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const categories = [
+  {
+    id:'travel', label:'Travel', icon:'✈️', color:'#8B5CF6', grad:'linear-gradient(135deg,#8B5CF6,#7C3AED)',
+    items:[
+      { icon:'✈️', name:'Flights', desc:'Compare & book flights via Amadeus, Duffel, Aviasales', href:'/travel' },
+      { icon:'🏨', name:'Hotels', desc:'Best stays from Booking.com, Hotellook — with card rewards', href:'/travel' },
+      { icon:'🚂', name:'Trains', desc:'IRCTC booking with best card recommendations', href:'/travel' },
+      { icon:'🚕', name:'Cabs', desc:'Book Uber, Ola, Rapido, InDrive in one tap', href:'/travel' },
+      { icon:'🌍', name:'Trip Board', desc:'AI-powered day-by-day itinerary planner', href:'/trip-board' },
+      { icon:'🛡️', name:'Flight Delay Claims', desc:'Claim compensation up to ₹7,500 via Compensair', href:'/travel' },
+    ]
+  },
+  {
+    id:'cards', label:'Cards & Rewards', icon:'💳', color:'#FF6B35', grad:'linear-gradient(135deg,#FF6B35,#F59E0B)',
+    items:[
+      { icon:'💳', name:'Browse Cards', desc:'50+ credit cards with full benefits comparison', href:'/cards' },
+      { icon:'🎯', name:'Best Card Finder', desc:'Find the perfect card for your spending habits', href:'/best-card' },
+      { icon:'📊', name:'My Cards', desc:'Analyze your cards and find better alternatives', href:'/my-cards' },
+      { icon:'🎁', name:'Offers & Cashback', desc:'Live offers, cashback deals, and partner rewards', href:'/offers' },
+      { icon:'🏆', name:'Card Rewards Tracker', desc:'Track points, miles, and cashback across all cards', href:'/offers' },
+      { icon:'🏦', name:'Lounge Access', desc:'See which cards offer airport lounge access', href:'/cards' },
+    ]
+  },
+  {
+    id:'finance', label:'Finance', icon:'📊', color:'#7C3AED', grad:'linear-gradient(135deg,#7C3AED,#EC4899)',
+    items:[
+      { icon:'📥', name:'Import Transactions', desc:'Auto-import from SMS, email, and bank statements', href:'#' },
+      { icon:'📈', name:'Spend Analytics', desc:'See where your money goes with smart category breakdown', href:'#' },
+      { icon:'🔄', name:'Subscriptions', desc:'Find and manage all your recurring charges', href:'#' },
+      { icon:'🏠', name:'Home Loan', desc:'Home loan EMI calculator and best card for payments', href:'#' },
+      { icon:'📉', name:'Investments', desc:'Track mutual funds, stocks and portfolio performance', href:'#' },
+      { icon:'🎯', name:'Credit Score', desc:'Check CIBIL score and get tips to improve it', href:'#' },
+    ]
+  },
+  {
+    id:'food', label:'Food & Delivery', icon:'🍕', color:'#EC4899', grad:'linear-gradient(135deg,#EC4899,#FF6B35)',
+    items:[
+      { icon:'🍕', name:'Food Delivery', desc:'Swiggy, Zomato, and more — use the best card for max cashback', href:'#' },
+      { icon:'🏪', name:'Grocery', desc:'BigBasket, Blinkit — know which card gives grocery rewards', href:'#' },
+      { icon:'☕', name:'Cafes & Dining', desc:'Best cards for restaurant and cafe spend', href:'#' },
+    ]
+  },
+  {
+    id:'health', label:'Health & Insurance', icon:'💊', color:'#10B981', grad:'linear-gradient(135deg,#10B981,#059669)',
+    items:[
+      { icon:'💊', name:'Medicines', desc:'Order from 1mg with price comparison and best card', href:'#' },
+      { icon:'📋', name:'Prescriptions', desc:'Scan and manage your prescriptions digitally', href:'#' },
+      { icon:'🛡️', name:'Insurance', desc:'View and track all your insurance policies', href:'#' },
+      { icon:'❤️', name:'Life Insurance (LIC)', desc:'Track LIC policies, premiums and maturity dates', href:'#' },
+    ]
+  },
+  {
+    id:'shopping', label:'Shopping & Gifts', icon:'🛍️', color:'#F59E0B', grad:'linear-gradient(135deg,#F59E0B,#EC4899)',
+    items:[
+      { icon:'🛍️', name:'Shopping', desc:'Amazon, Flipkart — best card for shopping rewards', href:'#' },
+      { icon:'🎁', name:'Gift Cards', desc:'Buy gift cards from XoxoDay — use travel card for rewards', href:'#' },
+      { icon:'📦', name:'Courier & Shipping', desc:'Compare courier rates and track packages', href:'#' },
+      { icon:'⛽', name:'Fuel', desc:'Best credit card for fuel cashback and surcharge waiver', href:'#' },
+    ]
+  },
+  {
+    id:'tools', label:'Smart Tools', icon:'🤖', color:'#9333EA', grad:'linear-gradient(135deg,#9333EA,#7C3AED)',
+    items:[
+      { icon:'🤖', name:'AI Assistant', desc:'Ask anything about cards, trips, and rewards — voice or text', href:'#' },
+      { icon:'📄', name:'Statement Scanner', desc:'Scan bank statements and PDFs with auto-decryption', href:'#' },
+      { icon:'📱', name:'SMS Import', desc:'Auto-detect and import transactions from SMS', href:'#' },
+      { icon:'📧', name:'Email Import', desc:'Connect Gmail to auto-import bank statements', href:'#' },
+      { icon:'☁️', name:'Cloud Storage', desc:'Sync with Google Drive and OneDrive for your documents', href:'#' },
+      { icon:'🔔', name:'Smart Alerts', desc:'Real-time notifications for spends, rewards, and deals', href:'#' },
+    ]
+  },
+];
+---
+
+<Layout title="Browse All Features | Virel" description="Explore all Virel features — travel booking, card rewards, food, health, shopping, smart tools and more. Everything in one place.">
+
+  <!-- HERO -->
+  <section class="browse-hero">
+    <div class="bh-bg"></div>
+    <div class="container bh-inner">
+      <span class="section-label" style="background:rgba(255,255,255,.1);color:white;border-color:rgba(255,255,255,.2)">🔍 All Features</span>
+      <h1 class="bh-title">Everything in one place</h1>
+      <p class="bh-sub">Travel, finance, food, health, shopping, and smart AI tools — Virel brings all the apps you use into one beautiful experience.</p>
+      <div class="bh-chips">
+        {categories.map(c => (
+          <a href={`#${c.id}`} class="bh-chip" style={`background:${c.grad};color:white`}>
+            {c.icon} {c.label}
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CATEGORIES -->
+  <div class="browse-body">
+    <div class="container">
+      {categories.map(cat => (
+        <section class="cat-section" id={cat.id}>
+          <div class="cat-header">
+            <div class="cat-icon" style={`background:${cat.grad}`}>{cat.icon}</div>
+            <div>
+              <h2 class="cat-title">{cat.label}</h2>
+              <p class="cat-sub">{cat.items.length} features available</p>
+            </div>
+          </div>
+          <div class="cat-grid">
+            {cat.items.map(item => (
+              <a href={item.href} class="feature-item" style={`--item-color:${cat.color}`}>
+                <span class="fi-icon" style={`background:${cat.color}14;color:${cat.color}`}>{item.icon}</span>
+                <div class="fi-body">
+                  <span class="fi-name">{item.name}</span>
+                  <span class="fi-desc">{item.desc}</span>
+                </div>
+                <span class="fi-arrow">→</span>
+              </a>
+            ))}
+          </div>
+        </section>
+      ))}
+    </div>
+  </div>
+
+  <!-- APP CTA -->
+  <section class="browse-cta">
+    <div class="container">
+      <div class="bc-card">
+        <div class="bc-left">
+          <h2 class="bc-title">Get the full experience on mobile</h2>
+          <p class="bc-sub">Many features like SMS auto-import, prescription scanning, and voice AI work best on the Android app.</p>
+          <a href="https://play.google.com/store" target="_blank" class="bc-btn">
+            📱 Download Android App
+          </a>
+        </div>
+        <div class="bc-feats">
+          {['SMS Auto-Import','Offline Access','Voice Commands','Push Notifications','Camera Scan','Real-time Alerts'].map(f => (
+            <span class="bc-feat-chip">✓ {f}</span>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+</Layout>
+
+<style>
+.browse-hero {
+  position:relative;padding:80px 0 60px;text-align:center;overflow:hidden;
+  background:linear-gradient(135deg,#0F172A 0%,#1E1B4B 50%,#312E81 100%);
+}
+.bh-bg {
+  position:absolute;inset:0;
+  background:radial-gradient(ellipse 60% 60% at 50% 50%,rgba(124,58,237,.4) 0%,transparent 70%);
+}
+.bh-inner { position:relative;z-index:2 }
+.bh-title {
+  font-size:clamp(2rem,4.5vw,3rem);font-weight:900;
+  color:white;letter-spacing:-.03em;margin:8px 0 16px;
+}
+.bh-sub {
+  font-size:1rem;color:rgba(255,255,255,.7);
+  max-width:560px;margin:0 auto 32px;line-height:1.72;
+}
+.bh-chips { display:flex;flex-wrap:wrap;gap:8px;justify-content:center }
+.bh-chip {
+  padding:8px 16px;border-radius:100px;font-size:.8rem;font-weight:700;
+  text-decoration:none;transition:all .2s;
+  box-shadow:0 2px 12px rgba(0,0,0,.2);
+}
+.bh-chip:hover { transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.3) }
+
+.browse-body { padding:80px 0 }
+.cat-section { margin-bottom:64px }
+.cat-header {
+  display:flex;align-items:center;gap:16px;
+  margin-bottom:24px;padding-bottom:20px;
+  border-bottom:2px solid #F1F5F9;
+}
+.cat-icon {
+  width:52px;height:52px;border-radius:14px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.4rem;flex-shrink:0;
+}
+.cat-title { font-size:1.3rem;font-weight:900;color:#0F172A;letter-spacing:-.01em }
+.cat-sub   { font-size:.8rem;color:#94A3B8;font-weight:600;margin-top:2px }
+.cat-grid  { display:grid;grid-template-columns:repeat(3,1fr);gap:14px }
+
+.feature-item {
+  display:flex;align-items:center;gap:12px;
+  background:white;border:1.5px solid #E2E8F0;border-radius:14px;
+  padding:14px 16px;text-decoration:none;transition:all .2s;
+}
+.feature-item:hover {
+  border-color:var(--item-color);
+  box-shadow:0 6px 24px rgba(0,0,0,.07);
+  transform:translateY(-2px);
+}
+.fi-icon {
+  width:40px;height:40px;border-radius:11px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.1rem;flex-shrink:0;
+}
+.fi-body { flex:1;display:flex;flex-direction:column;gap:2px }
+.fi-name { font-size:.88rem;font-weight:800;color:#0F172A }
+.fi-desc { font-size:.72rem;color:#64748B;line-height:1.4 }
+.fi-arrow { font-size:.9rem;color:#CBD5E1;transition:all .2s }
+.feature-item:hover .fi-arrow { color:var(--item-color);transform:translateX(3px) }
+
+.browse-cta { padding:0 0 80px }
+.bc-card {
+  background:linear-gradient(135deg,#0F172A,#1E1B4B);
+  border-radius:24px;padding:48px;
+  display:flex;align-items:center;justify-content:space-between;
+  gap:40px;flex-wrap:wrap;
+}
+.bc-title { font-size:1.5rem;font-weight:900;color:white;margin-bottom:10px }
+.bc-sub   { font-size:.88rem;color:rgba(255,255,255,.65);line-height:1.65;max-width:380px }
+.bc-btn {
+  display:inline-flex;align-items:center;gap:8px;
+  background:white;color:#0F172A;
+  padding:13px 24px;border-radius:12px;
+  font-weight:800;font-size:.9rem;
+  text-decoration:none;transition:all .2s;margin-top:20px;
+  box-shadow:0 4px 20px rgba(0,0,0,.2);
+}
+.bc-btn:hover { transform:translateY(-2px);box-shadow:0 8px 28px rgba(0,0,0,.3) }
+.bc-feats { display:flex;flex-wrap:wrap;gap:8px;max-width:340px }
+.bc-feat-chip {
+  font-size:.78rem;font-weight:700;
+  background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.15);
+  color:rgba(255,255,255,.8);
+  padding:6px 12px;border-radius:100px;
+}
+
+@media (max-width:1024px) { .cat-grid { grid-template-columns:repeat(2,1fr) } }
+@media (max-width:640px)  {
+  .cat-grid { grid-template-columns:1fr }
+  .bc-card  { padding:28px }
+  .bc-feats { max-width:none }
+}
+</style>

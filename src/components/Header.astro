@@ -1,10 +1,29 @@
 ---
 const navLinks = [
-  { href: '/', label: 'Home' },
-  { href: '/travel', label: 'Travel' },
-  { href: '/best-card', label: 'Best Card' },
-  { href: '/cards', label: 'Browse Cards' },
-  { href: '/offers', label: 'Offers & Rewards' },
+  { href:'/',            label:'Home',       icon:'🏠', color:'#7C3AED' },
+  { href:'/trip-board',  label:'Trip Board', icon:'✈️', color:'#8B5CF6', badge:'AI' },
+  { href:'/stays',       label:'Stays',      icon:'🏨', color:'#FF6B35' },
+  { href:'/activities',  label:'Activities', icon:'🎭', color:'#EC4899' },
+  { href:'/travel',      label:'Flights',    icon:'🛫', color:'#D97706' },
+  { href:'/cards',       label:'Cards',      icon:'💳', color:'#F59E0B' },
+  { href:'/offers',      label:'Rewards',    icon:'🎁', color:'#059669' },
+  { href:'/browse',      label:'Browse',     icon:'🔍', color:'#9333EA' },
+  { href:'/family',      label:'Family',     icon:'👨‍👩‍👧', color:'#E11D48', soon:true },
+];
+
+const mobileGroups = [
+  { label:'Discover', items:[
+    { href:'/trip-board', icon:'✈️', label:'Trip Board', color:'#8B5CF6', badge:'AI' },
+    { href:'/stays',      icon:'🏨', label:'Stays',      color:'#FF6B35' },
+    { href:'/activities', icon:'🎭', label:'Activities', color:'#EC4899' },
+    { href:'/travel',     icon:'🛫', label:'Flights',    color:'#D97706' },
+  ]},
+  { label:'Finance', items:[
+    { href:'/cards',   icon:'💳', label:'Cards',   color:'#F59E0B' },
+    { href:'/offers',  icon:'🎁', label:'Rewards', color:'#059669' },
+    { href:'/browse',  icon:'🔍', label:'Browse',  color:'#9333EA' },
+    { href:'/family',  icon:'👨‍👩‍👧', label:'Family', color:'#E11D48', soon:true },
+  ]},
 ];
 
 const currentPath = Astro.url.pathname;
@@ -13,23 +32,50 @@ const currentPath = Astro.url.pathname;
 <header>
   <div class="container">
     <a href="/" class="logo">
-      <div class="logo-icon">V</div>
-      <span class="logo-text">Virel</span>
+      <div class="logo-mark">
+        <svg width="38" height="38" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="lg1" x1="0" y1="0" x2="38" y2="38" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#7C3AED"/>
+              <stop offset="50%" stop-color="#EC4899"/>
+              <stop offset="100%" stop-color="#FF6B35"/>
+            </linearGradient>
+            <linearGradient id="lg2" x1="38" y1="0" x2="0" y2="38" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#F59E0B"/>
+              <stop offset="100%" stop-color="#10B981"/>
+            </linearGradient>
+          </defs>
+          <!-- Background pill shape -->
+          <rect x="0" y="0" width="38" height="38" rx="12" fill="url(#lg1)"/>
+          <!-- V lettermark — bold, clean, white -->
+          <path d="M9 10 L19 28 L29 10" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+          <!-- Small accent dot -->
+          <circle cx="19" cy="28" r="2.5" fill="url(#lg2)"/>
+        </svg>
+      </div>
+      <div class="logo-wordmark">
+        <span class="logo-v">V</span><span class="logo-irel">irel</span>
+      </div>
     </a>
 
     <nav class="nav-links">
       {navLinks.map(link => (
-        <a href={link.href} class:list={['nav-link', { active: currentPath === link.href || (link.href !== '/' && currentPath.startsWith(link.href)) }]}>
-          {link.label}
+        <a
+          href={link.href}
+          class:list={['nav-link', { active: currentPath === link.href || (link.href !== '/' && currentPath.startsWith(link.href)) }]}
+          style={`--tc:${link.color}`}
+        >
+          <span class="ni">{link.icon}</span>
+          <span class="nl">{link.label}</span>
+          {link.badge && <span class="nb ai-nb">{link.badge}</span>}
+          {link.soon  && <span class="nb sn-nb">Soon</span>}
         </a>
       ))}
     </nav>
 
     <div class="header-cta">
-      <a href="/login" class="btn-login">Log In</a>
-      <a href="/signup" class="btn-primary">
-        Sign Up Free
-      </a>
+      <a href="/login"  class="btn-login"  id="hdr-login">Log In</a>
+      <a href="/signup" class="btn-signup" id="hdr-signup">Get Started ✨</a>
     </div>
 
     <button class="hamburger" id="hamburger" aria-label="Menu">
@@ -37,241 +83,241 @@ const currentPath = Astro.url.pathname;
     </button>
   </div>
 
+  <!-- MOBILE MENU -->
   <div class="mobile-menu" id="mobileMenu">
-    {navLinks.map(link => (
-      <a href={link.href} class="mobile-link">{link.label}</a>
+    {mobileGroups.map(g => (
+      <div class="mm-group">
+        <span class="mm-group-label">{g.label}</span>
+        <div class="mm-grid">
+          {g.items.map(item => (
+            <a href={item.href} class="mm-item" style={`--mc:${item.color}`}>
+              <span class="mm-icon">{item.icon}</span>
+              <span class="mm-label">{item.label}</span>
+              {item.soon  && <span class="mm-soon">Soon</span>}
+              {item.badge && <span class="mm-badge">{item.badge}</span>}
+            </a>
+          ))}
+        </div>
+      </div>
     ))}
-    <div class="mobile-auth">
-      <a href="/login" class="mobile-login">Log In</a>
-      <a href="/signup" class="btn-primary mobile-cta">Sign Up Free</a>
+    <div class="mm-auth">
+      <a href="/login"  class="mm-login">Log In</a>
+      <a href="/signup" class="mm-signup">Get Started ✨</a>
     </div>
   </div>
 </header>
 
-<!-- Show user name if logged in -->
-<div id="user-bar" style="display:none" class="user-bar">
-  <div class="container" style="display:flex;align-items:center;justify-content:space-between;padding:8px 24px;">
-    <span id="user-greeting" style="font-size:0.85rem;color:#4F46E5;font-weight:600;"></span>
-    <button id="logout-btn" style="font-size:0.8rem;color:#6B7280;background:none;border:none;cursor:pointer;">Sign out</button>
+<!-- USER BAR -->
+<div id="user-bar" class="user-bar" style="display:none">
+  <div class="container ub-inner">
+    <div class="ub-left">
+      <div class="ub-avatar" id="ub-avatar">👤</div>
+      <span id="ub-greeting"></span>
+    </div>
+    <div class="ub-actions">
+      <a href="/my-cards"    class="ub-link">My Cards</a>
+      <a href="/trip-board"  class="ub-link">My Trips</a>
+      <a href="/stays"       class="ub-link">Stays</a>
+      <button id="logout-btn" class="ub-logout">Sign out</button>
+    </div>
   </div>
 </div>
 
 <script type="module">
   import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
   import { getAuth, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
-
-  const firebaseConfig = {
-    apiKey: "AIzaSyPLACEHOLDER",
-    authDomain: "virel-app.firebaseapp.com",
-    projectId: "virel-app",
-    storageBucket: "virel-app.appspot.com",
-    messagingSenderId: "000000000000",
-    appId: "1:000000000000:web:placeholder"
-  };
-
-  // Load config from window if set (injected by firebase-config.js in public/)
-  const cfg = window.__VIREL_FIREBASE_CONFIG__ || firebaseConfig;
-
+  const cfg = window.__VIREL_FIREBASE_CONFIG__ || { apiKey:'placeholder', authDomain:'virel-app.firebaseapp.com', projectId:'virel-app', storageBucket:'virel-app.appspot.com', messagingSenderId:'000000000000', appId:'placeholder' };
   try {
-    const app = initializeApp(cfg, 'header-app');
+    const app  = initializeApp(cfg, 'hdr');
     const auth = getAuth(app);
-    onAuthStateChanged(auth, (user) => {
-      const bar = document.getElementById('user-bar');
-      const greeting = document.getElementById('user-greeting');
-      const loginBtn = document.querySelector('.header-cta .btn-login');
-      const signupBtn = document.querySelector('.header-cta .btn-primary');
-      if (user) {
-        if (bar) { bar.style.display = 'block'; }
-        if (greeting) greeting.textContent = `👋 Hi, ${user.displayName || user.email}`;
-        if (loginBtn) loginBtn.style.display = 'none';
-        if (signupBtn) { signupBtn.textContent = 'My Account'; signupBtn.href = '/my-cards'; }
-      }
+    onAuthStateChanged(auth, user => {
+      if (!user) return;
+      document.getElementById('user-bar').style.display = 'block';
+      const name = user.displayName || user.email?.split('@')[0] || 'Traveller';
+      document.getElementById('ub-greeting').textContent = `Hi, ${name}!`;
+      document.getElementById('ub-avatar').textContent   = name.charAt(0).toUpperCase();
+      document.getElementById('hdr-login').style.display  = 'none';
+      const su = document.getElementById('hdr-signup');
+      if (su) { su.textContent = '✨ My Account'; su.href = '/my-cards'; }
     });
-    document.getElementById('logout-btn')?.addEventListener('click', () => signOut(auth).then(() => location.href = '/'));
-  } catch(e) { /* Firebase not configured yet */ }
+    document.getElementById('logout-btn')?.addEventListener('click', () => signOut(auth).then(() => location.href='/'));
+  } catch(e){}
 </script>
 
 <script>
-  const hamburger = document.getElementById('hamburger');
-  const mobileMenu = document.getElementById('mobileMenu');
-  hamburger?.addEventListener('click', () => {
-    mobileMenu?.classList.toggle('open');
-    hamburger.classList.toggle('active');
+  const ham  = document.getElementById('hamburger');
+  const menu = document.getElementById('mobileMenu');
+  ham?.addEventListener('click', () => {
+    menu?.classList.toggle('open');
+    ham.classList.toggle('active');
   });
+  menu?.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    menu.classList.remove('open');
+    ham?.classList.remove('active');
+  }));
 </script>
 
 <style>
-  header {
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
-  }
+header {
+  position:sticky;top:0;z-index:200;
+  background:rgba(255,255,255,.97);
+  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border-bottom:1px solid rgba(0,0,0,.07);
+  box-shadow:0 1px 12px rgba(0,0,0,.04);
+}
+header .container {
+  display:flex;align-items:center;justify-content:space-between;
+  height:68px;gap:8px;
+}
 
-  header .container {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: 68px;
-    gap: 16px;
-  }
+/* LOGO */
+.logo { display:flex;align-items:center;gap:10px;flex-shrink:0;text-decoration:none }
+.logo-mark {
+  flex-shrink:0;
+  filter: drop-shadow(0 3px 10px rgba(124,58,237,.35));
+  transition: transform .2s;
+}
+.logo:hover .logo-mark { transform: rotate(-4deg) scale(1.06); }
+.logo-wordmark { display:flex;align-items:baseline;gap:0 }
+.logo-v {
+  font-size:1.5rem;font-weight:900;letter-spacing:-.04em;line-height:1;
+  background:linear-gradient(135deg,#7C3AED,#EC4899);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.logo-irel {
+  font-size:1.35rem;font-weight:800;letter-spacing:-.025em;color:#0F172A;
+}
 
-  .logo {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    flex-shrink: 0;
-  }
+/* NAV */
+.nav-links { display:flex;align-items:center;gap:1px;flex:1;justify-content:center }
+.nav-link {
+  display:flex;align-items:center;gap:4px;
+  padding:6px 8px;border-radius:9px;
+  font-size:.75rem;font-weight:700;color:#475569;
+  transition:all .15s;white-space:nowrap;
+  position:relative;text-decoration:none;
+}
+.nav-link:hover  { background:color-mix(in srgb,var(--tc) 8%,transparent);color:var(--tc) }
+.nav-link.active { background:color-mix(in srgb,var(--tc) 10%,transparent);color:var(--tc) }
+.nav-link.active::after {
+  content:'';position:absolute;bottom:-1px;left:50%;transform:translateX(-50%);
+  width:18px;height:2.5px;background:var(--tc);border-radius:2px;
+}
+.ni { font-size:.82rem;line-height:1 }
+.nl { font-weight:700 }
+.nb {
+  font-size:.52rem;font-weight:900;padding:1px 4px;
+  border-radius:4px;text-transform:uppercase;letter-spacing:.04em;line-height:1.3;
+}
+.ai-nb { background:linear-gradient(135deg,#7C3AED,#EC4899);color:white }
+.sn-nb { background:linear-gradient(135deg,#F59E0B,#EC4899);color:white }
 
-  .logo-icon {
-    width: 36px;
-    height: 36px;
-    background: linear-gradient(135deg, #4F46E5, #7C3AED);
-    border-radius: 10px;
-    color: white;
-    font-weight: 900;
-    font-size: 1.1rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
+/* CTA */
+.header-cta { display:flex;align-items:center;gap:7px;flex-shrink:0 }
+.btn-login {
+  padding:7px 14px;border-radius:9px;font-size:.8rem;font-weight:700;
+  color:#7C3AED;border:1.5px solid rgba(124,58,237,.3);
+  transition:all .15s;white-space:nowrap;
+}
+.btn-login:hover { background:rgba(124,58,237,.07);border-color:#7C3AED }
+.btn-signup {
+  display:inline-flex;align-items:center;gap:5px;
+  background:linear-gradient(135deg,#7C3AED,#EC4899);
+  color:white;padding:8px 16px;border-radius:9px;
+  font-size:.8rem;font-weight:700;
+  box-shadow:0 3px 12px rgba(124,58,237,.3);
+  transition:all .2s;text-decoration:none;white-space:nowrap;
+}
+.btn-signup:hover { transform:translateY(-1px);box-shadow:0 5px 18px rgba(124,58,237,.4) }
 
-  .logo-text {
-    font-size: 1.3rem;
-    font-weight: 800;
-    background: linear-gradient(135deg, #4F46E5, #7C3AED);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
+/* USER BAR */
+.user-bar {
+  background:linear-gradient(90deg,rgba(124,58,237,.04),rgba(236,72,153,.04));
+  border-bottom:1px solid rgba(124,58,237,.1);
+}
+.ub-inner { display:flex;align-items:center;justify-content:space-between;padding:7px 24px }
+.ub-left  { display:flex;align-items:center;gap:8px }
+.ub-avatar {
+  width:26px;height:26px;border-radius:50%;
+  background:linear-gradient(135deg,#7C3AED,#EC4899);
+  color:white;font-size:.8rem;font-weight:800;
+  display:flex;align-items:center;justify-content:center;
+}
+#ub-greeting { font-size:.82rem;font-weight:700;color:#5B21B6 }
+.ub-actions { display:flex;align-items:center;gap:14px }
+.ub-link { font-size:.78rem;font-weight:700;color:#7C3AED;transition:color .15s }
+.ub-link:hover { color:#EC4899 }
+.ub-logout {
+  font-size:.75rem;color:#94A3B8;background:none;border:none;
+  cursor:pointer;font-weight:500;font-family:inherit;transition:color .15s;
+}
+.ub-logout:hover { color:#475569 }
 
-  .nav-links {
-    display: flex;
-    align-items: center;
-    gap: 2px;
-    flex: 1;
-    justify-content: center;
-  }
+/* HAMBURGER */
+.hamburger {
+  display:none;flex-direction:column;gap:5px;
+  background:none;border:none;cursor:pointer;padding:7px;border-radius:8px;transition:background .15s;
+}
+.hamburger:hover { background:rgba(0,0,0,.05) }
+.hamburger span {
+  display:block;width:21px;height:2px;background:#334155;border-radius:2px;transition:all .25s;
+}
+.hamburger.active span:nth-child(1){ transform:rotate(45deg) translate(5px,5px) }
+.hamburger.active span:nth-child(2){ opacity:0;transform:scaleX(0) }
+.hamburger.active span:nth-child(3){ transform:rotate(-45deg) translate(5px,-5px) }
 
-  .nav-link {
-    padding: 7px 13px;
-    border-radius: 8px;
-    font-size: 0.88rem;
-    font-weight: 500;
-    color: #374151;
-    transition: all 0.15s;
-    white-space: nowrap;
-  }
+/* MOBILE MENU */
+.mobile-menu {
+  display:none;padding:16px 20px 24px;
+  border-top:1px solid rgba(0,0,0,.07);background:white;
+}
+.mobile-menu.open { display:block }
+.mm-group { margin-bottom:16px }
+.mm-group-label {
+  font-size:.65rem;font-weight:900;color:#94A3B8;text-transform:uppercase;
+  letter-spacing:.1em;padding:0 2px;margin-bottom:8px;display:block;
+}
+.mm-grid { display:grid;grid-template-columns:repeat(4,1fr);gap:7px }
+.mm-item {
+  display:flex;flex-direction:column;align-items:center;gap:4px;
+  padding:11px 6px;border-radius:12px;
+  background:#F8FAFC;border:1.5px solid #E2E8F0;
+  text-decoration:none;transition:all .15s;position:relative;
+}
+.mm-item:hover {
+  background:color-mix(in srgb,var(--mc) 8%,transparent);
+  border-color:color-mix(in srgb,var(--mc) 30%,transparent);
+}
+.mm-icon  { font-size:1.3rem;line-height:1 }
+.mm-label { font-size:.65rem;font-weight:700;color:#475569;text-align:center }
+.mm-soon,.mm-badge {
+  position:absolute;top:4px;right:4px;
+  font-size:.5rem;font-weight:900;color:white;
+  padding:1px 4px;border-radius:4px;text-transform:uppercase;
+}
+.mm-soon  { background:linear-gradient(135deg,#F59E0B,#EC4899) }
+.mm-badge { background:linear-gradient(135deg,#7C3AED,#EC4899) }
+.mm-auth {
+  display:flex;gap:10px;padding-top:14px;
+  border-top:1px solid #F1F5F9;
+}
+.mm-login {
+  flex:1;text-align:center;padding:11px;border-radius:10px;
+  font-weight:700;color:#7C3AED;border:1.5px solid rgba(124,58,237,.3);font-size:.88rem;
+}
+.mm-signup {
+  flex:1;text-align:center;padding:11px;border-radius:10px;
+  font-weight:700;color:white;font-size:.88rem;
+  background:linear-gradient(135deg,#7C3AED,#EC4899);
+  box-shadow:0 3px 12px rgba(124,58,237,.3);text-decoration:none;
+}
 
-  .nav-link:hover, .nav-link.active {
-    background: rgba(79, 70, 229, 0.08);
-    color: #4F46E5;
-  }
-
-  .header-cta {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    flex-shrink: 0;
-  }
-
-  .btn-login {
-    padding: 9px 18px;
-    border-radius: 10px;
-    font-size: 0.9rem;
-    font-weight: 600;
-    color: #4F46E5;
-    border: 1.5px solid rgba(79,70,229,0.3);
-    transition: all 0.15s;
-  }
-
-  .btn-login:hover {
-    background: rgba(79,70,229,0.06);
-    border-color: #4F46E5;
-  }
-
-  .header-cta .btn-primary {
-    padding: 9px 20px;
-    font-size: 0.9rem;
-  }
-
-  .user-bar {
-    background: rgba(79,70,229,0.04);
-    border-bottom: 1px solid rgba(79,70,229,0.1);
-  }
-
-  .hamburger {
-    display: none;
-    flex-direction: column;
-    gap: 5px;
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 6px;
-  }
-
-  .hamburger span {
-    display: block;
-    width: 24px;
-    height: 2px;
-    background: #374151;
-    border-radius: 2px;
-    transition: all 0.2s;
-  }
-
-  .mobile-menu {
-    display: none;
-    flex-direction: column;
-    gap: 4px;
-    padding: 12px 24px 20px;
-    border-top: 1px solid rgba(0,0,0,0.06);
-  }
-
-  .mobile-menu.open {
-    display: flex;
-  }
-
-  .mobile-link {
-    padding: 10px 12px;
-    border-radius: 8px;
-    font-size: 0.95rem;
-    font-weight: 500;
-    color: #374151;
-  }
-
-  .mobile-auth {
-    display: flex;
-    gap: 10px;
-    margin-top: 12px;
-    padding-top: 12px;
-    border-top: 1px solid #F3F4F6;
-  }
-
-  .mobile-login {
-    flex: 1;
-    text-align: center;
-    padding: 11px;
-    border-radius: 10px;
-    font-weight: 600;
-    color: #4F46E5;
-    border: 1.5px solid rgba(79,70,229,0.3);
-    font-size: 0.9rem;
-  }
-
-  .mobile-cta {
-    flex: 1;
-    justify-content: center;
-    font-size: 0.9rem;
-  }
-
-  @media (max-width: 900px) {
-    .nav-links, .header-cta {
-      display: none;
-    }
-    .hamburger {
-      display: flex;
-    }
-  }
+@media (max-width:1100px) {
+  .nav-link { padding:5px 6px;font-size:.72rem }
+  .ni { display:none }
+}
+@media (max-width:860px) {
+  .nav-links,.header-cta { display:none }
+  .hamburger { display:flex }
+}
 </style>

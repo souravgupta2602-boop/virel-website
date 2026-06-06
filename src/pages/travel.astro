@@ -27,15 +27,61 @@ import Layout from '../layouts/Layout.astro';
 
         <!-- Flights tab -->
         <div id="tab-flights" class="tab-content">
+          <!-- Airport datalist -->
+          <datalist id="airport-list">
+            <option value="Delhi">
+            <option value="Mumbai">
+            <option value="Bangalore">
+            <option value="Bengaluru">
+            <option value="Chennai">
+            <option value="Hyderabad">
+            <option value="Kolkata">
+            <option value="Goa">
+            <option value="Pune">
+            <option value="Ahmedabad">
+            <option value="Jaipur">
+            <option value="Kochi">
+            <option value="Lucknow">
+            <option value="Varanasi">
+            <option value="Amritsar">
+            <option value="Chandigarh">
+            <option value="Srinagar">
+            <option value="Leh">
+            <option value="Guwahati">
+            <option value="Bhubaneswar">
+            <option value="Visakhapatnam">
+            <option value="Coimbatore">
+            <option value="Indore">
+            <option value="Nagpur">
+            <option value="Patna">
+            <option value="Ranchi">
+            <option value="Raipur">
+            <option value="Thiruvananthapuram">
+            <option value="Mangalore">
+            <option value="Dubai">
+            <option value="Singapore">
+            <option value="Bangkok">
+            <option value="London">
+            <option value="Paris">
+            <option value="Tokyo">
+            <option value="New York">
+            <option value="Bali">
+            <option value="Maldives">
+            <option value="Abu Dhabi">
+            <option value="Doha">
+            <option value="Kuala Lumpur">
+            <option value="Hong Kong">
+          </datalist>
+
           <div class="search-grid">
             <div class="field-group">
               <label class="field-label">From</label>
-              <input type="text" id="origin" class="field-input" placeholder="DEL — Delhi" value="DEL" />
+              <input type="text" id="origin" class="field-input" placeholder="Delhi, Mumbai, Goa…" value="Delhi" list="airport-list" autocomplete="off" />
             </div>
             <button class="swap-btn" id="swap-btn" title="Swap">⇌</button>
             <div class="field-group">
               <label class="field-label">To</label>
-              <input type="text" id="dest" class="field-input" placeholder="BOM — Mumbai" value="BOM" />
+              <input type="text" id="dest" class="field-input" placeholder="Dubai, Singapore, Goa…" value="Mumbai" list="airport-list" autocomplete="off" />
             </div>
             <div class="field-group">
               <label class="field-label">Date</label>
@@ -281,6 +327,60 @@ import Layout from '../layouts/Layout.astro';
 </Layout>
 
 <script>
+  // City → IATA mapping
+  const IATA = {
+    'delhi':'DEL','new delhi':'DEL',
+    'mumbai':'BOM','bombay':'BOM',
+    'bangalore':'BLR','bengaluru':'BLR',
+    'chennai':'MAA','madras':'MAA',
+    'hyderabad':'HYD',
+    'kolkata':'CCU','calcutta':'CCU',
+    'goa':'GOI','dabolim':'GOI',
+    'pune':'PNQ',
+    'ahmedabad':'AMD',
+    'jaipur':'JAI',
+    'kochi':'COK','cochin':'COK',
+    'lucknow':'LKO',
+    'varanasi':'VNS',
+    'amritsar':'ATQ',
+    'chandigarh':'IXC',
+    'srinagar':'SXR',
+    'leh':'IXL',
+    'guwahati':'GAU',
+    'bhubaneswar':'BBI',
+    'visakhapatnam':'VTZ','vizag':'VTZ',
+    'coimbatore':'CJB',
+    'indore':'IDR',
+    'nagpur':'NAG',
+    'patna':'PAT',
+    'ranchi':'IXR',
+    'raipur':'RPR',
+    'thiruvananthapuram':'TRV','trivandrum':'TRV',
+    'mangalore':'IXE',
+    'bhopal':'BHO',
+    'bagdogra':'IXB',
+    'dubai':'DXB',
+    'singapore':'SIN',
+    'bangkok':'BKK',
+    'london':'LHR',
+    'paris':'CDG',
+    'tokyo':'NRT','tokyo haneda':'HND',
+    'new york':'JFK',
+    'bali':'DPS',
+    'maldives':'MLE',
+    'abu dhabi':'AUH',
+    'doha':'DOH',
+    'kuala lumpur':'KUL',
+    'hong kong':'HKG',
+  };
+  function resolveIATA(raw) {
+    const key = raw.trim().toLowerCase();
+    if (IATA[key]) return IATA[key];
+    // If already looks like an IATA code (3 uppercase letters), keep it
+    if (/^[A-Z]{3}$/.test(raw.trim())) return raw.trim();
+    return raw.trim().toUpperCase().slice(0,3);
+  }
+
   // Tab switching
   document.querySelectorAll('.stab').forEach(btn => {
     btn.addEventListener('click', () => {
@@ -321,15 +421,18 @@ import Layout from '../layouts/Layout.astro';
 
   // Flight search
   document.getElementById('search-flights-btn')?.addEventListener('click', () => {
-    const origin = document.getElementById('origin').value.trim().toUpperCase().slice(0,3);
-    const dest = document.getElementById('dest').value.trim().toUpperCase().slice(0,3);
+    const originRaw = document.getElementById('origin').value;
+    const destRaw   = document.getElementById('dest').value;
     const date = document.getElementById('travel-date').value;
     const pax = document.getElementById('passengers').value;
 
-    if (!origin || !dest || !date) {
+    if (!originRaw.trim() || !destRaw.trim() || !date) {
       alert('Please fill in origin, destination, and date.');
       return;
     }
+
+    const origin = resolveIATA(originRaw);
+    const dest   = resolveIATA(destRaw);
 
     document.getElementById('loading-section').style.display = 'block';
     document.getElementById('results-section').style.display = 'none';
@@ -343,7 +446,7 @@ import Layout from '../layouts/Layout.astro';
     setTimeout(() => {
       document.getElementById('loading-section').style.display = 'none';
       document.getElementById('results-section').style.display = 'block';
-      document.getElementById('results-title').textContent = `Flights: ${origin} → ${dest}`;
+      document.getElementById('results-title').textContent = `Flights: ${originRaw.trim()} → ${destRaw.trim()} (${origin} → ${dest})`;
       document.getElementById('results-meta').textContent = `${date} · ${pax} passenger${pax > 1 ? 's' : ''} · Opened Aviasales`;
       document.getElementById('best-card-banner').style.display = 'flex';
       document.getElementById('bcb-card').textContent = 'HDFC Regalia — 2x on flights + lounge';

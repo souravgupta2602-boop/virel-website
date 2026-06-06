@@ -1,0 +1,647 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const destinations = [
+  { name:'Goa',        country:'India',       emoji:'🏖️', tag:'Beach',      budget:'₹15K–35K', days:'3–5', best:'Oct–Mar', grad:'linear-gradient(160deg,#10B981,#059669,#14B8A6)',  desc:'Golden beaches, vibrant nightlife, Portuguese heritage and fresh seafood.' },
+  { name:'Bali',       country:'Indonesia',   emoji:'🌴', tag:'Island',     budget:'₹40K–90K', days:'5–8', best:'Apr–Sep', grad:'linear-gradient(160deg,#059669,#10B981,#34D399)',  desc:'Terraced rice fields, ancient temples, world-class surf and volcanic peaks.' },
+  { name:'Dubai',      country:'UAE',         emoji:'🏙️', tag:'Luxury',    budget:'₹60K–2L',  days:'4–7', best:'Nov–Mar', grad:'linear-gradient(160deg,#B45309,#D97706,#F59E0B)',  desc:'Desert adventures, skyscraper views, souks and ultra-luxury experiences.' },
+  { name:'Jaipur',     country:'India',       emoji:'🏰', tag:'Heritage',   budget:'₹8K–22K',  days:'2–4', best:'Oct–Feb', grad:'linear-gradient(160deg,#BE185D,#EC4899,#F9A8D4)', desc:'Royal palaces, bustling bazaars, camel rides and the iconic Amber Fort.' },
+  { name:'Maldives',   country:'Maldives',    emoji:'🌊', tag:'Luxury',     budget:'₹1L–5L',   days:'4–7', best:'Nov–Apr', grad:'linear-gradient(160deg,#7C3AED,#A78BFA,#BAE6FD)', desc:'Overwater bungalows, crystal-clear lagoons and the world\'s best snorkeling.' },
+  { name:'Paris',      country:'France',      emoji:'🗼', tag:'Romantic',   budget:'₹1.5L–4L', days:'5–7', best:'Apr–Jun', grad:'linear-gradient(160deg,#7C3AED,#A78BFA,#DDD6FE)', desc:'Eiffel Tower, world-class cuisine, art museums and romantic riverside walks.' },
+  { name:'Rishikesh',  country:'India',       emoji:'🏔️', tag:'Adventure', budget:'₹6K–18K',  days:'3–5', best:'Feb–Jun', grad:'linear-gradient(160deg,#047857,#10B981,#6EE7B7)', desc:'Yoga capital of the world, white-water rafting and Himalayan trekking.' },
+  { name:'Bangkok',    country:'Thailand',    emoji:'🛕', tag:'Culture',    budget:'₹30K–60K', days:'4–6', best:'Nov–Mar', grad:'linear-gradient(160deg,#D97706,#F59E0B,#FCD34D)', desc:'Grand temples, floating markets, street food paradise and vibrant nightlife.' },
+  { name:'Singapore',  country:'Singapore',  emoji:'🌃', tag:'Modern',     budget:'₹50K–1.2L',days:'3–5', best:'Feb–Apr', grad:'linear-gradient(160deg,#1E293B,#7C3AED,#EC4899)', desc:'Gardens by the Bay, world-class food, Universal Studios and Marina Bay.' },
+  { name:'Kerala',     country:'India',       emoji:'⛵', tag:'Nature',     budget:'₹10K–28K', days:'4–7', best:'Sep–Mar', grad:'linear-gradient(160deg,#166534,#16A34A,#4ADE80)', desc:'Backwater cruises, spice plantations, Ayurveda retreats and misty hill stations.' },
+  { name:'Manali',     country:'India',       emoji:'❄️', tag:'Mountains', budget:'₹8K–20K',  days:'3–6', best:'May–Jun', grad:'linear-gradient(160deg,#475569,#7C3AED,#C4B5FD)', desc:'Snow-capped peaks, adventure sports, Rohtang Pass and apple orchards.' },
+  { name:'Tokyo',      country:'Japan',       emoji:'🌸', tag:'Culture',    budget:'₹1.2L–3L', days:'5–8', best:'Mar–May', grad:'linear-gradient(160deg,#9D174D,#EC4899,#FBCFE8)', desc:'Cherry blossoms, bullet trains, anime culture and Michelin-star dining.' },
+  { name:'Mumbai',     country:'India',       emoji:'🌆', tag:'City',       budget:'₹6K–18K',  days:'2–4', best:'Oct–Feb', grad:'linear-gradient(160deg,#7C2D12,#EA580C,#FB923C)', desc:'Bollywood city, street food, Marine Drive, art deco architecture.' },
+  { name:'London',     country:'UK',          emoji:'🎡', tag:'Classic',    budget:'₹1.5L–4L', days:'5–7', best:'Apr–Aug', grad:'linear-gradient(160deg,#1E293B,#475569,#94A3B8)', desc:'Buckingham Palace, world-class museums, iconic pubs and theatre shows.' },
+  { name:'Rajasthan',  country:'India',       emoji:'🐪', tag:'Heritage',   budget:'₹12K–35K', days:'7–10',best:'Oct–Mar', grad:'linear-gradient(160deg,#D97706,#B45309,#92400E)', desc:'Desert safaris, royal havelis, colourful festivals and delicious local cuisine.' },
+  { name:'Andaman',    country:'India',       emoji:'🤿', tag:'Beach',      budget:'₹20K–50K', days:'5–7', best:'Oct–May', grad:'linear-gradient(160deg,#059669,#10B981,#6EE7B7)', desc:'Pristine white beaches, coral reefs, clear blue water and water sports.' },
+];
+
+const tripTypes = ['Solo', 'Couple', 'Family', 'Friends', 'Honeymoon', 'Adventure'];
+const budgets   = ['Budget (< ₹20K)', 'Mid-range (₹20K–80K)', 'Premium (₹80K–2L)', 'Luxury (₹2L+)'];
+const durations = ['Weekend (2–3 days)', 'Short Trip (4–5 days)', 'Week (6–8 days)', 'Long Trip (9+ days)'];
+const tags      = ['All', 'Beach', 'Mountains', 'Heritage', 'City', 'Nature', 'Island', 'Luxury', 'Adventure', 'Romantic', 'Culture'];
+---
+
+<Layout title="Trip Board — AI Travel Planner | Virel" description="Plan your perfect trip with AI. Day-by-day itineraries, smart hotel picks, curated experiences and best credit card for every destination.">
+
+  <!-- HERO -->
+  <section class="tb-hero">
+    <div class="tbh-bg"></div>
+    <div class="tbh-glow g1"></div>
+    <div class="tbh-glow g2"></div>
+    <div class="container tbh-inner">
+      <span class="section-label" style="background:rgba(255,255,255,.1);color:white;border-color:rgba(255,255,255,.2);margin-bottom:16px">✈️ AI-Powered Trip Planning</span>
+      <h1 class="tbh-title">Where do you want<br/><span class="tbh-grad">to go next?</span></h1>
+      <p class="tbh-sub">Tell us your destination and travel style. Our AI builds the perfect day-by-day itinerary with smart hotel picks, curated experiences, and the best card to use.</p>
+
+      <!-- Search Box -->
+      <div class="search-box">
+        <div class="search-row">
+          <div class="search-field sf-dest">
+            <span class="sf-icon">🌍</span>
+            <input id="destInput" type="text" placeholder="Where do you want to go?" class="sf-input" list="dest-list" />
+            <datalist id="dest-list">
+              {destinations.map(d => <option value={d.name + ', ' + d.country} />)}
+            </datalist>
+          </div>
+          <div class="search-field sf-dates">
+            <span class="sf-icon">📅</span>
+            <input id="dateInput" type="date" class="sf-input" />
+          </div>
+          <div class="search-field sf-type">
+            <span class="sf-icon">👤</span>
+            <select id="tripTypeInput" class="sf-input sf-select">
+              <option value="">Trip Type</option>
+              {tripTypes.map(t => <option value={t}>{t}</option>)}
+            </select>
+          </div>
+          <button id="planBtn" class="search-btn">
+            ✨ Plan with AI
+          </button>
+        </div>
+        <div class="search-chips">
+          <span class="sc-label">Popular:</span>
+          {['Goa', 'Bali', 'Dubai', 'Jaipur', 'Maldives', 'Kerala'].map(d => (
+            <button class="sc-chip" onclick={`document.getElementById('destInput').value='${d}';document.getElementById('planBtn').click()`}>{d}</button>
+          ))}
+        </div>
+      </div>
+
+      <div class="tbh-stats">
+        {[['200+','Destinations'],['AI','Itineraries'],['50+','Hotels'],['30%','Cashback']].map(([v,l]) => (
+          <div class="tbhs">
+            <span class="tbhs-val">{v}</span>
+            <span class="tbhs-lbl">{l}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- AI ITINERARY RESULT (hidden initially) -->
+  <section id="itinerary-section" class="itinerary-sec" style="display:none">
+    <div class="container">
+      <div class="itin-header">
+        <div>
+          <h2 class="itin-title" id="itin-title">Your AI Itinerary</h2>
+          <p class="itin-sub" id="itin-sub">Personalised just for you</p>
+        </div>
+        <a href="/travel" class="itin-book-btn">Book This Trip →</a>
+      </div>
+      <div id="itin-content" class="itin-grid"></div>
+    </div>
+  </section>
+
+  <!-- DESTINATION EXPLORER -->
+  <section class="dest-explorer">
+    <div class="container">
+      <div class="sec-hdr">
+        <span class="section-label">🗺️ Explore Destinations</span>
+        <h2 class="section-title">Discover your next adventure</h2>
+        <p class="section-sub" style="margin:0 auto">Filter by travel style, budget, and duration to find the perfect trip.</p>
+      </div>
+
+      <!-- Filters -->
+      <div class="filters">
+        <div class="filter-row">
+          <div class="filter-group">
+            <span class="filter-label">Category</span>
+            <div class="filter-chips" id="tag-filters">
+              {tags.map((t, i) => (
+                <button class:list={['filter-chip', { active: i === 0 }]} data-tag={t}>{t}</button>
+              ))}
+            </div>
+          </div>
+        </div>
+        <div class="filter-row">
+          <div class="filter-group">
+            <span class="filter-label">Budget</span>
+            <div class="filter-chips">
+              {budgets.map(b => (
+                <button class="filter-chip" data-budget={b}>{b.split(' ')[0]}</button>
+              ))}
+            </div>
+          </div>
+          <div class="filter-group">
+            <span class="filter-label">Duration</span>
+            <div class="filter-chips">
+              {durations.map(d => (
+                <button class="filter-chip" data-dur={d}>{d.split(' ')[0]}</button>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Destination Cards -->
+      <div class="dest-grid" id="dest-grid">
+        {destinations.map(d => (
+          <div class="dest-card" data-tag={d.tag} data-name={d.name}>
+            <div class="dest-card-top" style={`background:${d.grad}`}>
+              <div class="dest-emoji">{d.emoji}</div>
+              <div class="dest-tag-badge">{d.tag}</div>
+              <div class="dest-best-time">Best: {d.best}</div>
+            </div>
+            <div class="dest-body">
+              <div class="dest-name-row">
+                <div>
+                  <h3 class="dest-name">{d.name}</h3>
+                  <p class="dest-country">{d.country}</p>
+                </div>
+                <div class="dest-meta">
+                  <span class="dest-meta-item">📅 {d.days} days</span>
+                  <span class="dest-meta-item">💰 {d.budget}</span>
+                </div>
+              </div>
+              <p class="dest-desc">{d.desc}</p>
+              <div class="dest-actions">
+                <button class="dest-plan-btn" onclick={`planTrip('${d.name}')`}>✨ Plan with AI</button>
+                <a href={`/travel`} class="dest-book-btn">Book →</a>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- SMART FEATURES -->
+  <section class="smart-sec">
+    <div class="container">
+      <div class="sec-hdr">
+        <span class="section-label">🎯 Smart Features</span>
+        <h2 class="section-title">More than just itineraries</h2>
+      </div>
+      <div class="smart-grid">
+        {[
+          { icon:'🏨', title:'Smart Hotel Picks', desc:'AI recommends hotels based on your style, budget, and which credit card gives the best rewards.', color:'#8B5CF6', grad:'linear-gradient(135deg,#8B5CF6,#7C3AED)' },
+          { icon:'🎭', title:'Curated Experiences', desc:'Handpicked local tours, cooking classes, adventure sports, and cultural experiences at every destination.', color:'#EC4899', grad:'linear-gradient(135deg,#EC4899,#FF6B35)' },
+          { icon:'💳', title:'Best Card Suggestions', desc:'At every hotel, restaurant, and activity — Virel tells you which card to pay with for maximum rewards.', color:'#FF6B35', grad:'linear-gradient(135deg,#FF6B35,#F59E0B)' },
+          { icon:'👥', title:'Group Trip Planning', desc:'Split costs, share itineraries, and plan together with friends and family from a single dashboard.', color:'#10B981', grad:'linear-gradient(135deg,#10B981,#059669)' },
+          { icon:'📅', title:'Flexible Dates', desc:'Not sure when to go? Tell us your budget and we\'ll find the cheapest dates to fly and stay.', color:'#7C3AED', grad:'linear-gradient(135deg,#7C3AED,#A78BFA)' },
+          { icon:'✈️', title:'Flight + Hotel Bundles', desc:'Compare prices across Amadeus, Duffel, and Booking.com. Book the best deal in one click.', color:'#F59E0B', grad:'linear-gradient(135deg,#F59E0B,#EC4899)' },
+        ].map(f => (
+          <div class="smart-card">
+            <div class="smart-icon" style={`background:${f.grad}`}>{f.icon}</div>
+            <h3 class="smart-title">{f.title}</h3>
+            <p class="smart-desc">{f.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- GROUP TRIP TEASER -->
+  <section class="group-sec">
+    <div class="gs-bg"></div>
+    <div class="container gs-inner">
+      <div class="gs-content">
+        <span class="section-label" style="background:rgba(255,255,255,.1);color:white;border-color:rgba(255,255,255,.2)">👥 Coming Soon</span>
+        <h2 class="section-title" style="color:white">Group Trip Planning</h2>
+        <p class="section-sub" style="color:rgba(255,255,255,.72)">Plan trips with your friends and family. Shared itineraries, split costs, group rewards, and a dedicated family dashboard. Sign up to be the first to know.</p>
+        <form class="gs-form" onsubmit="handleWaitlist(event)">
+          <input type="email" placeholder="your@email.com" class="gs-email" required />
+          <button type="submit" class="gs-submit">Join Waitlist ✨</button>
+        </form>
+        <div class="gs-features">
+          {['Shared Itineraries','Cost Splitting','Group Rewards','Family Dashboard','Multi-Device Sync'].map(f => (
+            <span class="gs-feat">✓ {f}</span>
+          ))}
+        </div>
+      </div>
+      <div class="gs-visual">
+        <div class="gs-card">
+          <div class="gs-card-header">
+            <span style="font-weight:900;font-size:.9rem;color:#0F172A">Goa Trip · Dec 2025</span>
+            <span style="font-size:.68rem;background:#EDE9FE;color:#7C3AED;padding:3px 9px;border-radius:100px;font-weight:700">4 Members</span>
+          </div>
+          {[
+            { name:'You', avatar:'😎', status:'Confirmed', spend:'₹12,400' },
+            { name:'Priya', avatar:'👩', status:'Confirmed', spend:'₹11,800' },
+            { name:'Arjun', avatar:'👨', status:'Pending', spend:'₹0' },
+            { name:'Neha', avatar:'👩‍🦱', status:'Confirmed', spend:'₹9,600' },
+          ].map(m => (
+            <div class="gs-member">
+              <span style="font-size:1.2rem">{m.avatar}</span>
+              <div style="flex:1">
+                <div style="font-size:.75rem;font-weight:700;color:#1E293B">{m.name}</div>
+                <div style={`font-size:.62rem;font-weight:600;color:${m.status==='Confirmed'?'#10B981':'#F59E0B'}`}>{m.status}</div>
+              </div>
+              <div style="font-size:.75rem;font-weight:800;color:#7C3AED">{m.spend}</div>
+            </div>
+          ))}
+          <div class="gs-total">
+            <span style="font-size:.72rem;font-weight:700;color:#64748B">Total Group Spend</span>
+            <span style="font-size:.85rem;font-weight:900;color:#0F172A">₹33,800</span>
+          </div>
+          <div class="gs-savings">🎁 Group earned 2,840 Virel Coins together</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</Layout>
+
+<script>
+  // Tag filters
+  document.getElementById('tag-filters')?.querySelectorAll('.filter-chip').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('#tag-filters .filter-chip').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const tag = btn.dataset.tag;
+      document.querySelectorAll('#dest-grid .dest-card').forEach(card => {
+        if (tag === 'All' || card.dataset.tag === tag) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    });
+  });
+
+  // Plan trip from destination card
+  function planTrip(dest) {
+    document.getElementById('destInput').value = dest;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    setTimeout(() => document.getElementById('planBtn').click(), 600);
+  }
+  window.planTrip = planTrip;
+
+  // AI Plan button
+  document.getElementById('planBtn')?.addEventListener('click', () => {
+    const dest = document.getElementById('destInput')?.value;
+    if (!dest) { alert('Please enter a destination'); return; }
+
+    const btn = document.getElementById('planBtn');
+    btn.textContent = '⏳ Planning...';
+    btn.disabled = true;
+
+    setTimeout(() => {
+      btn.textContent = '✨ Plan with AI';
+      btn.disabled = false;
+      generateItinerary(dest);
+    }, 1500);
+  });
+
+  function generateItinerary(destRaw) {
+    const dest = destRaw.split(',')[0].trim();
+    const section = document.getElementById('itinerary-section');
+    const title   = document.getElementById('itin-title');
+    const sub     = document.getElementById('itin-sub');
+    const content = document.getElementById('itin-content');
+
+    const itineraries = {
+      'Goa': [
+        { day:1, icon:'🛬', title:'Arrival & North Goa', activities:['Check in to beach resort','Baga Beach sunset','Dinner at Thalassa with Axis Magnus (4x rewards)'] },
+        { day:2, icon:'🏖️', title:'Beach Hopping', activities:['Anjuna flea market','Vagator cliff views','Calangute beach water sports','Night at Curlies beach shack'] },
+        { day:3, icon:'⛪', title:'Old Goa Heritage', activities:['Basilica of Bom Jesus','Fontainhas Latin Quarter walk','Dudhsagar waterfalls trip','Farewell seafood lunch'] },
+      ],
+      'Bali': [
+        { day:1, icon:'🛬', title:'Arrival & Seminyak', activities:['Land at DPS','Check in to villa (HDFC Infinia: 5x points)','Kuta Beach sunset','Beachside dinner'] },
+        { day:2, icon:'🛕', title:'Ubud Culture Day', activities:['Monkey Forest','Tegalalang Rice Terraces','Tirta Empul temple','Balinese cooking class'] },
+        { day:3, icon:'🤿', title:'Nusa Penida Day Trip', activities:['Kelingking Beach','Angel\'s Billabong','Crystal Bay snorkeling','Return to Seminyak'] },
+      ],
+      'Dubai': [
+        { day:1, icon:'🛬', title:'Arrival & Downtown', activities:['Check in (Amex Platinum: 5x MR points)','Burj Khalifa At the Top','Dubai Fountain show','Old Dubai spice souk'] },
+        { day:2, icon:'🏜️', title:'Desert & Culture', activities:['Desert safari at dawn','Dune bashing + camel ride','BBQ dinner under stars','Gold Souk shopping'] },
+        { day:3, icon:'🛍️', title:'Modern Dubai', activities:['Dubai Mall (200+ brands)','Sky dive Dubai (optional)','Palm Jumeirah Atlantis','Farewell brunch'] },
+      ],
+    };
+
+    const defaultItin = [
+      { day:1, icon:'🛬', title:`Arrival in ${dest}`, activities:['Check in to hotel (use your best travel card)','Explore the local area','Welcome dinner at a top-rated restaurant'] },
+      { day:2, icon:'🗺️', title:'Main Attractions', activities:['Morning: Top landmark visit','Afternoon: Local food market','Evening: Sunset viewpoint'] },
+      { day:3, icon:'🎭', title:'Culture & Experiences', activities:['Local tour or experience','Traditional cuisine lunch','Shopping and souvenirs'] },
+    ];
+
+    const plan = itineraries[dest] || defaultItin;
+
+    title.textContent = `AI Itinerary: ${dest}`;
+    sub.textContent = `${plan.length}-day plan tailored for you · Generated by Virel AI`;
+
+    content.innerHTML = plan.map(d => `
+      <div class="itin-day">
+        <div class="itin-day-header">
+          <span class="itin-day-num">Day ${d.day}</span>
+          <span style="font-size:1.3rem">${d.icon}</span>
+          <span class="itin-day-title">${d.title}</span>
+        </div>
+        <ul class="itin-activities">
+          ${d.activities.map(a => `<li class="itin-activity"><span class="itin-check">✓</span>${a}</li>`).join('')}
+        </ul>
+      </div>
+    `).join('');
+
+    section.style.display = 'block';
+    section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function handleWaitlist(e) {
+    e.preventDefault();
+    const email = e.target.querySelector('input').value;
+    e.target.innerHTML = `<div style="color:white;font-weight:700;font-size:.95rem">✅ ${email} added to waitlist!</div>`;
+  }
+  window.handleWaitlist = handleWaitlist;
+
+  // Pre-fill from URL
+  const params = new URLSearchParams(window.location.search);
+  const destParam = params.get('dest');
+  if (destParam) {
+    const input = document.getElementById('destInput');
+    if (input) { input.value = destParam; }
+  }
+</script>
+
+<style>
+/* HERO */
+.tb-hero {
+  position:relative;padding:100px 0 60px;
+  overflow:hidden;
+  background:linear-gradient(135deg,#0F172A 0%,#1E1B4B 40%,#312E81 70%,#4C1D95 100%);
+}
+.tbh-bg {
+  position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 70% 60% at 50% 50%,rgba(124,58,237,.4) 0%,transparent 70%),
+    radial-gradient(ellipse 40% 40% at 10% 80%,rgba(8,145,178,.3) 0%,transparent 60%);
+}
+.tbh-glow {
+  position:absolute;border-radius:50%;filter:blur(80px);opacity:.4;
+  animation:glowFloat 7s ease-in-out infinite;
+}
+.tbh-glow.g1 { width:400px;height:400px;background:#7C3AED;right:-80px;top:-80px;animation-delay:0s }
+.tbh-glow.g2 { width:300px;height:300px;background:#EC4899;left:10%;bottom:0;animation-delay:3.5s }
+@keyframes glowFloat { 0%,100%{transform:translateY(0)}50%{transform:translateY(-24px)} }
+
+.tbh-inner {
+  position:relative;z-index:2;text-align:center;
+}
+.tbh-title {
+  font-size:clamp(2.2rem,5vw,3.6rem);font-weight:900;
+  color:white;letter-spacing:-.03em;line-height:1.08;
+  margin-bottom:20px;margin-top:8px;
+}
+.tbh-grad {
+  background:linear-gradient(90deg,#A78BFA,#EC4899,#FF6B35);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.tbh-sub {
+  font-size:1.05rem;color:rgba(255,255,255,.72);
+  max-width:580px;margin:0 auto 40px;line-height:1.72;
+}
+
+/* SEARCH BOX */
+.search-box {
+  background:white;border-radius:24px;padding:20px;
+  box-shadow:0 20px 60px rgba(0,0,0,.3);
+  max-width:860px;margin:0 auto 36px;
+}
+.search-row { display:flex;gap:10px;align-items:stretch }
+.search-field {
+  display:flex;align-items:center;gap:8px;
+  background:#F8FAFC;border:1.5px solid #E2E8F0;
+  border-radius:12px;padding:10px 14px;
+  transition:border-color .15s;flex:1;
+}
+.search-field:focus-within { border-color:#7C3AED;background:white }
+.sf-icon { font-size:1rem;flex-shrink:0 }
+.sf-input {
+  border:none;background:transparent;font-family:inherit;
+  font-size:.88rem;font-weight:600;color:#0F172A;width:100%;
+  outline:none;
+}
+.sf-input::placeholder { color:#94A3B8;font-weight:500 }
+.sf-select { cursor:pointer }
+.sf-dest { flex:2 }
+.sf-dates,.sf-type { flex:1.2 }
+.search-btn {
+  background:linear-gradient(135deg,#7C3AED,#EC4899);
+  color:white;padding:14px 24px;border-radius:12px;
+  font-weight:800;font-size:.9rem;border:none;cursor:pointer;
+  transition:all .2s;white-space:nowrap;
+  box-shadow:0 4px 16px rgba(124,58,237,.35);
+}
+.search-btn:hover { transform:translateY(-1px);box-shadow:0 6px 24px rgba(124,58,237,.45) }
+.search-btn:disabled { opacity:.6;cursor:wait;transform:none }
+
+.search-chips {
+  display:flex;align-items:center;gap:8px;flex-wrap:wrap;
+  margin-top:14px;padding-top:14px;border-top:1px solid #F1F5F9;
+}
+.sc-label { font-size:.75rem;font-weight:700;color:#94A3B8 }
+.sc-chip {
+  padding:5px 14px;background:#F1F5F9;border-radius:100px;
+  font-size:.78rem;font-weight:700;color:#475569;
+  border:none;cursor:pointer;transition:all .15s;
+}
+.sc-chip:hover { background:#EDE9FE;color:#7C3AED }
+
+.tbh-stats {
+  display:flex;justify-content:center;gap:32px;flex-wrap:wrap;
+}
+.tbhs { display:flex;flex-direction:column;align-items:center }
+.tbhs-val { font-size:1.5rem;font-weight:900;color:white;line-height:1 }
+.tbhs-lbl { font-size:.68rem;color:rgba(255,255,255,.58);font-weight:600;text-transform:uppercase;letter-spacing:.05em;margin-top:2px }
+
+/* ITINERARY SECTION */
+.itinerary-sec { padding:60px 0;background:#F8FAFC;border-top:1px solid #E2E8F0 }
+.itin-header {
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:32px;flex-wrap:wrap;gap:16px;
+}
+.itin-title { font-size:1.8rem;font-weight:900;color:#0F172A;letter-spacing:-.02em }
+.itin-sub  { font-size:.88rem;color:#64748B;margin-top:4px }
+.itin-book-btn {
+  background:linear-gradient(135deg,#7C3AED,#EC4899);color:white;
+  padding:12px 24px;border-radius:12px;font-weight:800;font-size:.88rem;
+  text-decoration:none;transition:all .2s;
+  box-shadow:0 4px 16px rgba(124,58,237,.3);
+}
+.itin-book-btn:hover { transform:translateY(-2px);box-shadow:0 6px 24px rgba(124,58,237,.4) }
+.itin-grid { display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px }
+.itin-day {
+  background:white;border:1.5px solid #E2E8F0;border-radius:18px;
+  padding:20px;transition:all .25s;
+}
+.itin-day:hover { box-shadow:0 8px 32px rgba(0,0,0,.08);transform:translateY(-3px);border-color:#A78BFA }
+.itin-day-header {
+  display:flex;align-items:center;gap:10px;
+  padding-bottom:14px;border-bottom:1px solid #F1F5F9;margin-bottom:14px;
+}
+.itin-day-num {
+  font-size:.65rem;font-weight:900;color:#7C3AED;
+  background:rgba(124,58,237,.08);padding:4px 9px;border-radius:6px;
+  text-transform:uppercase;letter-spacing:.06em;white-space:nowrap;
+}
+.itin-day-title { font-size:.88rem;font-weight:800;color:#0F172A }
+.itin-activities { list-style:none;display:flex;flex-direction:column;gap:8px }
+.itin-activity {
+  display:flex;align-items:flex-start;gap:8px;
+  font-size:.82rem;color:#475569;line-height:1.5;
+}
+.itin-check {
+  width:18px;height:18px;background:rgba(16,185,129,.1);color:#10B981;
+  border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-size:.65rem;font-weight:800;flex-shrink:0;margin-top:1px;
+}
+
+/* DESTINATION EXPLORER */
+.dest-explorer { padding:100px 0 }
+.sec-hdr { text-align:center;margin-bottom:48px }
+.sec-hdr .section-sub { margin:0 auto }
+
+.filters { margin-bottom:40px }
+.filter-row {
+  display:flex;gap:24px;flex-wrap:wrap;align-items:flex-start;
+  margin-bottom:16px;
+}
+.filter-group { display:flex;flex-direction:column;gap:8px }
+.filter-label { font-size:.72rem;font-weight:800;color:#94A3B8;text-transform:uppercase;letter-spacing:.08em }
+.filter-chips { display:flex;gap:6px;flex-wrap:wrap }
+.filter-chip {
+  padding:6px 14px;background:#F8FAFC;border:1.5px solid #E2E8F0;
+  border-radius:100px;font-size:.78rem;font-weight:700;color:#475569;
+  cursor:pointer;transition:all .15s;
+}
+.filter-chip:hover { border-color:#7C3AED;color:#7C3AED }
+.filter-chip.active {
+  background:linear-gradient(135deg,#7C3AED,#EC4899);
+  color:white;border-color:transparent;
+  box-shadow:0 3px 12px rgba(124,58,237,.3);
+}
+
+.dest-grid {
+  display:grid;grid-template-columns:repeat(4,1fr);gap:20px;
+}
+.dest-card {
+  display:flex;flex-direction:column;
+  background:white;border:1.5px solid #E2E8F0;border-radius:20px;
+  overflow:hidden;transition:all .25s;
+}
+.dest-card:hover { box-shadow:0 12px 40px rgba(0,0,0,.12);transform:translateY(-4px);border-color:transparent }
+.dest-card-top {
+  height:140px;position:relative;display:flex;
+  align-items:flex-end;padding:12px;
+}
+.dest-emoji { font-size:2.5rem;position:absolute;top:12px;left:12px }
+.dest-tag-badge {
+  position:absolute;top:12px;right:12px;
+  background:rgba(255,255,255,.25);backdrop-filter:blur(8px);
+  color:white;font-size:.62rem;font-weight:800;
+  padding:3px 9px;border-radius:100px;text-transform:uppercase;letter-spacing:.05em;
+}
+.dest-best-time {
+  position:absolute;bottom:10px;left:12px;
+  background:rgba(0,0,0,.4);backdrop-filter:blur(6px);
+  color:white;font-size:.6rem;font-weight:700;
+  padding:3px 8px;border-radius:100px;
+}
+.dest-body { padding:16px;flex:1;display:flex;flex-direction:column;gap:10px }
+.dest-name-row { display:flex;justify-content:space-between;align-items:flex-start;gap:8px }
+.dest-name { font-size:1rem;font-weight:900;color:#0F172A;letter-spacing:-.01em }
+.dest-country { font-size:.72rem;color:#94A3B8;font-weight:600 }
+.dest-meta { display:flex;flex-direction:column;gap:3px;align-items:flex-end }
+.dest-meta-item { font-size:.65rem;font-weight:700;color:#64748B;white-space:nowrap }
+.dest-desc { font-size:.78rem;color:#64748B;line-height:1.6;flex:1 }
+.dest-actions { display:flex;gap:8px;margin-top:auto }
+.dest-plan-btn {
+  flex:1;background:linear-gradient(135deg,#7C3AED,#EC4899);
+  color:white;padding:9px;border-radius:10px;
+  font-size:.78rem;font-weight:800;border:none;cursor:pointer;
+  transition:all .15s;
+}
+.dest-plan-btn:hover { transform:translateY(-1px);box-shadow:0 4px 14px rgba(124,58,237,.3) }
+.dest-book-btn {
+  padding:9px 16px;background:#F8FAFC;border:1.5px solid #E2E8F0;
+  border-radius:10px;font-size:.78rem;font-weight:700;color:#475569;
+  text-decoration:none;transition:all .15s;
+}
+.dest-book-btn:hover { border-color:#7C3AED;color:#7C3AED }
+
+/* SMART FEATURES */
+.smart-sec { padding:100px 0;background:#F8FAFC }
+.smart-grid { display:grid;grid-template-columns:repeat(3,1fr);gap:20px }
+.smart-card {
+  background:white;border:1.5px solid #E2E8F0;border-radius:18px;
+  padding:24px;transition:all .25s;
+}
+.smart-card:hover { box-shadow:0 8px 32px rgba(0,0,0,.08);transform:translateY(-3px) }
+.smart-icon {
+  width:48px;height:48px;border-radius:14px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.3rem;margin-bottom:14px;
+}
+.smart-title { font-size:.95rem;font-weight:800;color:#0F172A;margin-bottom:8px }
+.smart-desc  { font-size:.82rem;color:#64748B;line-height:1.65 }
+
+/* GROUP SECTION */
+.group-sec { padding:100px 0;position:relative;overflow:hidden }
+.gs-bg {
+  position:absolute;inset:0;
+  background:linear-gradient(135deg,#0F172A 0%,#1E1B4B 50%,#4C1D95 100%);
+}
+.gs-inner { display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;position:relative;z-index:2 }
+.gs-form { display:flex;gap:10px;margin:24px 0;max-width:440px }
+.gs-email {
+  flex:1;background:rgba(255,255,255,.1);border:1.5px solid rgba(255,255,255,.2);
+  color:white;padding:12px 16px;border-radius:12px;
+  font-family:inherit;font-size:.88rem;outline:none;
+}
+.gs-email::placeholder { color:rgba(255,255,255,.45) }
+.gs-email:focus { border-color:rgba(255,255,255,.5);background:rgba(255,255,255,.15) }
+.gs-submit {
+  background:white;color:#7C3AED;padding:12px 20px;border-radius:12px;
+  font-weight:800;font-size:.85rem;border:none;cursor:pointer;
+  transition:all .2s;white-space:nowrap;
+}
+.gs-submit:hover { transform:translateY(-1px);box-shadow:0 4px 16px rgba(0,0,0,.2) }
+.gs-features { display:flex;flex-wrap:wrap;gap:8px }
+.gs-feat {
+  font-size:.75rem;font-weight:700;color:rgba(255,255,255,.82);
+  background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);
+  padding:5px 12px;border-radius:100px;
+}
+.gs-card {
+  background:white;border-radius:20px;padding:20px;
+  box-shadow:0 12px 40px rgba(0,0,0,.25);
+}
+.gs-card-header {
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid #E2E8F0;
+}
+.gs-member {
+  display:flex;align-items:center;gap:10px;
+  padding:8px;background:#F8FAFC;border-radius:10px;
+  border:1px solid #E2E8F0;margin-bottom:6px;
+}
+.gs-total {
+  display:flex;align-items:center;justify-content:space-between;
+  margin-top:12px;padding-top:12px;border-top:1px solid #E2E8F0;
+}
+.gs-savings {
+  margin-top:8px;background:linear-gradient(135deg,#FEF3C7,#FDE68A);
+  border-radius:8px;padding:8px;font-size:.72rem;font-weight:700;
+  color:#B45309;text-align:center;
+}
+
+/* RESPONSIVE */
+@media (max-width:1024px) {
+  .dest-grid   { grid-template-columns:repeat(3,1fr) }
+  .smart-grid  { grid-template-columns:repeat(2,1fr) }
+  .gs-inner    { grid-template-columns:1fr;gap:40px }
+  .gs-visual   { order:-1 }
+}
+@media (max-width:768px) {
+  .search-row  { flex-direction:column }
+  .dest-grid   { grid-template-columns:repeat(2,1fr) }
+  .smart-grid  { grid-template-columns:1fr }
+}
+@media (max-width:480px) {
+  .dest-grid   { grid-template-columns:1fr }
+  .tbh-stats   { gap:20px }
+}
+</style>
