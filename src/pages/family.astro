@@ -1,0 +1,336 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const features = [
+  { icon:'📊', title:'Family Spend Dashboard', desc:'See every member\'s spending in one place. Categorized, visualized, and easy to understand.' },
+  { icon:'✈️', title:'Group Trip Planning', desc:'Plan holidays together. Shared itineraries, split costs, and synced itineraries for every family member.' },
+  { icon:'🎁', title:'Shared Rewards Pool', desc:'Pool Virel Coins from all family cards. Redeem together for bigger rewards and cashback.' },
+  { icon:'💳', title:'Cards for Everyone', desc:'Manage cards for parents, spouse, and children. Optimize which card each family member should use.' },
+  { icon:'🏠', title:'Household Finance Score', desc:'Track family credit utilization, investments, loans, and overall financial health in one dashboard.' },
+  { icon:'🔔', title:'Smart Alerts', desc:'Get notified when a family member overspends a category, earns milestones, or best card suggestions.' },
+  { icon:'📱', title:'Multi-Device Sync', desc:'Everyone sees the family plan on their own device. Changes sync instantly across all family members.' },
+  { icon:'🔒', title:'Privacy Controls', desc:'Each family member controls what they share. Full transparency or just the totals — your choice.' },
+];
+---
+
+<Layout title="Family Dashboard — Coming Soon | Virel" description="Plan family trips together, share rewards, and manage household finances. Family dashboard coming soon to Virel.">
+
+  <!-- HERO -->
+  <section class="fam-hero">
+    <div class="fh-bg"></div>
+    <div class="fh-glow g1"></div>
+    <div class="fh-glow g2"></div>
+    <div class="container fh-inner">
+      <div class="fh-badge">
+        <span class="fh-badge-dot"></span>
+        🚀 Coming Soon
+      </div>
+      <h1 class="fh-title">
+        Finance & travel,<br/>
+        <span class="fh-grad">together as a family.</span>
+      </h1>
+      <p class="fh-sub">
+        One dashboard for the whole family. Plan group trips, share rewards, track household spend, and maximize every card — all in one beautifully designed family space.
+      </p>
+      <form class="fh-form" id="waitlist-form">
+        <input type="email" placeholder="Enter your email to join the waitlist" class="fh-email" required />
+        <button type="submit" class="fh-submit">Notify Me ✨</button>
+      </form>
+      <div id="fh-success" class="fh-success" style="display:none">
+        ✅ You're on the waitlist! We'll email you when Family Dashboard launches.
+      </div>
+      <p class="fh-note">Join 2,400+ families already on the waitlist</p>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="fam-features">
+    <div class="container">
+      <div class="sec-hdr">
+        <span class="section-label">👨‍👩‍👧 What's Coming</span>
+        <h2 class="section-title">Built for the whole family</h2>
+        <p class="section-sub" style="margin:0 auto">Everything you love about Virel, extended for your entire household.</p>
+      </div>
+      <div class="ff-grid">
+        {features.map(f => (
+          <div class="ff-card">
+            <span class="ff-icon">{f.icon}</span>
+            <div>
+              <h3 class="ff-title">{f.title}</h3>
+              <p class="ff-desc">{f.desc}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- PREVIEW MOCKUP -->
+  <section class="fam-preview">
+    <div class="fp-bg"></div>
+    <div class="container fp-inner">
+      <div class="fp-left">
+        <span class="section-label" style="background:rgba(255,255,255,.1);color:white;border-color:rgba(255,255,255,.2)">📱 Preview</span>
+        <h2 class="section-title" style="color:white">Family Dashboard</h2>
+        <p class="section-sub" style="color:rgba(255,255,255,.72)">
+          A beautiful, shared space where every family member can see trips, rewards, and finances — with granular privacy controls so everyone stays comfortable.
+        </p>
+        <div class="fp-timeline">
+          {[
+            { q:'Q3 2025', label:'Beta Testing', done:false },
+            { q:'Q4 2025', label:'Limited Release', done:false },
+            { q:'Q1 2026', label:'Full Launch', done:false },
+          ].map(t => (
+            <div class="fp-tl-item">
+              <div class:list={['fp-tl-dot', { done: t.done }]}></div>
+              <div>
+                <div class="fp-tl-q">{t.q}</div>
+                <div class="fp-tl-label">{t.label}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+      <div class="fp-right">
+        <div class="fp-card">
+          <div class="fp-card-header">
+            <span style="font-weight:900;font-size:.88rem;color:#0F172A">Gupta Family Dashboard</span>
+            <span style="font-size:.65rem;background:linear-gradient(135deg,#F59E0B,#EC4899);color:white;padding:3px 9px;border-radius:100px;font-weight:700">4 Members</span>
+          </div>
+          <div class="fp-stats">
+            {[
+              { icon:'💰', label:'Monthly Spend', val:'₹1,24,800', color:'#7C3AED' },
+              { icon:'🎁', label:'Coins Pooled',  val:'8,240',      color:'#F59E0B' },
+              { icon:'✈️', label:'Trips Planned', val:'3',           color:'#0891B2' },
+              { icon:'💳', label:'Cards Active',  val:'6',           color:'#10B981' },
+            ].map(s => (
+              <div class="fp-stat">
+                <span style="font-size:1.1rem">{s.icon}</span>
+                <span class="fp-stat-val" style={`color:${s.color}`}>{s.val}</span>
+                <span class="fp-stat-lbl">{s.label}</span>
+              </div>
+            ))}
+          </div>
+          <div class="fp-members-title">Family Members</div>
+          {[
+            { name:'Rahul (You)', avatar:'😎', role:'Admin', coins:'3,200', cards:2 },
+            { name:'Priya (Spouse)', avatar:'👩', role:'Member', coins:'2,840', cards:2 },
+            { name:'Dad', avatar:'👴', role:'Member', coins:'1,400', cards:1 },
+            { name:'Mom', avatar:'👵', role:'Member', coins:'800', cards:1 },
+          ].map(m => (
+            <div class="fp-member">
+              <span style="font-size:1.1rem">{m.avatar}</span>
+              <div style="flex:1">
+                <div style="font-size:.75rem;font-weight:700;color:#1E293B">{m.name}</div>
+                <div style="font-size:.62rem;color:#94A3B8;font-weight:600">{m.role} · {m.cards} cards</div>
+              </div>
+              <div style="text-align:right">
+                <div style="font-size:.7rem;font-weight:800;color:#F59E0B">🪙 {m.coins}</div>
+                <div style="font-size:.58rem;color:#94A3B8">coins</div>
+              </div>
+            </div>
+          ))}
+          <div class="fp-upcoming">
+            <div style="font-size:.65rem;font-weight:800;color:#0F172A;text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px">Upcoming Family Trip</div>
+            <div style="display:flex;align-items:center;gap:8px;background:linear-gradient(135deg,#EEF2FF,#F5F3FF);border-radius:10px;padding:10px">
+              <span style="font-size:1.1rem">🌴</span>
+              <div style="flex:1">
+                <div style="font-size:.75rem;font-weight:800;color:#4F46E5">Goa Family Vacation</div>
+                <div style="font-size:.62rem;color:#7C3AED">Dec 25–Jan 1 · 4 members</div>
+              </div>
+              <span style="font-size:.65rem;font-weight:700;background:linear-gradient(135deg,#7C3AED,#EC4899);color:white;padding:3px 8px;border-radius:100px">Planning</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="fam-cta">
+    <div class="container">
+      <div class="fc-card">
+        <h2 class="fc-title">Be the first to know</h2>
+        <p class="fc-sub">Join the waitlist and get early access when Family Dashboard launches. Plus, get 500 bonus Virel Coins on signup.</p>
+        <form class="fc-form" id="waitlist-form-2">
+          <input type="email" placeholder="Enter your email" class="fc-email" required />
+          <button type="submit" class="fc-submit">Join Waitlist Free ✨</button>
+        </form>
+        <div class="fc-perks">
+          {['500 Bonus Coins','Early Access','Priority Support','Founding Member Badge'].map(p => (
+            <span class="fc-perk">🎁 {p}</span>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+</Layout>
+
+<script>
+  document.getElementById('waitlist-form')?.addEventListener('submit', e => {
+    e.preventDefault();
+    document.getElementById('waitlist-form').style.display = 'none';
+    document.getElementById('fh-success').style.display = 'block';
+  });
+  document.getElementById('waitlist-form-2')?.addEventListener('submit', e => {
+    e.preventDefault();
+    e.target.innerHTML = '<div style="color:#10B981;font-weight:700;font-size:.95rem">✅ You\'re on the waitlist!</div>';
+  });
+</script>
+
+<style>
+.fam-hero {
+  position:relative;padding:120px 0 80px;overflow:hidden;
+  background:linear-gradient(135deg,#0F172A 0%,#451a03 40%,#7c2d12 70%,#9d174d 100%);
+  text-align:center;
+}
+.fh-bg {
+  position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 70% 60% at 50% 50%,rgba(245,158,11,.3) 0%,transparent 70%),
+    radial-gradient(ellipse 40% 40% at 20% 80%,rgba(236,72,153,.25) 0%,transparent 60%);
+}
+.fh-glow { position:absolute;border-radius:50%;filter:blur(80px);opacity:.35;animation:fglow 8s ease-in-out infinite }
+.fh-glow.g1 { width:400px;height:400px;background:#F59E0B;right:-80px;top:-80px;animation-delay:0s }
+.fh-glow.g2 { width:350px;height:350px;background:#EC4899;left:-60px;bottom:-60px;animation-delay:4s }
+@keyframes fglow { 0%,100%{transform:translateY(0)}50%{transform:translateY(-24px)} }
+
+.fh-inner { position:relative;z-index:2;max-width:720px;margin:0 auto }
+.fh-badge {
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(255,255,255,.1);backdrop-filter:blur(10px);
+  border:1px solid rgba(255,255,255,.2);
+  color:white;font-size:.8rem;font-weight:700;
+  padding:8px 16px;border-radius:100px;margin-bottom:28px;
+}
+.fh-badge-dot {
+  width:8px;height:8px;
+  background:linear-gradient(135deg,#F59E0B,#EC4899);
+  border-radius:50%;animation:fBadgePulse 2s infinite;
+}
+@keyframes fBadgePulse {
+  0%,100%{box-shadow:0 0 0 0 rgba(245,158,11,.5)}
+  50%{box-shadow:0 0 0 6px rgba(245,158,11,0)}
+}
+.fh-title {
+  font-size:clamp(2rem,5vw,3.4rem);font-weight:900;
+  color:white;letter-spacing:-.03em;line-height:1.08;margin-bottom:20px;
+}
+.fh-grad {
+  background:linear-gradient(90deg,#FCD34D,#F59E0B,#EC4899);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.fh-sub {
+  font-size:1.05rem;color:rgba(255,255,255,.72);
+  line-height:1.72;margin-bottom:36px;
+}
+.fh-form { display:flex;gap:10px;max-width:500px;margin:0 auto 16px }
+.fh-email {
+  flex:1;background:rgba(255,255,255,.1);border:1.5px solid rgba(255,255,255,.25);
+  color:white;padding:14px 18px;border-radius:12px;
+  font-family:inherit;font-size:.9rem;outline:none;
+}
+.fh-email::placeholder { color:rgba(255,255,255,.45) }
+.fh-email:focus { border-color:rgba(255,255,255,.6);background:rgba(255,255,255,.15) }
+.fh-submit {
+  background:white;color:#92400E;padding:14px 22px;border-radius:12px;
+  font-weight:800;font-size:.88rem;border:none;cursor:pointer;transition:all .2s;white-space:nowrap;
+}
+.fh-submit:hover { transform:translateY(-1px);box-shadow:0 4px 16px rgba(0,0,0,.2) }
+.fh-success {
+  background:rgba(255,255,255,.1);backdrop-filter:blur(8px);
+  border:1px solid rgba(255,255,255,.2);
+  color:white;padding:14px 24px;border-radius:12px;
+  font-weight:700;font-size:.9rem;max-width:500px;margin:0 auto 16px;
+}
+.fh-note { font-size:.78rem;color:rgba(255,255,255,.5);font-weight:600 }
+
+/* FEATURES */
+.fam-features { padding:100px 0 }
+.sec-hdr { text-align:center;margin-bottom:56px }
+.ff-grid { display:grid;grid-template-columns:repeat(4,1fr);gap:16px }
+.ff-card {
+  display:flex;gap:12px;align-items:flex-start;
+  background:white;border:1.5px solid #E2E8F0;border-radius:16px;
+  padding:20px;transition:all .25s;
+}
+.ff-card:hover { box-shadow:0 8px 32px rgba(0,0,0,.08);transform:translateY(-3px) }
+.ff-icon { font-size:1.4rem;flex-shrink:0;margin-top:2px }
+.ff-title { font-size:.88rem;font-weight:800;color:#0F172A;margin-bottom:5px }
+.ff-desc  { font-size:.78rem;color:#64748B;line-height:1.6 }
+
+/* PREVIEW */
+.fam-preview { padding:100px 0;position:relative;overflow:hidden }
+.fp-bg {
+  position:absolute;inset:0;
+  background:linear-gradient(135deg,#0F172A 0%,#1E1B4B 50%,#4C1D95 100%);
+}
+.fp-inner { display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;position:relative;z-index:2 }
+.fp-timeline { margin-top:32px;display:flex;flex-direction:column;gap:16px }
+.fp-tl-item { display:flex;align-items:center;gap:14px }
+.fp-tl-dot {
+  width:14px;height:14px;border-radius:50%;
+  background:rgba(255,255,255,.2);border:2px solid rgba(255,255,255,.3);flex-shrink:0;
+}
+.fp-tl-dot.done { background:#10B981;border-color:#10B981 }
+.fp-tl-q { font-size:.72rem;font-weight:800;color:rgba(255,255,255,.7);text-transform:uppercase;letter-spacing:.06em }
+.fp-tl-label { font-size:.85rem;font-weight:700;color:white }
+
+.fp-card { background:white;border-radius:20px;padding:20px;box-shadow:0 12px 40px rgba(0,0,0,.25) }
+.fp-card-header { display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid #E2E8F0 }
+.fp-stats { display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:16px }
+.fp-stat { background:#F8FAFC;border-radius:12px;padding:10px;display:flex;flex-direction:column;align-items:center;gap:3px }
+.fp-stat-val { font-size:.88rem;font-weight:900;line-height:1 }
+.fp-stat-lbl { font-size:.6rem;color:#94A3B8;font-weight:700;text-align:center }
+.fp-members-title { font-size:.65rem;font-weight:900;color:#94A3B8;text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px }
+.fp-member { display:flex;align-items:center;gap:10px;background:#F8FAFC;border-radius:10px;padding:9px;border:1px solid #E2E8F0;margin-bottom:6px }
+.fp-upcoming { margin-top:12px;padding-top:12px;border-top:1px solid #E2E8F0 }
+
+/* CTA */
+.fam-cta { padding:80px 0;background:#F8FAFC }
+.fc-card {
+  background:white;border:1.5px solid #E2E8F0;border-radius:28px;
+  padding:56px;text-align:center;
+  box-shadow:0 4px 32px rgba(0,0,0,.06);
+  max-width:720px;margin:0 auto;
+}
+.fc-title { font-size:2rem;font-weight:900;color:#0F172A;margin-bottom:12px;letter-spacing:-.02em }
+.fc-sub  { font-size:.95rem;color:#64748B;line-height:1.7;max-width:500px;margin:0 auto 28px }
+.fc-form { display:flex;gap:10px;justify-content:center;margin-bottom:24px }
+.fc-email {
+  flex:1;max-width:320px;background:#F8FAFC;border:1.5px solid #E2E8F0;
+  color:#0F172A;padding:13px 18px;border-radius:12px;
+  font-family:inherit;font-size:.9rem;outline:none;transition:border-color .15s;
+}
+.fc-email:focus { border-color:#7C3AED;background:white }
+.fc-submit {
+  background:linear-gradient(135deg,#F59E0B,#EC4899);
+  color:white;padding:13px 24px;border-radius:12px;
+  font-weight:800;font-size:.88rem;border:none;cursor:pointer;
+  transition:all .2s;white-space:nowrap;
+  box-shadow:0 4px 16px rgba(245,158,11,.35);
+}
+.fc-submit:hover { transform:translateY(-1px);box-shadow:0 6px 24px rgba(245,158,11,.45) }
+.fc-perks { display:flex;flex-wrap:wrap;gap:8px;justify-content:center }
+.fc-perk {
+  font-size:.78rem;font-weight:700;
+  background:#F8FAFC;color:#475569;
+  border:1px solid #E2E8F0;
+  padding:5px 14px;border-radius:100px;
+}
+
+/* RESPONSIVE */
+@media (max-width:1024px) {
+  .ff-grid { grid-template-columns:repeat(2,1fr) }
+  .fp-inner { grid-template-columns:1fr;gap:40px }
+  .fp-right { order:-1 }
+}
+@media (max-width:768px) {
+  .fh-form { flex-direction:column }
+  .ff-grid  { grid-template-columns:1fr }
+  .fc-form  { flex-direction:column;align-items:stretch }
+  .fc-email { max-width:none }
+  .fc-card  { padding:32px 24px }
+}
+</style>

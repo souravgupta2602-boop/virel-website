@@ -1,0 +1,863 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const destData = {
+  Bali: {
+    tagline: "Island of Gods — Volcanoes, coral reefs, spiritual retreats and vibrant arts.",
+    budget: { min: 2800, max: 9200 }, budgetNote: "2–3 attractions per day",
+    weather: { temp: "24°C – 30°C", desc: "Dry & sunny, perfect for outdoor activities", icon: "☀️" },
+    crowd: { level: "High", color: "#EF4444", note: "Peak season – book in advance" },
+    grad: "linear-gradient(160deg,#059669,#10B981,#0891B2)",
+    emoji: "🌴",
+    highlights: [
+      { n:1, name:"Ubud Monkey Forest",       emoji:"🐒", cat:"Nature",    desc:"Sacred forest with 700+ long-tailed macaques among ancient temple ruins.",          price:"₹350–600",   dur:"2–3 hrs", card:"Any card • pay in IDR" },
+      { n:2, name:"Kecak Dance at Uluwatu",   emoji:"🎭", cat:"Culture",   desc:"Hypnotic fire dance performed by 100 singers at a clifftop temple at sunset.",      price:"₹600–1,200", dur:"1.5 hrs",card:"HDFC Diners: Priority Pass" },
+      { n:3, name:"Mount Batur Sunrise Trek", emoji:"🌋", cat:"Adventure", desc:"Hike active volcano pre-dawn for breathtaking sunrise views over Lake Batur.",       price:"₹2,500–4,500", dur:"6–7 hrs",card:"Axis Magnus: 4x on travel" },
+      { n:4, name:"Tirta Empul Temple",       emoji:"🛕", cat:"Spiritual", desc:"Participate in traditional water purification ritual at a holy spring temple.",      price:"₹200–400",   dur:"1–2 hrs", card:"Any card" },
+      { n:5, name:"Tegalalang Rice Terraces", emoji:"🌾", cat:"Nature",    desc:"Walk the iconic stepped rice paddies of Ubud with a local guide.",                  price:"₹150–300",   dur:"1–2 hrs", card:"Any card" },
+      { n:6, name:"Nusa Penida Day Trip",     emoji:"🏝️", cat:"Adventure", desc:"Snorkel with manta rays, visit Kelingking cliff and Angel's Billabong.",             price:"₹3,500–6,000", dur:"Full day",card:"HDFC Infinia: 5x rewards" },
+    ],
+    areas: [
+      { name:"Nusa Penida",    known:"Kelingking Beach, Crystal Bay, Manta Ray Snorkeling",   emoji:"🏝️", grad:"linear-gradient(160deg,#0284C7,#38BDF8)" },
+      { name:"Nusa Lembongan", known:"Beaches, Diving & Snorkeling, Surfing, Relaxed Vibe",   emoji:"🤿", grad:"linear-gradient(160deg,#0891B2,#06B6D4)" },
+      { name:"Gili Islands",   known:"Beaches, Diving & Snorkeling, Relaxation, Island Hopping", emoji:"🐠", grad:"linear-gradient(160deg,#059669,#10B981)" },
+      { name:"Seminyak",       known:"Beaches, Nightlife, Shopping, Surfing, Luxury Resorts", emoji:"🍹", grad:"linear-gradient(160deg,#7C2D12,#EA580C,#FB923C)" },
+      { name:"Kuta",           known:"Surfing, Beaches, Nightlife, Affordable Prices",        emoji:"🏄", grad:"linear-gradient(160deg,#D97706,#F59E0B)" },
+      { name:"Ubud",           known:"Rice Terraces, Yoga, Temples, Arts & Crafts",           emoji:"🌿", grad:"linear-gradient(160deg,#166534,#16A34A)" },
+    ],
+  },
+  Goa: {
+    tagline: "India's beach paradise — Vibrant nightlife, Portuguese heritage and stunning coastline.",
+    budget: { min: 1200, max: 5500 }, budgetNote: "2–3 activities per day",
+    weather: { temp: "28°C – 34°C", desc: "Sunny with sea breeze, ideal for beaches", icon: "🌊" },
+    crowd: { level: "Medium", color: "#F59E0B", note: "Pleasant weather, moderate crowds" },
+    grad: "linear-gradient(160deg,#0891B2,#06B6D4,#0EA5E9)",
+    emoji: "🏖️",
+    highlights: [
+      { n:1, name:"Dudhsagar Waterfalls",    emoji:"💦", cat:"Nature",    desc:"Trek to one of India's tallest waterfalls through the Western Ghats jungle.",       price:"₹1,200–2,000", dur:"Full day", card:"Axis Magnus: 4x rewards" },
+      { n:2, name:"Spice Plantation Tour",   emoji:"🌿", cat:"Culture",   desc:"Walk through fragrant cardamom, pepper and vanilla plantations with lunch.",        price:"₹800–1,500",   dur:"Half day", card:"Any cashback card" },
+      { n:3, name:"Scuba Diving – Grande Island", emoji:"🤿", cat:"Adventure", desc:"Explore coral reefs, vibrant fish and wrecks off Goa's pristine coastline.",   price:"₹2,500–4,000", dur:"Half day", card:"HDFC Regalia: 4x rewards" },
+      { n:4, name:"Old Goa Church Walk",     emoji:"⛪", cat:"Heritage",  desc:"UNESCO-listed Basilica of Bom Jesus and Se Cathedral guided heritage walk.",        price:"₹300–600",     dur:"2–3 hrs",  card:"Any card" },
+      { n:5, name:"Night Market – Arpora",   emoji:"🛍️", cat:"Shopping", desc:"Saturday Night Market with handicrafts, street food and live music.",               price:"₹500–2,000",   dur:"3–4 hrs",  card:"SBI Simply CLICK: 5x online" },
+      { n:6, name:"Kayaking – Mandovi River",emoji:"🚣", cat:"Adventure", desc:"Sunrise kayaking through mangroves with crocodile sighting possibility.",           price:"₹1,200–2,200", dur:"2 hrs",    card:"Any card" },
+    ],
+    areas: [
+      { name:"North Goa",   known:"Baga, Calangute, Anjuna – parties, beach shacks", emoji:"🎉", grad:"linear-gradient(160deg,#7C3AED,#EC4899)" },
+      { name:"South Goa",   known:"Palolem, Colva – serene beaches, luxury resorts", emoji:"🌅", grad:"linear-gradient(160deg,#0891B2,#0EA5E9)" },
+      { name:"Old Goa",     known:"Heritage churches, Portuguese architecture",      emoji:"⛪", grad:"linear-gradient(160deg,#B45309,#D97706)" },
+      { name:"Panjim",      known:"Latin Quarter, river cruise, city tour",          emoji:"🛳️", grad:"linear-gradient(160deg,#166534,#16A34A)" },
+    ],
+  },
+  Dubai: {
+    tagline: "City of superlatives — World's tallest buildings, luxury malls and desert adventures.",
+    budget: { min: 5000, max: 22000 }, budgetNote: "2–3 experiences per day",
+    weather: { temp: "25°C – 35°C", desc: "Sunny and warm, low humidity in winter", icon: "🌞" },
+    crowd: { level: "High", color: "#EF4444", note: "Peak winter season – book ahead" },
+    grad: "linear-gradient(160deg,#B45309,#D97706,#F59E0B)",
+    emoji: "🏙️",
+    highlights: [
+      { n:1, name:"Burj Khalifa – At The Top", emoji:"🏙️", cat:"Landmark",  desc:"Visit the observation deck on level 124 or 148 for 360° views of Dubai.",       price:"₹2,500–6,000",  dur:"2 hrs",    card:"Amex Plat: 5x MR points" },
+      { n:2, name:"Desert Safari & BBQ",        emoji:"🏜️", cat:"Adventure", desc:"Dune bashing, camel rides, henna, and BBQ dinner under the stars.",             price:"₹3,500–7,000",  dur:"Half day", card:"HDFC Infinia: 3.3% reward" },
+      { n:3, name:"Dubai Frame",                emoji:"🖼️", cat:"Landmark",  desc:"Sky bridge with glass floor overlooking Old and New Dubai simultaneously.",     price:"₹1,200–2,000",  dur:"1.5 hrs",  card:"Any card" },
+      { n:4, name:"Dhow Cruise – Dubai Creek",  emoji:"⛵", cat:"Culture",   desc:"Traditional wooden boat dinner cruise with belly dancing and Tanoura show.",    price:"₹2,000–4,000",  dur:"2–3 hrs",  card:"Axis Magnus: 4x rewards" },
+      { n:5, name:"Global Village",             emoji:"🌍", cat:"Culture",   desc:"Cultural pavilions from 90+ countries with food, rides and entertainment.",     price:"₹800–1,500",    dur:"3–4 hrs",  card:"Any cashback card" },
+      { n:6, name:"Skydiving – Palm Jumeirah",  emoji:"🪂", cat:"Adventure", desc:"Tandem skydive at 13,000 ft with iconic aerial views of The Palm.",            price:"₹28,000–42,000", dur:"3 hrs",   card:"Amex Plat: Max MR points" },
+    ],
+    areas: [
+      { name:"Downtown Dubai",    known:"Burj Khalifa, Dubai Mall, Fountain Show",       emoji:"🌆", grad:"linear-gradient(160deg,#0F172A,#1E3A5F,#3B82F6)" },
+      { name:"Jumeirah Beach",    known:"Beach clubs, luxury hotels, water sports",      emoji:"🏖️", grad:"linear-gradient(160deg,#0284C7,#38BDF8)" },
+      { name:"Old Dubai / Deira", known:"Gold Souk, Spice Souk, Creek, Dhow cruise",    emoji:"🛕", grad:"linear-gradient(160deg,#B45309,#D97706)" },
+      { name:"Palm Jumeirah",     known:"Atlantis, skydiving, luxury dining, beaches",   emoji:"🌴", grad:"linear-gradient(160deg,#9D174D,#EC4899)" },
+    ],
+  },
+  Jaipur: {
+    tagline: "The Pink City — Royal palaces, vibrant bazaars and timeless Rajasthani culture.",
+    budget: { min: 800, max: 4500 }, budgetNote: "2–3 attractions per day",
+    weather: { temp: "18°C – 26°C", desc: "Cool and pleasant, perfect for sightseeing", icon: "🌤️" },
+    crowd: { level: "Medium", color: "#F59E0B", note: "Great weather window, book forts ahead" },
+    grad: "linear-gradient(160deg,#BE185D,#EC4899,#F9A8D4)",
+    emoji: "🏰",
+    highlights: [
+      { n:1, name:"Amber Fort & Elephant Ride",  emoji:"🐘", cat:"Heritage",   desc:"Magnificent hilltop fort with elephant ride and stunning mirrored halls.",    price:"₹800–2,000", dur:"3–4 hrs",  card:"Any card" },
+      { n:2, name:"Hot Air Balloon at Sunrise",  emoji:"🎈", cat:"Adventure",  desc:"Float over Jaipur's skyline and forts in a private hot air balloon at dawn.", price:"₹8,000–15,000", dur:"1.5 hrs", card:"Amex Plat: 5x MR points" },
+      { n:3, name:"Hawa Mahal & Pink City Walk",  emoji:"🏰", cat:"Heritage",  desc:"Iconic honeycomb palace and guided walk through the old walled city bazaars.", price:"₹200–500",   dur:"2–3 hrs",  card:"Any card" },
+      { n:4, name:"Rajasthani Cooking Class",    emoji:"🍛", cat:"Food",       desc:"Learn to make dal baati churma, ghewar and local sweets from a local family.", price:"₹1,500–3,000", dur:"3 hrs",  card:"HDFC Millennia: 5x dining" },
+      { n:5, name:"Camel Safari – Sand Dunes",   emoji:"🐪", cat:"Adventure",  desc:"Sunset camel safari through sand dunes with folk music and bonfire dinner.",  price:"₹1,200–3,500", dur:"3–4 hrs", card:"Any card" },
+      { n:6, name:"Block Printing Workshop",     emoji:"🎨", cat:"Craft",      desc:"Hands-on workshop learning Jaipur's famous wooden block textile printing.",   price:"₹600–1,200", dur:"2 hrs",    card:"Any card" },
+    ],
+    areas: [
+      { name:"Old City (Pink City)", known:"Hawa Mahal, bazaars, Jantar Mantar", emoji:"🏰", grad:"linear-gradient(160deg,#BE185D,#EC4899)" },
+      { name:"Amber / Amer",         known:"Amber Fort, Panna Meena Kund, temples", emoji:"🏯", grad:"linear-gradient(160deg,#B45309,#D97706)" },
+      { name:"Nahargarh",            known:"Fort, sunset views, rooftop cafes",    emoji:"🌇", grad:"linear-gradient(160deg,#7C3AED,#A78BFA)" },
+      { name:"Sanganer / Bagru",     known:"Block printing, pottery, craft villages",emoji:"🎨", grad:"linear-gradient(160deg,#166534,#16A34A)" },
+    ],
+  },
+};
+
+const categoryColors = {
+  Nature:    { bg:'#DCFCE7', text:'#166534', border:'#BBF7D0' },
+  Culture:   { bg:'#EDE9FE', text:'#5B21B6', border:'#DDD6FE' },
+  Adventure: { bg:'#FEE2E2', text:'#991B1B', border:'#FECACA' },
+  Spiritual: { bg:'#FDF4FF', text:'#86198F', border:'#F0ABFC' },
+  Heritage:  { bg:'#FEF3C7', text:'#92400E', border:'#FDE68A' },
+  Shopping:  { bg:'#FCE7F3', text:'#9D174D', border:'#FBCFE8' },
+  Food:      { bg:'#FFF7ED', text:'#C2410C', border:'#FED7AA' },
+  Landmark:  { bg:'#EFF6FF', text:'#1D4ED8', border:'#BFDBFE' },
+  Craft:     { bg:'#F0FDF4', text:'#15803D', border:'#BBF7D0' },
+};
+---
+
+<Layout title="Activities — Experiences for Every City | Virel" description="Discover the best activities, tours, and experiences for your trip. AI-curated highlights, area explorer, and best credit card for every booking.">
+
+  <!-- TOP BAR -->
+  <div class="act-topbar">
+    <div class="atb-left">
+      <button class="atb-menu">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <span class="atb-title">Activities</span>
+    </div>
+    <div class="atb-pill">
+      <div class="atb-field" onclick="openDestPicker()">
+        <span class="atb-lbl">WHERE</span>
+        <span class="atb-val" id="dest-val">Bali</span>
+      </div>
+      <div class="atb-sep"></div>
+      <div class="atb-field">
+        <span class="atb-lbl">MONTH</span>
+        <span class="atb-val" id="month-val">Jun 2026</span>
+      </div>
+      <div class="atb-sep"></div>
+      <div class="atb-field atb-prefs">
+        <span class="atb-lbl">PREFERENCES</span>
+        <span class="atb-val">Couple, Leisure</span>
+      </div>
+      <button class="atb-go" id="actSearchBtn">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        Search
+      </button>
+    </div>
+    <button class="atb-wishlist">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+    </button>
+  </div>
+
+  <!-- DEST PICKER DROPDOWN -->
+  <div class="dest-picker" id="destPicker" style="display:none">
+    {Object.keys(destData).map(d => (
+      <button class="dp-item" onclick={`setDest('${d}')`}>
+        <span style="font-size:1.2rem">{(destData as any)[d].emoji}</span>
+        <div>
+          <div style="font-weight:700;font-size:.88rem;color:#0F172A">{d}</div>
+          <div style="font-size:.7rem;color:#94A3B8">{(destData as any)[d].tagline.split('—')[0].trim()}</div>
+        </div>
+      </button>
+    ))}
+  </div>
+
+  <!-- DESTINATION INFO BANNER -->
+  <div class="dest-banner" id="destBanner">
+    <!-- Filled by JS -->
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <div class="act-content">
+
+    <!-- VIREL PICKS (Signature Experiences) -->
+    <section class="vp-section">
+      <div class="vp-header">
+        <div class="vp-header-left">
+          <span class="vp-trophy">✦</span>
+          <span class="vp-title">Virel Picks</span>
+          <span class="vp-sub"> — signature experiences</span>
+        </div>
+        <div class="vp-nav">
+          <button class="vp-arrow" id="vpPrev">‹</button>
+          <button class="vp-arrow" id="vpNext">›</button>
+        </div>
+      </div>
+      <div class="vp-scroll-wrap">
+        <div class="vp-scroll" id="vpScroll">
+          <!-- Filled by JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- INSTAGRAM REELS SECTION -->
+    <section class="ig-section">
+      <div class="ig-header">
+        <div>
+          <h2 class="ig-title">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" style="vertical-align:middle;margin-right:6px"><rect x="2" y="2" width="20" height="20" rx="5" fill="none" stroke="url(#igGrad)" stroke-width="2.5"/><circle cx="12" cy="12" r="4" fill="none" stroke="url(#igGrad)" stroke-width="2.5"/><circle cx="17.5" cy="6.5" r="1.2" fill="#EC4899"/><defs><linearGradient id="igGrad" x1="0" y1="0" x2="24" y2="24"><stop offset="0%" stop-color="#F59E0B"/><stop offset="50%" stop-color="#EC4899"/><stop offset="100%" stop-color="#7C3AED"/></linearGradient></defs></svg>
+            City Reels
+          </h2>
+          <p class="ig-sub" id="igSubText">Live Instagram reels from Bali</p>
+        </div>
+        <a href="#" id="igSeeAll" target="_blank" class="ig-see-all">See all on Instagram →</a>
+      </div>
+      <div class="ig-reels-row" id="igReelsRow">
+        <!-- Filled by JS (Instagram API or placeholder) -->
+      </div>
+      <div id="ig-api-note" class="ig-api-note" style="display:none">
+        🔑 Connect Instagram RapidAPI in settings to show live reels
+      </div>
+    </section>
+
+    <!-- AREA EXPLORER -->
+    <section class="area-section">
+      <div class="area-header">
+        <h2 class="area-title">Explore areas in <span id="areaDestName">Bali</span></h2>
+        <a class="area-see-all">See all ›</a>
+      </div>
+      <div class="area-scroll-wrap">
+        <div class="area-scroll" id="areaScroll">
+          <!-- Filled by JS -->
+        </div>
+        <button class="area-nav-btn area-next" id="areaNextBtn">›</button>
+      </div>
+    </section>
+
+    <!-- ALL EXPERIENCES -->
+    <section class="all-exp-section">
+      <div class="ae-header">
+        <h2 class="ae-title">All Experiences</h2>
+        <div class="ae-cats" id="aeCats">
+          <!-- Filled by JS -->
+        </div>
+      </div>
+      <div class="ae-grid" id="aeGrid">
+        <!-- Filled by JS -->
+      </div>
+    </section>
+
+  </div>
+
+  <!-- AI ASK BAR -->
+  <div class="ai-bar">
+    <div class="ai-bar-inner">
+      <span class="ai-bar-icon">✨</span>
+      <input type="text" class="ai-bar-input" id="aiInput" placeholder='Ask Virel AI: "Best activities for kids in Bali under ₹2,000"' />
+      <button class="ai-bar-send" onclick="handleAiAsk()">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="white"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22,2 15,22 11,13 2,9"/></svg>
+      </button>
+    </div>
+  </div>
+
+</Layout>
+
+<script define:vars={{ destData, categoryColors }}>
+
+let currentDest = 'Bali';
+let activeCategory = 'All';
+
+// ── Instagram API via RapidAPI ──────────────────────────────────
+// Set your RapidAPI key in public/virel-config.js as:
+// window.__VIREL_CONFIG__ = { rapidApiKey: 'YOUR_KEY_HERE' }
+const RAPID_API_KEY = window.__VIREL_CONFIG__?.rapidApiKey || '';
+
+async function fetchInstagramReels(hashtag) {
+  if (!RAPID_API_KEY) {
+    renderIgPlaceholders(hashtag);
+    return;
+  }
+  try {
+    const res = await fetch(
+      `https://instagram-scraper-api2.p.rapidapi.com/v1/hashtag?hashtag=${encodeURIComponent(hashtag)}&type=clips`,
+      {
+        headers: {
+          'X-RapidAPI-Key': RAPID_API_KEY,
+          'X-RapidAPI-Host': 'instagram-scraper-api2.p.rapidapi.com'
+        }
+      }
+    );
+    if (!res.ok) throw new Error('API error');
+    const data = await res.json();
+    const items = data?.data?.items?.slice(0, 8) || [];
+    if (items.length === 0) throw new Error('No items');
+    renderIgReels(items, hashtag);
+  } catch(e) {
+    renderIgPlaceholders(hashtag);
+  }
+}
+
+function renderIgReels(items, hashtag) {
+  const row = document.getElementById('igReelsRow');
+  if (!row) return;
+  row.innerHTML = items.map(item => {
+    const thumb = item.thumbnail_url || item.display_url || '';
+    const likes  = item.like_count ? `${(item.like_count/1000).toFixed(1)}K` : '';
+    const url    = item.shortcode ? `https://www.instagram.com/reel/${item.shortcode}/` : `https://www.instagram.com/explore/tags/${hashtag}/`;
+    return `
+      <a href="${url}" target="_blank" rel="noopener" class="ig-reel">
+        ${thumb ? `<img src="${thumb}" alt="Reel" class="ig-reel-img" loading="lazy"/>` : `<div class="ig-reel-ph"></div>`}
+        <div class="ig-reel-overlay">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="white" style="opacity:.8"><polygon points="5,3 19,12 5,21"/></svg>
+          ${likes ? `<span class="ig-reel-likes">♥ ${likes}</span>` : ''}
+        </div>
+      </a>
+    `;
+  }).join('');
+  document.getElementById('ig-api-note').style.display = 'none';
+}
+
+function renderIgPlaceholders(hashtag) {
+  const row = document.getElementById('igReelsRow');
+  if (!row) return;
+  const grads = [
+    'linear-gradient(160deg,#059669,#10B981)','linear-gradient(160deg,#0891B2,#06B6D4)',
+    'linear-gradient(160deg,#7C3AED,#EC4899)','linear-gradient(160deg,#B45309,#D97706)',
+    'linear-gradient(160deg,#BE185D,#EC4899)','linear-gradient(160deg,#1E3A5F,#3B82F6)',
+    'linear-gradient(160deg,#166534,#16A34A)','linear-gradient(160deg,#D97706,#F59E0B)',
+  ];
+  const emojis = ['🌴','🛕','🌋','🤿','🎭','🌅','🌿','🐒'];
+  row.innerHTML = grads.map((g,i) => `
+    <a href="https://www.instagram.com/explore/tags/${hashtag}/" target="_blank" rel="noopener" class="ig-reel">
+      <div class="ig-reel-ph" style="background:${g}">
+        <span style="font-size:2rem">${emojis[i]}</span>
+      </div>
+      <div class="ig-reel-overlay">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="white" style="opacity:.8"><polygon points="5,3 19,12 5,21"/></svg>
+      </div>
+    </a>
+  `).join('');
+  if (!RAPID_API_KEY) {
+    document.getElementById('ig-api-note').style.display = 'block';
+  }
+}
+
+// ── Render functions ──────────────────────────────────────────
+function renderBanner(dest) {
+  const d = destData[dest];
+  const banner = document.getElementById('destBanner');
+  if (!banner || !d) return;
+  const crowdClass = d.crowd.level === 'High' ? 'crowd-high' : d.crowd.level === 'Low' ? 'crowd-low' : 'crowd-med';
+  banner.innerHTML = `
+    <div class="db-left">
+      <div class="db-dest-icon" style="background:${d.grad}">${d.emoji}</div>
+      <div>
+        <h2 class="db-name">${dest}</h2>
+        <p class="db-tagline">${d.tagline}</p>
+      </div>
+    </div>
+    <div class="db-stats">
+      <div class="db-stat">
+        <span class="db-stat-icon">💰</span>
+        <div>
+          <div class="db-stat-label">Avg. Cost (per day)</div>
+          <div class="db-stat-value">₹${d.budget.min.toLocaleString()} – ₹${d.budget.max.toLocaleString()}</div>
+          <div class="db-stat-note">${d.budgetNote}</div>
+        </div>
+      </div>
+      <div class="db-stat-sep"></div>
+      <div class="db-stat">
+        <span class="db-stat-icon">${d.weather.icon}</span>
+        <div>
+          <div class="db-stat-label">Weather</div>
+          <div class="db-stat-value">${d.weather.temp}</div>
+          <div class="db-stat-note">${d.weather.desc}</div>
+        </div>
+      </div>
+      <div class="db-stat-sep"></div>
+      <div class="db-stat">
+        <span class="db-stat-icon">👥</span>
+        <div>
+          <div class="db-stat-label">Crowd Level</div>
+          <div class="db-stat-crowd ${crowdClass}">${d.crowd.level}</div>
+          <div class="db-stat-note">${d.crowd.note}</div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function renderHighlights(dest) {
+  const items = destData[dest]?.highlights || [];
+  const scroll = document.getElementById('vpScroll');
+  if (!scroll) return;
+  scroll.innerHTML = items.map(h => {
+    const cat = categoryColors[h.cat] || { bg:'#F1F5F9', text:'#475569', border:'#E2E8F0' };
+    return `
+      <div class="vp-card">
+        <div class="vp-card-num">${h.n}</div>
+        <div class="vp-card-desc">${h.desc}</div>
+        <div class="vp-card-visual">
+          <div class="vp-card-emoji">${h.emoji}</div>
+          <button class="vp-heart" onclick="this.classList.toggle('saved')">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          </button>
+        </div>
+        <div class="vp-card-footer">
+          <div class="vp-card-name">${h.name}</div>
+          <div class="vp-card-meta">
+            <span class="vp-cat-badge" style="background:${cat.bg};color:${cat.text};border-color:${cat.border}">${h.cat}</span>
+            <span class="vp-price">${h.price}</span>
+            <span class="vp-dur">⏱ ${h.dur}</span>
+          </div>
+          <div class="vp-card-tip">💳 ${h.card}</div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function renderAreas(dest) {
+  const areas = destData[dest]?.areas || [];
+  const scroll = document.getElementById('areaScroll');
+  const title  = document.getElementById('areaDestName');
+  if (title) title.textContent = dest;
+  if (!scroll) return;
+  scroll.innerHTML = areas.map(a => `
+    <div class="area-card">
+      <div class="area-card-top" style="background:${a.grad}">
+        <div class="area-emoji">${a.emoji}</div>
+      </div>
+      <div class="area-card-body">
+        <div class="area-name">${a.name}</div>
+        <div class="area-known">Known for: ${a.known}</div>
+      </div>
+      <div class="area-nav-arrow">›</div>
+    </div>
+  `).join('');
+}
+
+function renderAllActivities(dest, filterCat) {
+  const items = destData[dest]?.highlights || [];
+  const filtered = filterCat === 'All' ? items : items.filter(h => h.cat === filterCat);
+  const grid = document.getElementById('aeGrid');
+  if (!grid) return;
+  grid.innerHTML = filtered.map(h => {
+    const cat = categoryColors[h.cat] || { bg:'#F1F5F9', text:'#475569', border:'#E2E8F0' };
+    const coins = Math.round(parseInt(h.price.replace(/[^0-9–]/g,'').split('–')[0]||'500') / 10);
+    return `
+      <div class="ae-card">
+        <div class="ae-card-left">
+          <div class="ae-emoji-wrap" style="background:${cat.bg}">${h.emoji}</div>
+        </div>
+        <div class="ae-card-body">
+          <div class="ae-card-top-row">
+            <h3 class="ae-card-name">${h.name}</h3>
+            <span class="ae-cat" style="background:${cat.bg};color:${cat.text};border-color:${cat.border}">${h.cat}</span>
+          </div>
+          <p class="ae-desc">${h.desc}</p>
+          <div class="ae-meta">
+            <span class="ae-price">₹ ${h.price}</span>
+            <span class="ae-dur">⏱ ${h.dur}</span>
+            <span class="ae-coins">🪙 ~${coins} coins</span>
+          </div>
+          <div class="ae-card-tip">💳 Best card: <strong>${h.card}</strong></div>
+        </div>
+        <div class="ae-card-actions">
+          <button class="ae-save" onclick="this.textContent=this.textContent==='♡'?'♥':'♡'">♡</button>
+          <a href="/trip-board?dest=${dest}" class="ae-book">Book →</a>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function renderCategoryFilter(dest) {
+  const items  = destData[dest]?.highlights || [];
+  const cats   = ['All', ...new Set(items.map(h => h.cat))];
+  const catsEl = document.getElementById('aeCats');
+  if (!catsEl) return;
+  catsEl.innerHTML = cats.map(c => `
+    <button class="ae-cat-btn ${c === activeCategory ? 'active' : ''}" onclick="filterCat('${c}')">${c}</button>
+  `).join('');
+}
+
+// ── Controls ─────────────────────────────────────────────────
+function setDest(dest) {
+  currentDest = dest;
+  activeCategory = 'All';
+  document.getElementById('dest-val').textContent = dest;
+  document.getElementById('destPicker').style.display = 'none';
+  document.getElementById('igSubText').textContent = `Live Instagram reels from ${dest}`;
+  document.getElementById('igSeeAll').href = `https://www.instagram.com/explore/tags/${dest.toLowerCase()}/`;
+  renderBanner(dest);
+  renderHighlights(dest);
+  renderAreas(dest);
+  renderCategoryFilter(dest);
+  renderAllActivities(dest, 'All');
+  fetchInstagramReels(dest.toLowerCase());
+}
+window.setDest = setDest;
+
+function openDestPicker() {
+  const p = document.getElementById('destPicker');
+  p.style.display = p.style.display === 'none' ? 'flex' : 'none';
+}
+window.openDestPicker = openDestPicker;
+
+function filterCat(cat) {
+  activeCategory = cat;
+  renderCategoryFilter(currentDest);
+  renderAllActivities(currentDest, cat);
+}
+window.filterCat = filterCat;
+
+// Scroll arrows for Virel Picks
+document.getElementById('vpPrev')?.addEventListener('click', () => {
+  document.getElementById('vpScroll')?.scrollBy({ left: -320, behavior: 'smooth' });
+});
+document.getElementById('vpNext')?.addEventListener('click', () => {
+  document.getElementById('vpScroll')?.scrollBy({ left: 320, behavior: 'smooth' });
+});
+document.getElementById('areaNextBtn')?.addEventListener('click', () => {
+  document.getElementById('areaScroll')?.scrollBy({ left: 300, behavior: 'smooth' });
+});
+
+document.getElementById('actSearchBtn')?.addEventListener('click', () => {
+  setDest(document.getElementById('dest-val').textContent || 'Bali');
+});
+
+document.addEventListener('click', e => {
+  if (!e.target.closest('#destPicker') && !e.target.closest('[onclick="openDestPicker()"]')) {
+    document.getElementById('destPicker').style.display = 'none';
+  }
+});
+
+function handleAiAsk() {
+  const inp = document.getElementById('aiInput');
+  if (!inp?.value) return;
+  const q = inp.value; inp.value = '';
+  const inner = document.querySelector('.ai-bar-inner');
+  const backup = inner.innerHTML;
+  inner.innerHTML = `<span class="ai-bar-icon">🤔</span><span style="color:#64748B;font-size:.85rem">Thinking about: "${q}"...</span>`;
+  setTimeout(() => { inner.innerHTML = backup; }, 2800);
+}
+window.handleAiAsk = handleAiAsk;
+
+// Init
+document.addEventListener('DOMContentLoaded', () => {
+  const now = new Date();
+  document.getElementById('month-val').textContent =
+    now.toLocaleDateString('en-US', { month:'short', year:'numeric' });
+  setDest('Bali');
+});
+</script>
+
+<style>
+/* TOP BAR */
+.act-topbar {
+  position:sticky;top:72px;z-index:150;
+  background:white;border-bottom:1px solid #E2E8F0;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:10px 20px;gap:12px;
+  box-shadow:0 2px 12px rgba(0,0,0,.04);
+}
+.atb-left { display:flex;align-items:center;gap:10px;flex-shrink:0 }
+.atb-menu {
+  width:34px;height:34px;border-radius:9px;border:1px solid #E2E8F0;
+  background:white;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#475569;
+}
+.atb-title { font-size:1.1rem;font-weight:900;color:#0F172A;letter-spacing:-.02em }
+.atb-pill {
+  display:flex;align-items:center;
+  border:1.5px solid #E2E8F0;border-radius:100px;background:white;
+  flex:1;max-width:700px;overflow:hidden;
+  box-shadow:0 2px 8px rgba(0,0,0,.05);
+  transition:box-shadow .2s;
+}
+.atb-pill:hover { box-shadow:0 4px 16px rgba(0,0,0,.1) }
+.atb-field {
+  display:flex;flex-direction:column;padding:8px 16px;flex:1;cursor:pointer;
+  transition:background .15s;min-width:0;
+}
+.atb-field:hover { background:#F8FAFC }
+.atb-prefs { max-width:170px }
+.atb-lbl {
+  font-size:.54rem;font-weight:800;color:#94A3B8;
+  text-transform:uppercase;letter-spacing:.1em;line-height:1;margin-bottom:2px;
+}
+.atb-val {
+  font-size:.82rem;font-weight:700;color:#0F172A;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.atb-sep { width:1px;height:26px;background:#E2E8F0;flex-shrink:0 }
+.atb-go {
+  display:flex;align-items:center;gap:6px;
+  background:linear-gradient(135deg,#7C3AED,#EC4899);
+  color:white;padding:10px 20px;font-weight:800;font-size:.8rem;
+  border:none;cursor:pointer;border-radius:0 100px 100px 0;
+  transition:all .2s;white-space:nowrap;
+}
+.atb-go:hover { opacity:.9 }
+.atb-wishlist {
+  width:36px;height:36px;border-radius:50%;border:1.5px solid #EDE9FE;
+  background:white;cursor:pointer;display:flex;align-items:center;justify-content:center;
+  transition:background .15s;flex-shrink:0;
+}
+.atb-wishlist:hover { background:#F5F3FF }
+
+/* DEST PICKER */
+.dest-picker {
+  position:fixed;top:138px;left:50%;transform:translateX(-50%);
+  z-index:200;background:white;border-radius:18px;
+  box-shadow:0 20px 60px rgba(0,0,0,.18);border:1px solid #E2E8F0;
+  flex-direction:column;gap:4px;padding:12px;min-width:300px;overflow:hidden;
+}
+.dp-item {
+  display:flex;align-items:center;gap:12px;
+  padding:10px 12px;border-radius:10px;border:none;
+  background:transparent;cursor:pointer;text-align:left;width:100%;
+  transition:background .15s;
+}
+.dp-item:hover { background:#F8FAFC }
+
+/* DESTINATION BANNER */
+.dest-banner {
+  background:white;border-bottom:1px solid #F1F5F9;
+  padding:16px 20px;display:flex;align-items:flex-start;
+  justify-content:space-between;gap:20px;flex-wrap:wrap;
+}
+.db-left { display:flex;align-items:flex-start;gap:14px;flex:1;min-width:200px }
+.db-dest-icon {
+  width:52px;height:52px;border-radius:14px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.6rem;flex-shrink:0;
+}
+.db-name { font-size:1.2rem;font-weight:900;color:#0F172A;letter-spacing:-.02em;margin-bottom:3px }
+.db-tagline { font-size:.78rem;color:#64748B;line-height:1.5;max-width:320px }
+.db-stats { display:flex;align-items:flex-start;gap:0;flex-wrap:wrap }
+.db-stat { display:flex;align-items:flex-start;gap:10px;padding:0 20px }
+.db-stat-sep { width:1px;background:#E2E8F0;align-self:stretch;margin:0 }
+.db-stat-icon { font-size:1rem;flex-shrink:0;margin-top:2px }
+.db-stat-label { font-size:.6rem;font-weight:700;color:#94A3B8;text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px }
+.db-stat-value { font-size:.88rem;font-weight:800;color:#0F172A }
+.db-stat-note  { font-size:.62rem;color:#94A3B8;margin-top:2px;max-width:160px }
+.db-stat-crowd {
+  display:inline-block;font-size:.72rem;font-weight:800;
+  padding:3px 10px;border-radius:100px;margin-bottom:3px;
+}
+.crowd-high { background:#FEE2E2;color:#991B1B }
+.crowd-med  { background:#FEF3C7;color:#92400E }
+.crowd-low  { background:#DCFCE7;color:#166534 }
+
+/* MAIN CONTENT */
+.act-content { padding:0 0 100px }
+
+/* VIREL PICKS */
+.vp-section { padding:24px 20px 0 }
+.vp-header {
+  display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;
+}
+.vp-header-left { display:flex;align-items:center;gap:8px }
+.vp-trophy { font-size:1.1rem;color:#7C3AED }
+.vp-title  { font-size:1.1rem;font-weight:900;color:#7C3AED;letter-spacing:-.01em }
+.vp-sub    { font-size:1rem;font-weight:600;color:#0F172A }
+.vp-nav    { display:flex;gap:6px }
+.vp-arrow  {
+  width:30px;height:30px;border-radius:50%;border:1px solid #E2E8F0;
+  background:white;cursor:pointer;font-size:1.1rem;
+  display:flex;align-items:center;justify-content:center;color:#475569;
+  transition:all .15s;
+}
+.vp-arrow:hover { background:linear-gradient(135deg,#7C3AED,#EC4899);color:white;border-color:transparent }
+
+.vp-scroll-wrap { overflow:hidden;margin:0 -20px;padding:0 20px }
+.vp-scroll {
+  display:flex;gap:16px;overflow-x:auto;padding-bottom:8px;
+  scrollbar-width:none;-ms-overflow-style:none;
+}
+.vp-scroll::-webkit-scrollbar { display:none }
+
+.vp-card {
+  flex-shrink:0;width:290px;
+  background:white;border:1.5px solid #E2E8F0;border-radius:18px;
+  overflow:hidden;transition:all .25s;display:flex;flex-direction:column;
+}
+.vp-card:hover { box-shadow:0 10px 36px rgba(0,0,0,.1);transform:translateY(-3px);border-color:transparent }
+.vp-card-num {
+  font-size:.65rem;font-weight:900;color:#7C3AED;
+  padding:12px 14px 0;letter-spacing:.05em;
+}
+.vp-card-desc {
+  font-size:.78rem;color:#475569;line-height:1.55;
+  padding:6px 14px 12px;flex:1;
+}
+.vp-card-visual {
+  height:130px;position:relative;
+  background:linear-gradient(160deg,#E0E7FF,#EDE9FE,#FCE7F3);
+  display:flex;align-items:center;justify-content:center;
+}
+.vp-card-emoji { font-size:3rem;opacity:.9 }
+.vp-heart {
+  position:absolute;top:10px;right:10px;
+  width:30px;height:30px;border-radius:50%;
+  background:rgba(255,255,255,.3);backdrop-filter:blur(6px);
+  border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;
+}
+.vp-heart.saved { background:rgba(255,107,53,.8) }
+.vp-card-footer { padding:12px 14px;border-top:1px solid #F1F5F9 }
+.vp-card-name { font-size:.88rem;font-weight:800;color:#0F172A;margin-bottom:6px }
+.vp-card-meta { display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:6px }
+.vp-cat-badge { font-size:.6rem;font-weight:800;padding:2px 8px;border-radius:100px;border:1px solid }
+.vp-price { font-size:.72rem;font-weight:800;color:#7C3AED }
+.vp-dur   { font-size:.68rem;color:#94A3B8;font-weight:600 }
+.vp-card-tip { font-size:.65rem;color:#64748B;background:#F8FAFC;padding:4px 8px;border-radius:6px }
+
+/* INSTAGRAM REELS */
+.ig-section { padding:28px 20px 0 }
+.ig-header  { display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px }
+.ig-title   { font-size:1.05rem;font-weight:900;color:#0F172A;display:flex;align-items:center;margin-bottom:3px }
+.ig-sub     { font-size:.78rem;color:#94A3B8;font-weight:600 }
+.ig-see-all { font-size:.78rem;font-weight:700;color:#7C3AED;white-space:nowrap;align-self:flex-start }
+.ig-reels-row {
+  display:flex;gap:10px;overflow-x:auto;padding-bottom:6px;
+  scrollbar-width:none;-ms-overflow-style:none;
+}
+.ig-reels-row::-webkit-scrollbar { display:none }
+.ig-reel {
+  flex-shrink:0;width:120px;height:210px;border-radius:14px;
+  overflow:hidden;position:relative;cursor:pointer;transition:all .2s;text-decoration:none;
+}
+.ig-reel:hover { transform:scale(1.04);box-shadow:0 8px 24px rgba(0,0,0,.2) }
+.ig-reel-img { width:100%;height:100%;object-fit:cover }
+.ig-reel-ph {
+  width:100%;height:100%;
+  display:flex;align-items:center;justify-content:center;font-size:2.2rem;
+}
+.ig-reel-overlay {
+  position:absolute;inset:0;background:linear-gradient(0deg,rgba(0,0,0,.5) 0%,transparent 50%);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;
+  opacity:0;transition:opacity .2s;
+}
+.ig-reel:hover .ig-reel-overlay { opacity:1 }
+.ig-reel-likes { font-size:.62rem;font-weight:700;color:white }
+.ig-api-note {
+  margin-top:10px;font-size:.75rem;color:#94A3B8;
+  background:#F8FAFC;border:1px dashed #E2E8F0;
+  padding:8px 14px;border-radius:10px;text-align:center;
+}
+
+/* AREA EXPLORER */
+.area-section { padding:28px 20px 0 }
+.area-header  { display:flex;align-items:center;justify-content:space-between;margin-bottom:14px }
+.area-title   { font-size:1.05rem;font-weight:800;color:#0F172A }
+.area-see-all { font-size:.78rem;font-weight:700;color:#7C3AED;cursor:pointer }
+.area-scroll-wrap { position:relative;overflow:hidden;margin:0 -20px;padding:0 20px }
+.area-scroll {
+  display:flex;gap:12px;overflow-x:auto;padding-bottom:6px;
+  scrollbar-width:none;-ms-overflow-style:none;
+}
+.area-scroll::-webkit-scrollbar { display:none }
+.area-card {
+  flex-shrink:0;width:220px;border-radius:16px;overflow:hidden;
+  border:1.5px solid #E2E8F0;background:white;transition:all .2s;cursor:pointer;
+  position:relative;
+}
+.area-card:hover { box-shadow:0 8px 28px rgba(0,0,0,.1);transform:translateY(-2px) }
+.area-card-top {
+  height:110px;display:flex;align-items:center;justify-content:flex-start;
+  padding:14px;position:relative;
+}
+.area-emoji { font-size:2.2rem }
+.area-card-body { padding:10px 12px }
+.area-name  { font-size:.85rem;font-weight:800;color:#0F172A;margin-bottom:3px }
+.area-known { font-size:.7rem;color:#64748B;line-height:1.45 }
+.area-nav-arrow {
+  position:absolute;bottom:10px;right:10px;
+  width:24px;height:24px;border-radius:50%;
+  background:#F1F5F9;display:flex;align-items:center;justify-content:center;
+  font-size:1rem;color:#475569;
+}
+.area-nav-btn {
+  position:absolute;right:0;top:50%;transform:translateY(-50%);
+  width:32px;height:32px;border-radius:50%;
+  background:white;border:1px solid #E2E8F0;
+  box-shadow:0 2px 10px rgba(0,0,0,.1);
+  cursor:pointer;font-size:1.1rem;color:#475569;
+  display:flex;align-items:center;justify-content:center;z-index:2;
+}
+
+/* ALL EXPERIENCES */
+.all-exp-section { padding:28px 20px 0 }
+.ae-header { margin-bottom:16px }
+.ae-title  { font-size:1.05rem;font-weight:800;color:#0F172A;margin-bottom:12px }
+.ae-cats   { display:flex;gap:6px;flex-wrap:wrap }
+.ae-cat-btn {
+  padding:6px 14px;background:#F8FAFC;border:1.5px solid #E2E8F0;
+  border-radius:100px;font-size:.75rem;font-weight:700;color:#475569;
+  cursor:pointer;transition:all .15s;
+}
+.ae-cat-btn:hover { border-color:#7C3AED;color:#7C3AED }
+.ae-cat-btn.active {
+  background:linear-gradient(135deg,#7C3AED,#EC4899);
+  color:white;border-color:transparent;
+}
+.ae-grid { display:flex;flex-direction:column;gap:12px }
+.ae-card {
+  display:flex;align-items:flex-start;gap:14px;
+  background:white;border:1.5px solid #E2E8F0;border-radius:16px;
+  padding:16px;transition:all .2s;
+}
+.ae-card:hover { box-shadow:0 6px 24px rgba(0,0,0,.07);border-color:#DDD6FE;transform:translateX(3px) }
+.ae-card-left { flex-shrink:0 }
+.ae-emoji-wrap {
+  width:48px;height:48px;border-radius:14px;
+  display:flex;align-items:center;justify-content:center;font-size:1.4rem;
+}
+.ae-card-body { flex:1;min-width:0 }
+.ae-card-top-row { display:flex;align-items:flex-start;gap:8px;margin-bottom:5px;flex-wrap:wrap }
+.ae-card-name { font-size:.92rem;font-weight:800;color:#0F172A }
+.ae-cat { font-size:.6rem;font-weight:800;padding:2px 8px;border-radius:100px;border:1px solid;white-space:nowrap }
+.ae-desc { font-size:.78rem;color:#64748B;line-height:1.55;margin-bottom:7px }
+.ae-meta { display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:5px }
+.ae-price { font-size:.75rem;font-weight:800;color:#0F172A }
+.ae-dur   { font-size:.7rem;color:#94A3B8;font-weight:600 }
+.ae-coins { font-size:.7rem;font-weight:700;color:#F59E0B }
+.ae-card-tip { font-size:.68rem;color:#7C3AED;font-weight:600 }
+.ae-card-actions { display:flex;flex-direction:column;gap:6px;flex-shrink:0 }
+.ae-save {
+  width:32px;height:32px;border-radius:50%;border:1px solid #E2E8F0;
+  background:white;cursor:pointer;font-size:1rem;
+  display:flex;align-items:center;justify-content:center;transition:all .15s;
+}
+.ae-save:hover { border-color:#FF6B35;color:#FF6B35 }
+.ae-book {
+  display:flex;align-items:center;justify-content:center;
+  padding:7px 14px;background:linear-gradient(135deg,#7C3AED,#EC4899);
+  color:white;border-radius:9px;font-size:.72rem;font-weight:700;
+  text-decoration:none;transition:all .15s;white-space:nowrap;
+}
+.ae-book:hover { opacity:.9 }
+
+/* AI BAR */
+.ai-bar {
+  position:fixed;bottom:0;left:0;right:0;z-index:100;
+  padding:10px 20px;
+  background:rgba(255,255,255,.95);backdrop-filter:blur(12px);
+  border-top:1px solid #E2E8F0;
+}
+.ai-bar-inner {
+  display:flex;align-items:center;gap:8px;
+  background:#F5F3FF;border:1.5px solid #EDE9FE;
+  border-radius:100px;padding:8px 8px 8px 16px;
+  max-width:900px;margin:0 auto;
+}
+.ai-bar-icon  { font-size:1rem }
+.ai-bar-input {
+  flex:1;border:none;background:transparent;
+  font-family:inherit;font-size:.82rem;outline:none;color:#0F172A;
+}
+.ai-bar-input::placeholder { color:#94A3B8 }
+.ai-bar-send {
+  width:30px;height:30px;border-radius:50%;
+  background:linear-gradient(135deg,#7C3AED,#EC4899);
+  border:none;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:all .2s;flex-shrink:0;
+}
+.ai-bar-send:hover { transform:scale(1.1) }
+
+@media (max-width:768px) {
+  .db-stats  { gap:0;width:100% }
+  .db-stat   { padding:8px 12px }
+  .atb-prefs { display:none }
+  .vp-card   { width:260px }
+}
+@media (max-width:480px) {
+  .ae-card { flex-direction:column }
+  .ae-card-actions { flex-direction:row }
+}
+</style>

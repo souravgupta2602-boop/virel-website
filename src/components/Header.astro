@@ -1,7 +1,7 @@
 ---
 const navLinks = [
   { href:'/',            label:'Home',       icon:'🏠', color:'#7C3AED' },
-  { href:'/trip-board',  label:'Trip Board', icon:'✈️', color:'#8B5CF6', badge:'AI' },
+  { href:'/trip-board',  label:'Blueprints', icon:'✨', color:'#8B5CF6', badge:'AI' },
   { href:'/stays',       label:'Stays',      icon:'🏨', color:'#FF6B35' },
   { href:'/activities',  label:'Activities', icon:'🎭', color:'#EC4899' },
   { href:'/travel',      label:'Flights',    icon:'🛫', color:'#D97706' },
@@ -13,7 +13,7 @@ const navLinks = [
 
 const mobileGroups = [
   { label:'Discover', items:[
-    { href:'/trip-board', icon:'✈️', label:'Trip Board', color:'#8B5CF6', badge:'AI' },
+    { href:'/trip-board', icon:'✨', label:'Blueprints', color:'#8B5CF6', badge:'AI' },
     { href:'/stays',      icon:'🏨', label:'Stays',      color:'#FF6B35' },
     { href:'/activities', icon:'🎭', label:'Activities', color:'#EC4899' },
     { href:'/travel',     icon:'🛫', label:'Flights',    color:'#D97706' },
@@ -116,7 +116,7 @@ const currentPath = Astro.url.pathname;
     </div>
     <div class="ub-actions">
       <a href="/my-cards"    class="ub-link">My Cards</a>
-      <a href="/trip-board"  class="ub-link">My Trips</a>
+      <a href="/trip-board"  class="ub-link">My Blueprints</a>
       <a href="/stays"       class="ub-link">Stays</a>
       <button id="logout-btn" class="ub-logout">Sign out</button>
     </div>
