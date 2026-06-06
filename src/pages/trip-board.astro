@@ -3,690 +3,1434 @@ import Layout from '../layouts/Layout.astro';
 
 const destinations = [
   {
-    name:'Goa', country:'India', emoji:'🏖️', tag:'Beach',
-    budget:'₹15K–35K', days:'3–5', best:'Oct–Mar',
-    grad:'linear-gradient(160deg,#10B981,#059669,#14B8A6)',
-    img:'https://images.unsplash.com/photo-1583212292454-1fe6229603b7?w=600&q=80&auto=format&fit=crop',
+    name:'Goa', country:'India', flag:'🇮🇳', tag:'Beach', currency:'₹', visa:'Not required',
+    best:'Oct–Mar', days:'3–5', theme:'#10B981', grad:'linear-gradient(160deg,#10B981,#059669)',
     desc:'Golden beaches, vibrant nightlife, Portuguese heritage and fresh seafood.',
-    activities:['🏄 Water sports at Baga Beach','🌿 Spice plantation tour','🌅 Sunset cruise on Mandovi River'],
+    imgs:[
+      'photo-1583212292454-1fe6229603b7','photo-1507525428034-b723cf961d3e',
+      'photo-1519046904884-53103b34b206','photo-1544551763-46a013bb70d5',
+      'photo-1520250497591-112f2f40a3f4','photo-1566073771259-6a8506099945',
+      'photo-1582719478250-c89cae4dc85b','photo-1530541867005-b6b0fc8ed4e5',
+      'photo-1469474968028-56623f02e42e','photo-1476514525535-07fb3b4ae5f1',
+    ],
+    flights:{DEL:4500,BOM:3200,BLR:4800},
+    hotels:[
+      {name:'Taj Fort Aguada',price:16800,type:'Luxury',rating:9.1,amenities:['Private Beach','Heritage Property','Spa']},
+      {name:'W Goa',price:13500,type:'Premium',rating:8.7,amenities:['Beachfront','Infinity Pool','Award Bar']},
+      {name:'Aloft North Goa',price:6400,type:'Mid-range',rating:8.3,amenities:['Pool','Near Beach','Fast WiFi']},
+    ],
+    activities:[
+      {name:'Baga Water Sports',price:1200,dur:'2 hrs',icon:'🏄',type:'Adventure'},
+      {name:'Spice Plantation Tour',price:800,dur:'3 hrs',icon:'🌿',type:'Culture'},
+      {name:'Mandovi Sunset Cruise',price:1500,dur:'2 hrs',icon:'🌅',type:'Experience'},
+      {name:'Anjuna Flea Market',price:0,dur:'Half day',icon:'🛍️',type:'Shopping'},
+      {name:'Dudhsagar Waterfalls Trip',price:1800,dur:'Full day',icon:'💦',type:'Nature'},
+      {name:'Portuguese Heritage Walk',price:500,dur:'3 hrs',icon:'🏛️',type:'Culture'},
+    ],
+    itin:[
+      {day:1,title:'Arrival & North Goa',items:['Check-in at resort','Baga Beach evening','Dinner at Curlies beach shack']},
+      {day:2,title:'Beach Hopping',items:['Anjuna Flea Market browse','Vagator cliffs & views','Water sports at Baga']},
+      {day:3,title:'Heritage & Culture',items:['Old Goa churches tour','Spice plantation & lunch','Mandovi River sunset cruise']},
+      {day:4,title:'South Goa & Departure',items:['Palolem beach morning','Fresh seafood lunch','Airport transfer']},
+    ],
+    totalMin:15000, totalMax:35000,
   },
   {
-    name:'Bali', country:'Indonesia', emoji:'🌴', tag:'Island',
-    budget:'₹40K–90K', days:'5–8', best:'Apr–Sep',
-    grad:'linear-gradient(160deg,#059669,#10B981,#34D399)',
-    img:'https://images.unsplash.com/photo-1537953773345-d172ccf13cf1?w=600&q=80&auto=format&fit=crop',
+    name:'Bali', country:'Indonesia', flag:'🇮🇩', tag:'Island', currency:'IDR (₹≈0.005)', visa:'On arrival',
+    best:'Apr–Sep', days:'5–8', theme:'#059669', grad:'linear-gradient(160deg,#059669,#10B981)',
     desc:'Terraced rice fields, ancient temples, world-class surf and volcanic peaks.',
-    activities:['🛕 Uluwatu temple sunset','🍳 Ubud cooking class','🤿 Nusa Penida snorkeling'],
+    imgs:[
+      'photo-1537953773345-d172ccf13cf1','photo-1480796927426-f609979314bd',
+      'photo-1518548419970-58e3b4079ab2','photo-1558618666-fcd25c85cd64',
+      'photo-1520250497591-112f2f40a3f4','photo-1566073771259-6a8506099945',
+      'photo-1602216056096-3b40cc0c9944','photo-1507525428034-b723cf961d3e',
+      'photo-1544551763-46a013bb70d5','photo-1469474968028-56623f02e42e',
+    ],
+    flights:{DEL:18000,BOM:16500,BLR:14000},
+    hotels:[
+      {name:'Four Seasons Sayan',price:18200,type:'Luxury',rating:9.4,amenities:['Infinity Pool','Jungle View','Free Breakfast']},
+      {name:'Alaya Resort Ubud',price:7800,type:'Premium',rating:9.1,amenities:['Rice Terrace View','Yoga Studio','Plunge Pool']},
+      {name:'Potato Head Studios',price:9600,type:'Design',rating:8.5,amenities:['Beach Club','Design Rooms','Bar']},
+    ],
+    activities:[
+      {name:'Uluwatu Temple Sunset',price:500,dur:'3 hrs',icon:'🛕',type:'Culture'},
+      {name:'Ubud Cooking Class',price:2200,dur:'4 hrs',icon:'🍳',type:'Experience'},
+      {name:'Nusa Penida Snorkeling',price:3500,dur:'Full day',icon:'🤿',type:'Adventure'},
+      {name:'Rice Terrace Trek',price:800,dur:'3 hrs',icon:'🌾',type:'Nature'},
+      {name:'Kecak Fire Dance',price:1200,dur:'2 hrs',icon:'🔥',type:'Culture'},
+      {name:'ATV Volcano Ride',price:4500,dur:'4 hrs',icon:'🏍️',type:'Adventure'},
+    ],
+    itin:[
+      {day:1,title:'Arrival — Seminyak',items:['Check-in at resort','Seminyak beach walk','Sunset at Tanah Lot']},
+      {day:2,title:'Ubud Cultural Day',items:['Rice terrace trek','Ubud cooking class','Tirta Empul holy spring']},
+      {day:3,title:'Temple & Dance',items:['Uluwatu temple morning','Kecak fire dance evening','Seafood by the cliff']},
+      {day:4,title:'Nusa Penida Adventure',items:['Speed boat to Nusa Penida','Crystal Bay snorkeling','Kelingking Beach']},
+      {day:5,title:'Leisure & Departure',items:['Spa morning','Souvenir shopping','Airport transfer']},
+    ],
+    totalMin:40000, totalMax:90000,
   },
   {
-    name:'Dubai', country:'UAE', emoji:'🏙️', tag:'Luxury',
-    budget:'₹60K–2L', days:'4–7', best:'Nov–Mar',
-    grad:'linear-gradient(160deg,#B45309,#D97706,#F59E0B)',
-    img:'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=600&q=80&auto=format&fit=crop',
-    desc:'Desert adventures, skyscraper views, souks and ultra-luxury experiences.',
-    activities:['🏙️ Burj Khalifa observation deck','🐪 Desert safari & dune bashing','🛍️ Gold Souk & Dubai Mall'],
+    name:'Dubai', country:'UAE', flag:'🇦🇪', tag:'Luxury', currency:'AED (₹≈22)', visa:'Visa required',
+    best:'Nov–Mar', days:'4–7', theme:'#D97706', grad:'linear-gradient(160deg,#B45309,#D97706)',
+    desc:'Desert adventures, skyscraper views, golden souks and ultra-luxury experiences.',
+    imgs:[
+      'photo-1512453979798-5ea266f8880c','photo-1580674684081-7617fbf3d745',
+      'photo-1547447134-cd3f5c716030','photo-1508009603885-50cf7c579365',
+      'photo-1520250497591-112f2f40a3f4','photo-1566073771259-6a8506099945',
+      'photo-1582719478250-c89cae4dc85b','photo-1587474260584-136574528ed5',
+      'photo-1496568816309-51d7c20e3b21','photo-1469474968028-56623f02e42e',
+    ],
+    flights:{DEL:12000,BOM:10500,BLR:13000},
+    hotels:[
+      {name:'Burj Al Arab',price:98000,type:'Ultra Luxury',rating:9.5,amenities:['Private Beach','Butler Service','Helipad']},
+      {name:'Atlantis The Palm',price:38500,type:'Luxury',rating:8.8,amenities:['Aquaventure Waterpark','Private Beach','Pool']},
+      {name:'Jumeirah Beach Hotel',price:22000,type:'Premium',rating:8.9,amenities:['Beach Access','Water Sports','Kids Club']},
+    ],
+    activities:[
+      {name:'Burj Khalifa At The Top',price:3500,dur:'2 hrs',icon:'🏙️',type:'Experience'},
+      {name:'Desert Safari & Dune Bash',price:4200,dur:'6 hrs',icon:'🐪',type:'Adventure'},
+      {name:'Dubai Creek & Gold Souk',price:800,dur:'3 hrs',icon:'🏺',type:'Culture'},
+      {name:'Dubai Frame',price:1800,dur:'2 hrs',icon:'🖼️',type:'Experience'},
+      {name:'Ski Dubai (Mall of Emirates)',price:5500,dur:'3 hrs',icon:'⛷️',type:'Adventure'},
+      {name:'Dhow Cruise Dinner',price:3200,dur:'3 hrs',icon:'🛥️',type:'Dining'},
+    ],
+    itin:[
+      {day:1,title:'Downtown & Burj Khalifa',items:['Check-in at hotel','Burj Khalifa At The Top','Dubai Fountain show']},
+      {day:2,title:'Desert Adventure',items:['Desert safari & dune bashing','Camel riding & BBQ dinner','Bedouin camp stargazing']},
+      {day:3,title:'Old & New Dubai',items:['Gold Souk & Spice Souk','Dubai Creek abra ride','Dubai Frame & Museum of Future']},
+      {day:4,title:'The Palm & JBR',items:['Atlantis Aquaventure','JBR beach walk','Mall of Emirates evening']},
+    ],
+    totalMin:60000, totalMax:200000,
   },
   {
-    name:'Jaipur', country:'India', emoji:'🏰', tag:'Heritage',
-    budget:'₹8K–22K', days:'2–4', best:'Oct–Feb',
-    grad:'linear-gradient(160deg,#BE185D,#EC4899,#F9A8D4)',
-    img:'https://images.unsplash.com/photo-1477587458883-47145ed94245?w=600&q=80&auto=format&fit=crop',
+    name:'Jaipur', country:'India', flag:'🇮🇳', tag:'Heritage', currency:'₹', visa:'Not required',
+    best:'Oct–Feb', days:'2–4', theme:'#EC4899', grad:'linear-gradient(160deg,#BE185D,#EC4899)',
     desc:'Royal palaces, bustling bazaars, camel rides and the iconic Amber Fort.',
-    activities:['🏰 Amber Fort elephant ride','🐪 Camel safari at dusk','🎨 Block-print textile workshop'],
+    imgs:[
+      'photo-1477587458883-47145ed94245','photo-1599661046289-e31897846e41',
+      'photo-1548013146-72479768bada','photo-1519046904884-53103b34b206',
+      'photo-1476514525535-07fb3b4ae5f1','photo-1469474968028-56623f02e42e',
+      'photo-1520250497591-112f2f40a3f4','photo-1507525428034-b723cf961d3e',
+      'photo-1530541867005-b6b0fc8ed4e5','photo-1488085061387-422e29b40080',
+    ],
+    flights:{DEL:2800,BOM:5500,BLR:6200},
+    hotels:[
+      {name:'Rambagh Palace',price:42000,type:'Heritage Luxury',rating:9.4,amenities:['Palace Stay','Royal Spa','Polo Ground']},
+      {name:'Jai Mahal Palace',price:18500,type:'Heritage',rating:9.0,amenities:['Mughal Gardens','Heritage Arch','Candlelit Dining']},
+      {name:'Hotel Narain Niwas',price:9800,type:'Heritage Budget',rating:8.4,amenities:['Heritage Havelis','Garden','Value Stay']},
+    ],
+    activities:[
+      {name:'Amber Fort Elephant Ride',price:1200,dur:'3 hrs',icon:'🐘',type:'Heritage'},
+      {name:'Hawa Mahal & City Palace',price:800,dur:'4 hrs',icon:'🏰',type:'Heritage'},
+      {name:'Camel Safari at Dusk',price:1500,dur:'2 hrs',icon:'🐪',type:'Adventure'},
+      {name:'Block Print Textile Workshop',price:600,dur:'2 hrs',icon:'🎨',type:'Culture'},
+      {name:'Jantar Mantar Observatory',price:400,dur:'1.5 hrs',icon:'🔭',type:'Heritage'},
+      {name:'Chokhi Dhani Folk Evening',price:1000,dur:'3 hrs',icon:'🎪',type:'Culture'},
+    ],
+    itin:[
+      {day:1,title:'Pink City Arrival',items:['Check-in at palace hotel','Hawa Mahal & Johari Bazaar','Chokhi Dhani folk dinner']},
+      {day:2,title:'Forts & Palaces',items:['Amber Fort elephant ride','Jaigarh Fort views','City Palace tour']},
+      {day:3,title:'Art & Departure',items:['Block print workshop','Jantar Mantar visit','Departure']},
+    ],
+    totalMin:8000, totalMax:22000,
   },
   {
-    name:'Maldives', country:'Maldives', emoji:'🌊', tag:'Luxury',
-    budget:'₹1L–5L', days:'4–7', best:'Nov–Apr',
-    grad:'linear-gradient(160deg,#7C3AED,#A78BFA,#BAE6FD)',
-    img:'https://images.unsplash.com/photo-1573843981267-be1999ff37cd?w=600&q=80&auto=format&fit=crop',
-    desc:"Overwater bungalows, crystal-clear lagoons and the world's best snorkeling.",
-    activities:['🤿 Coral reef snorkeling','🐬 Sunset dolphin cruise','🍽️ Underwater restaurant dining'],
+    name:'Maldives', country:'Maldives', flag:'🇲🇻', tag:'Luxury', currency:'USD (₹≈83)', visa:'On arrival',
+    best:'Nov–Apr', days:'4–7', theme:'#7C3AED', grad:'linear-gradient(160deg,#7C3AED,#A78BFA)',
+    desc:"Overwater bungalows, crystal-clear lagoons and the world's finest snorkeling.",
+    imgs:[
+      'photo-1573843981267-be1999ff37cd','photo-1544551763-46a013bb70d5',
+      'photo-1520250497591-112f2f40a3f4','photo-1507525428034-b723cf961d3e',
+      'photo-1530541867005-b6b0fc8ed4e5','photo-1566073771259-6a8506099945',
+      'photo-1582719478250-c89cae4dc85b','photo-1519046904884-53103b34b206',
+      'photo-1469474968028-56623f02e42e','photo-1476514525535-07fb3b4ae5f1',
+    ],
+    flights:{DEL:22000,BOM:19000,BLR:20000},
+    hotels:[
+      {name:'Soneva Jani',price:125000,type:'Ultra Luxury',rating:9.8,amenities:['Overwater Villa','Private Pool','Retractable Roof']},
+      {name:'Conrad Maldives',price:65000,type:'Luxury',rating:9.3,amenities:['Underwater Restaurant','Beach Villa','Water Sports']},
+      {name:'Meeru Maldives',price:28000,type:'Premium',rating:8.5,amenities:['Beach Bungalow','Snorkeling Reef','All Inclusive']},
+    ],
+    activities:[
+      {name:'Coral Reef Snorkeling',price:0,dur:'2 hrs',icon:'🤿',type:'Adventure'},
+      {name:'Sunset Dolphin Cruise',price:4500,dur:'2 hrs',icon:'🐬',type:'Experience'},
+      {name:'Underwater Restaurant Dinner',price:35000,dur:'3 hrs',icon:'🍽️',type:'Dining'},
+      {name:'Seaplane Island Hop',price:18000,dur:'3 hrs',icon:'✈️',type:'Experience'},
+      {name:'Scuba Diving Beginner',price:6500,dur:'3 hrs',icon:'🦈',type:'Adventure'},
+      {name:'Sunset Kayaking',price:1500,dur:'1.5 hrs',icon:'🛶',type:'Leisure'},
+    ],
+    itin:[
+      {day:1,title:'Island Arrival',items:['Seaplane transfer to resort','Check-in at overwater villa','Lagoon snorkeling']},
+      {day:2,title:'Ocean Adventures',items:['Coral reef snorkeling morning','Scuba diving lesson','Sunset dolphin cruise']},
+      {day:3,title:'Leisure & Dining',items:['Spa morning','Kayaking around lagoon','Underwater restaurant dinner']},
+      {day:4,title:'Departure',items:['Last sunrise by the lagoon','Breakfast on deck','Speedboat to Malé airport']},
+    ],
+    totalMin:100000, totalMax:500000,
   },
   {
-    name:'Paris', country:'France', emoji:'🗼', tag:'Romantic',
-    budget:'₹1.5L–4L', days:'5–7', best:'Apr–Jun',
-    grad:'linear-gradient(160deg,#7C3AED,#A78BFA,#DDD6FE)',
-    img:'https://images.unsplash.com/photo-1499856871958-5b9627545d1a?w=600&q=80&auto=format&fit=crop',
-    desc:'Eiffel Tower, world-class cuisine, art museums and romantic riverside walks.',
-    activities:['🗼 Eiffel Tower summit at night','🖼️ Louvre Museum guided tour','🛥️ Seine River dinner cruise'],
+    name:'Paris', country:'France', flag:'🇫🇷', tag:'Romantic', currency:'EUR (₹≈90)', visa:'Schengen required',
+    best:'Apr–Jun', days:'5–7', theme:'#8B5CF6', grad:'linear-gradient(160deg,#7C3AED,#A78BFA)',
+    desc:'Eiffel Tower, world-class cuisine, legendary art museums and romantic riverside walks.',
+    imgs:[
+      'photo-1499856871958-5b9627545d1a','photo-1502602898657-3e91760cbb34',
+      'photo-1490806843957-31f4c9a91c65','photo-1541963463532-d68292c34b19',
+      'photo-1520250497591-112f2f40a3f4','photo-1566073771259-6a8506099945',
+      'photo-1476514525535-07fb3b4ae5f1','photo-1469474968028-56623f02e42e',
+      'photo-1507525428034-b723cf961d3e','photo-1488085061387-422e29b40080',
+    ],
+    flights:{DEL:45000,BOM:42000,BLR:46000},
+    hotels:[
+      {name:'Le Bristol Paris',price:85000,type:'Palace',rating:9.6,amenities:['Michelin Dining','Rooftop Pool','Butler Service']},
+      {name:'Hôtel de Crillon',price:62000,type:'Luxury',rating:9.4,amenities:['Place de la Concorde','Spa','Concierge']},
+      {name:'Hôtel du Petit Moulin',price:22000,type:'Boutique',rating:8.8,amenities:['Marais District','Design Rooms','Friendly']},
+    ],
+    activities:[
+      {name:'Eiffel Tower Summit',price:3500,dur:'2 hrs',icon:'🗼',type:'Landmark'},
+      {name:'Louvre Museum Guided Tour',price:2800,dur:'4 hrs',icon:'🖼️',type:'Culture'},
+      {name:'Seine River Dinner Cruise',price:6500,dur:'3 hrs',icon:'🛥️',type:'Dining'},
+      {name:'Versailles Palace Day Trip',price:4200,dur:'Full day',icon:'👑',type:'Heritage'},
+      {name:'Montmartre Art Walk',price:1500,dur:'3 hrs',icon:'🎨',type:'Culture'},
+      {name:'French Cooking Class',price:7500,dur:'4 hrs',icon:'🥐',type:'Experience'},
+    ],
+    itin:[
+      {day:1,title:'Arrival & Eiffel',items:['Check-in at hotel','Eiffel Tower evening visit','Seine River dinner cruise']},
+      {day:2,title:'Art & Museums',items:['Louvre guided tour morning','Lunch at Café Marly','Musée d\'Orsay afternoon']},
+      {day:3,title:'Montmartre & Shopping',items:['Montmartre art walk','Galeries Lafayette shopping','French cooking class evening']},
+      {day:4,title:'Versailles Day Trip',items:['Versailles Palace tour','Royal Gardens walk','Return to Paris evening']},
+      {day:5,title:'Hidden Paris & Departure',items:['Le Marais neighbourhood walk','Final crêpe breakfast','CDG Airport']},
+    ],
+    totalMin:150000, totalMax:400000,
   },
   {
-    name:'Rishikesh', country:'India', emoji:'🏔️', tag:'Adventure',
-    budget:'₹6K–18K', days:'3–5', best:'Feb–Jun',
-    grad:'linear-gradient(160deg,#047857,#10B981,#6EE7B7)',
-    img:'https://images.unsplash.com/photo-1544376664-80b17f09d399?w=600&q=80&auto=format&fit=crop',
+    name:'Rishikesh', country:'India', flag:'🇮🇳', tag:'Adventure', currency:'₹', visa:'Not required',
+    best:'Feb–Jun', days:'3–5', theme:'#047857', grad:'linear-gradient(160deg,#047857,#10B981)',
     desc:'Yoga capital of the world, white-water rafting and Himalayan trekking.',
-    activities:['🚣 White-water rafting on Ganga','🧘 Sunrise yoga at ashram','🔥 Ganga Aarti ceremony'],
+    imgs:[
+      'photo-1544376664-80b17f09d399','photo-1469474968028-56623f02e42e',
+      'photo-1464822759023-fed622ff2c3b','photo-1548013146-72479768bada',
+      'photo-1476514525535-07fb3b4ae5f1','photo-1602216056096-3b40cc0c9944',
+      'photo-1530541867005-b6b0fc8ed4e5','photo-1488085061387-422e29b40080',
+      'photo-1507525428034-b723cf961d3e','photo-1519046904884-53103b34b206',
+    ],
+    flights:{DEL:3200,BOM:6800,BLR:7200},
+    hotels:[
+      {name:'Ananda in the Himalayas',price:35000,type:'Luxury Spa',rating:9.5,amenities:['Himalayan Spa','Yoga Centre','Organic Food']},
+      {name:'The Glasshouse on Ganga',price:12000,type:'Premium',rating:9.0,amenities:['Riverside Views','Yoga Classes','Adventure']},
+      {name:'Zostel Rishikesh',price:800,dur:'Hostel',rating:8.2,amenities:['Ganga View','Social','Budget Friendly']},
+    ],
+    activities:[
+      {name:'White-Water Rafting Grade 3',price:1500,dur:'4 hrs',icon:'🚣',type:'Adventure'},
+      {name:'Sunrise Yoga at Ashram',price:500,dur:'2 hrs',icon:'🧘',type:'Wellness'},
+      {name:'Ganga Aarti Ceremony',price:0,dur:'1.5 hrs',icon:'🔥',type:'Spiritual'},
+      {name:'Bungee Jumping (83m)',price:3500,dur:'1 hr',icon:'🪂',type:'Adventure'},
+      {name:'Himalayan Trek (Neer Garh)',price:800,dur:'Half day',icon:'🏔️',type:'Nature'},
+      {name:'Beatles Ashram Visit',price:600,dur:'2 hrs',icon:'🎵',type:'Culture'},
+    ],
+    itin:[
+      {day:1,title:'Arrival & Ganga Aarti',items:['Check-in at riverside hotel','Ram Jhula & Lakshman Jhula walk','Ganga Aarti at Triveni Ghat']},
+      {day:2,title:'Adventure Day',items:['Sunrise yoga session','White-water rafting Grade 3','Bungee jumping at Mohan Chatti']},
+      {day:3,title:'Spiritual & Nature',items:['Beatles Ashram visit','Neer Garh waterfall trek','Sunset meditation by Ganga']},
+    ],
+    totalMin:6000, totalMax:18000,
   },
   {
-    name:'Bangkok', country:'Thailand', emoji:'🛕', tag:'Culture',
-    budget:'₹30K–60K', days:'4–6', best:'Nov–Mar',
-    grad:'linear-gradient(160deg,#D97706,#F59E0B,#FCD34D)',
-    img:'https://images.unsplash.com/photo-1508009603885-50cf7c579365?w=600&q=80&auto=format&fit=crop',
+    name:'Bangkok', country:'Thailand', flag:'🇹🇭', tag:'Culture', currency:'THB (₹≈2.4)', visa:'On arrival',
+    best:'Nov–Mar', days:'4–6', theme:'#D97706', grad:'linear-gradient(160deg,#D97706,#F59E0B)',
     desc:'Grand temples, floating markets, street food paradise and vibrant nightlife.',
-    activities:['🛕 Grand Palace & Wat Pho','🚤 Floating market tour','🍜 Street food night walk'],
+    imgs:[
+      'photo-1508009603885-50cf7c579365','photo-1548013146-72479768bada',
+      'photo-1496568816309-51d7c20e3b21','photo-1476514525535-07fb3b4ae5f1',
+      'photo-1520250497591-112f2f40a3f4','photo-1566073771259-6a8506099945',
+      'photo-1469474968028-56623f02e42e','photo-1530541867005-b6b0fc8ed4e5',
+      'photo-1507525428034-b723cf961d3e','photo-1488085061387-422e29b40080',
+    ],
+    flights:{DEL:16000,BOM:14500,BLR:13000},
+    hotels:[
+      {name:'Mandarin Oriental Bangkok',price:38000,type:'Legend',rating:9.6,amenities:['Riverside View','Michelin Dining','Spa']},
+      {name:'137 Pillars Suites',price:18000,type:'Boutique Luxury',rating:9.2,amenities:['Private Pool','Personalised Service','Rooftop']},
+      {name:'Hotel Indigo Bangkok',price:8500,type:'Mid-range',rating:8.5,amenities:['Rooftop Bar','Pool','Central Location']},
+    ],
+    activities:[
+      {name:'Grand Palace & Wat Pho',price:1200,dur:'4 hrs',icon:'🛕',type:'Culture'},
+      {name:'Damnoen Saduak Floating Market',price:2500,dur:'Full day',icon:'🚤',type:'Culture'},
+      {name:'Chinatown Street Food Night',price:800,dur:'3 hrs',icon:'🍜',type:'Food'},
+      {name:'Muay Thai Live Match',price:2000,dur:'3 hrs',icon:'🥊',type:'Experience'},
+      {name:'Wat Arun Sunset',price:400,dur:'2 hrs',icon:'🌅',type:'Heritage'},
+      {name:'Khao San Road Night',price:0,dur:'Evening',icon:'🎉',type:'Nightlife'},
+    ],
+    itin:[
+      {day:1,title:'Temples & Riverside',items:['Grand Palace & Wat Phra Kaew','Wat Pho reclining Buddha','Chao Phraya river dinner cruise']},
+      {day:2,title:'Markets & Food',items:['Damnoen floating market early morning','Chinatown street food lunch','Khao San Road evening']},
+      {day:3,title:'Culture & Sport',items:['Wat Arun sunrise','Muay Thai match evening','Rooftop bar sunset drinks']},
+      {day:4,title:'Shopping & Departure',items:['Chatuchak Weekend Market','MBK Center shopping','Suvarnabhumi Airport']},
+    ],
+    totalMin:30000, totalMax:60000,
   },
   {
-    name:'Singapore', country:'Singapore', emoji:'🌃', tag:'Modern',
-    budget:'₹50K–1.2L', days:'3–5', best:'Feb–Apr',
-    grad:'linear-gradient(160deg,#1E293B,#7C3AED,#EC4899)',
-    img:'https://images.unsplash.com/photo-1525625293386-3f8f99389edd?w=600&q=80&auto=format&fit=crop',
-    desc:'Gardens by the Bay, world-class food, Universal Studios and Marina Bay.',
-    activities:['🌿 Gardens by the Bay Supertrees','🎢 Universal Studios Singapore','🦁 Singapore Night Safari'],
+    name:'Singapore', country:'Singapore', flag:'🇸🇬', tag:'Modern', currency:'SGD (₹≈62)', visa:'Not required',
+    best:'Feb–Apr', days:'3–5', theme:'#9333EA', grad:'linear-gradient(160deg,#7C3AED,#EC4899)',
+    desc:'Gardens by the Bay, world-class hawker food, Universal Studios and Marina Bay Sands.',
+    imgs:[
+      'photo-1525625293386-3f8f99389edd','photo-1477959858617-67f85cf4f1df',
+      'photo-1500835556837-99ac94a94552','photo-1476514525535-07fb3b4ae5f1',
+      'photo-1520250497591-112f2f40a3f4','photo-1566073771259-6a8506099945',
+      'photo-1469474968028-56623f02e42e','photo-1548013146-72479768bada',
+      'photo-1530541867005-b6b0fc8ed4e5','photo-1488085061387-422e29b40080',
+    ],
+    flights:{DEL:20000,BOM:18500,BLR:16000},
+    hotels:[
+      {name:'Marina Bay Sands',price:45000,type:'Icon',rating:9.1,amenities:['Infinity Pool on 57F','Casino','3 Towers']},
+      {name:'Capella Singapore',price:62000,type:'Luxury',rating:9.6,amenities:['Sentosa Island','Butler','Colonial Heritage']},
+      {name:'Hotel Indigo Katong',price:14000,type:'Boutique',rating:8.8,amenities:['Peranakan Heritage','Local Vibe','Pool']},
+    ],
+    activities:[
+      {name:'Gardens by the Bay (Supertrees)',price:1800,dur:'3 hrs',icon:'🌿',type:'Nature'},
+      {name:'Universal Studios Singapore',price:7500,dur:'Full day',icon:'🎢',type:'Entertainment'},
+      {name:'Singapore Night Safari',price:4500,dur:'3 hrs',icon:'🦁',type:'Nature'},
+      {name:'Hawker Centre Food Trail',price:800,dur:'3 hrs',icon:'🍚',type:'Food'},
+      {name:'Sentosa Beach & Cable Car',price:2500,dur:'4 hrs',icon:'🚡',type:'Experience'},
+      {name:'Marina Bay Sands SkyPark',price:2500,dur:'2 hrs',icon:'🌆',type:'Experience'},
+    ],
+    itin:[
+      {day:1,title:'Marina Bay & Skyline',items:['Check-in at hotel','Marina Bay Sands SkyPark','Gardens by the Bay Supertrees']},
+      {day:2,title:'Sentosa Adventure',items:['Universal Studios full day','Cable car ride','Sunset at Siloso Beach']},
+      {day:3,title:'Culture & Food',items:['Chinatown & Little India walk','Hawker centre lunch','Night Safari evening']},
+    ],
+    totalMin:50000, totalMax:120000,
   },
   {
-    name:'Kerala', country:'India', emoji:'⛵', tag:'Nature',
-    budget:'₹10K–28K', days:'4–7', best:'Sep–Mar',
-    grad:'linear-gradient(160deg,#166534,#16A34A,#4ADE80)',
-    img:'https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?w=600&q=80&auto=format&fit=crop',
-    desc:'Backwater cruises, spice plantations, Ayurveda retreats and misty hill stations.',
-    activities:['⛵ Houseboat cruise on Alleppey backwaters','🌿 Munnar tea plantation trek','💆 Ayurvedic spa retreat'],
+    name:'Kerala', country:'India', flag:'🇮🇳', tag:'Nature', currency:'₹', visa:'Not required',
+    best:'Sep–Mar', days:'4–7', theme:'#166534', grad:'linear-gradient(160deg,#166534,#16A34A)',
+    desc:'Backwater cruises, spice plantations, Ayurveda retreats and misty tea hill stations.',
+    imgs:[
+      'photo-1602216056096-3b40cc0c9944','photo-1469474968028-56623f02e42e',
+      'photo-1464822759023-fed622ff2c3b','photo-1476514525535-07fb3b4ae5f1',
+      'photo-1507525428034-b723cf961d3e','photo-1544551763-46a013bb70d5',
+      'photo-1530541867005-b6b0fc8ed4e5','photo-1488085061387-422e29b40080',
+      'photo-1566073771259-6a8506099945','photo-1520250497591-112f2f40a3f4',
+    ],
+    flights:{DEL:8500,BOM:5500,BLR:2800},
+    hotels:[
+      {name:'Kumarakom Lake Resort',price:28000,type:'Heritage Luxury',rating:9.4,amenities:['Backwater View','Ayurveda Centre','Pool']},
+      {name:'Spice Village Thekkady',price:14000,type:'Eco Luxury',rating:9.1,amenities:['Spice Plantation','Eco Design','Nature Walks']},
+      {name:'Casa del Fauno Alleppey',price:6500,type:'Heritage',rating:8.6,amenities:['Backwater View','Heritage Home','Budget Luxury']},
+    ],
+    activities:[
+      {name:'Alleppey Houseboat Cruise',price:8000,dur:'Full day',icon:'⛵',type:'Experience'},
+      {name:'Munnar Tea Plantation Trek',price:1200,dur:'4 hrs',icon:'🍃',type:'Nature'},
+      {name:'Kathakali Dance Show',price:600,dur:'2 hrs',icon:'🎭',type:'Culture'},
+      {name:'Periyar Wildlife Safari',price:1800,dur:'Half day',icon:'🐘',type:'Nature'},
+      {name:'Traditional Ayurveda Treatment',price:3500,dur:'2 hrs',icon:'💆',type:'Wellness'},
+      {name:'Coconut Toddy & Seafood Cooking',price:1200,dur:'3 hrs',icon:'🥥',type:'Food'},
+    ],
+    itin:[
+      {day:1,title:'Arrival — Kochi',items:['Fort Kochi heritage walk','Chinese fishing nets at sunset','Kathakali show evening']},
+      {day:2,title:'Alleppey Backwaters',items:['Alleppey houseboat day cruise','Backwater village walk','Sunset on the water']},
+      {day:3,title:'Munnar Hills',items:['Munnar tea plantation trek','Eravikulam National Park','Ayurveda treatment']},
+      {day:4,title:'Thekkady & Departure',items:['Periyar wildlife safari','Spice market visit','Kochi airport']},
+    ],
+    totalMin:10000, totalMax:28000,
   },
   {
-    name:'Manali', country:'India', emoji:'❄️', tag:'Mountains',
-    budget:'₹8K–20K', days:'3–6', best:'May–Jun',
-    grad:'linear-gradient(160deg,#475569,#7C3AED,#C4B5FD)',
-    img:'https://images.unsplash.com/photo-1548013146-72479768bada?w=600&q=80&auto=format&fit=crop',
-    desc:'Snow-capped peaks, adventure sports, Rohtang Pass and apple orchards.',
-    activities:['🏔️ Rohtang Pass snow trek','🚣 River rafting on Beas','🛷 Solang Valley adventure sports'],
+    name:'Manali', country:'India', flag:'🇮🇳', tag:'Mountains', currency:'₹', visa:'Not required',
+    best:'May–Jun', days:'3–6', theme:'#7C3AED', grad:'linear-gradient(160deg,#475569,#7C3AED)',
+    desc:'Snow-capped peaks, adventure sports, Rohtang Pass and scenic apple orchards.',
+    imgs:[
+      'photo-1548013146-72479768bada','photo-1464822759023-fed622ff2c3b',
+      'photo-1454496522488-7a8e488e8606','photo-1469474968028-56623f02e42e',
+      'photo-1476514525535-07fb3b4ae5f1','photo-1488085061387-422e29b40080',
+      'photo-1530541867005-b6b0fc8ed4e5','photo-1507525428034-b723cf961d3e',
+      'photo-1520250497591-112f2f40a3f4','photo-1566073771259-6a8506099945',
+    ],
+    flights:{DEL:4200,BOM:8500,BLR:9200},
+    hotels:[
+      {name:'The Himalayan (HPTDC)',price:12000,type:'Heritage',rating:8.8,amenities:['Mountain View','Heritage Building','Gardens']},
+      {name:'Solang Valley Resort',price:7500,type:'Adventure',rating:8.4,amenities:['Near Slopes','Adventure Activities','Snow View']},
+      {name:'Zostel Manali',price:900,type:'Hostel',rating:8.5,amenities:['Mountain View','Social','Budget Travellers']},
+    ],
+    activities:[
+      {name:'Rohtang Pass Snow Trek',price:2500,dur:'Full day',icon:'🏔️',type:'Adventure'},
+      {name:'Solang Valley Skiing',price:2000,dur:'4 hrs',icon:'⛷️',type:'Adventure'},
+      {name:'Beas River Rafting',price:1200,dur:'2 hrs',icon:'🚣',type:'Adventure'},
+      {name:'Hadimba Temple Visit',price:0,dur:'1.5 hrs',icon:'🛕',type:'Culture'},
+      {name:'Old Manali Café Hopping',price:600,dur:'Half day',icon:'☕',type:'Leisure'},
+      {name:'Paragliding at Dobhi',price:2800,dur:'30 mins',icon:'🪂',type:'Adventure'},
+    ],
+    itin:[
+      {day:1,title:'Arrival & Mall Road',items:['Check-in at hotel','Mall Road evening walk','Hadimba Temple visit']},
+      {day:2,title:'Snow Adventures',items:['Rohtang Pass full day','Snow activities & snowball fights','Warm café evening']},
+      {day:3,title:'River & Old Manali',items:['Beas River rafting','Old Manali café hopping','Solang Valley sunset']},
+    ],
+    totalMin:8000, totalMax:20000,
   },
   {
-    name:'Tokyo', country:'Japan', emoji:'🌸', tag:'Culture',
-    budget:'₹1.2L–3L', days:'5–8', best:'Mar–May',
-    grad:'linear-gradient(160deg,#9D174D,#EC4899,#FBCFE8)',
-    img:'https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=600&q=80&auto=format&fit=crop',
+    name:'Tokyo', country:'Japan', flag:'🇯🇵', tag:'Culture', currency:'JPY (₹≈0.56)', visa:'Required',
+    best:'Mar–May', days:'5–8', theme:'#BE185D', grad:'linear-gradient(160deg,#9D174D,#EC4899)',
     desc:'Cherry blossoms, bullet trains, anime culture and Michelin-star dining.',
-    activities:['⛩️ Senso-ji Temple at dawn','🎮 Akihabara anime district','🎨 teamLab digital art museum'],
-  },
-  {
-    name:'Mumbai', country:'India', emoji:'🌆', tag:'City',
-    budget:'₹6K–18K', days:'2–4', best:'Oct–Feb',
-    grad:'linear-gradient(160deg,#7C2D12,#EA580C,#FB923C)',
-    img:'https://images.unsplash.com/photo-1529253355930-ddbe423a2ac7?w=600&q=80&auto=format&fit=crop',
-    desc:'Bollywood city, street food, Marine Drive, art deco architecture.',
-    activities:['🎬 Bollywood studio tour','🚢 Gateway of India & Elephanta Caves','🌊 Marine Drive sunset walk'],
-  },
-  {
-    name:'London', country:'UK', emoji:'🎡', tag:'Classic',
-    budget:'₹1.5L–4L', days:'5–7', best:'Apr–Aug',
-    grad:'linear-gradient(160deg,#1E293B,#475569,#94A3B8)',
-    img:'https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=600&q=80&auto=format&fit=crop',
-    desc:'Buckingham Palace, world-class museums, iconic pubs and theatre shows.',
-    activities:['🏰 Tower of London Crown Jewels','🎭 West End theatre show','🛥️ Thames River cruise'],
-  },
-  {
-    name:'Rajasthan', country:'India', emoji:'🐪', tag:'Heritage',
-    budget:'₹12K–35K', days:'7–10', best:'Oct–Mar',
-    grad:'linear-gradient(160deg,#D97706,#B45309,#92400E)',
-    img:'https://images.unsplash.com/photo-1599661046289-e31897846e41?w=600&q=80&auto=format&fit=crop',
-    desc:'Desert safaris, royal havelis, colourful festivals and delicious local cuisine.',
-    activities:['🏰 Mehrangarh Fort Jodhpur','🌙 Sam Sand Dunes overnight camp','🎪 Pushkar Camel Fair'],
-  },
-  {
-    name:'Andaman', country:'India', emoji:'🤿', tag:'Beach',
-    budget:'₹20K–50K', days:'5–7', best:'Oct–May',
-    grad:'linear-gradient(160deg,#059669,#10B981,#6EE7B7)',
-    img:'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&q=80&auto=format&fit=crop',
-    desc:'Pristine white beaches, coral reefs, clear blue water and water sports.',
-    activities:['🤿 Scuba diving at Havelock Island','🏖️ Radhanagar Beach sunset','🔦 Cellular Jail light & sound show'],
+    imgs:[
+      'photo-1540959733332-eab4deabeeaf','photo-1570459827-282ba8ba6c34',
+      'photo-1509699736854-e6b64c66e836','photo-1480796927426-f609979314bd',
+      'photo-1476514525535-07fb3b4ae5f1','photo-1469474968028-56623f02e42e',
+      'photo-1520250497591-112f2f40a3f4','photo-1548013146-72479768bada',
+      'photo-1530541867005-b6b0fc8ed4e5','photo-1488085061387-422e29b40080',
+    ],
+    flights:{DEL:38000,BOM:36000,BLR:40000},
+    hotels:[
+      {name:'Park Hyatt Tokyo',price:55000,type:'Luxury',rating:9.5,amenities:['Shinjuku Skyline','Spa','Grill Room']},
+      {name:'Trunk Hotel Shibuya',price:22000,type:'Boutique',rating:9.1,amenities:['Shibuya Location','Rooftop Bar','Design']},
+      {name:'Dormy Inn Akihabara',price:8500,type:'Mid-range',rating:8.6,amenities:['Onsen Bath','Great Location','Clean']},
+    ],
+    activities:[
+      {name:'Senso-ji Temple at Dawn',price:0,dur:'2 hrs',icon:'⛩️',type:'Heritage'},
+      {name:'teamLab Digital Art Museum',price:4500,dur:'3 hrs',icon:'🎨',type:'Experience'},
+      {name:'Akihabara Anime District',price:0,dur:'Half day',icon:'🎮',type:'Culture'},
+      {name:'Shibuya Crossing & Harajuku',price:0,dur:'Half day',icon:'🌀',type:'Culture'},
+      {name:'Mt Fuji Day Trip',price:6500,dur:'Full day',icon:'🗻',type:'Nature'},
+      {name:'Sushi Omakase Experience',price:8500,dur:'2 hrs',icon:'🍣',type:'Dining'},
+    ],
+    itin:[
+      {day:1,title:'Arrival & Asakusa',items:['Check-in at hotel','Senso-ji Temple visit','Nakamise-dori souvenir street']},
+      {day:2,title:'Pop Culture Day',items:['Shibuya crossing & scramble','Harajuku Takeshita Street','Akihabara evening']},
+      {day:3,title:'Art & Futurism',items:['teamLab art museum','Odaiba waterfront','Robot Restaurant show']},
+      {day:4,title:'Mt Fuji Day Trip',items:['Bullet train to Kawaguchiko','Mt Fuji 5th station hike','Return Tokyo evening']},
+      {day:5,title:'Final Day & Departure',items:['Morning onsen','Tsukiji Market breakfast','Narita Airport']},
+    ],
+    totalMin:120000, totalMax:300000,
   },
 ];
 
-const tripTypes = ['Solo', 'Couple', 'Family', 'Friends', 'Honeymoon', 'Adventure'];
-const tags      = ['All', 'Beach', 'Mountains', 'Heritage', 'City', 'Nature', 'Island', 'Luxury', 'Adventure', 'Romantic', 'Culture'];
 const destsJson = JSON.stringify(destinations);
 ---
 
-<Layout title="Virel Blueprints — AI Travel Planner | Virel" description="Plan your perfect trip with AI. Day-by-day itineraries, smart hotel picks, curated experiences and best credit card for every destination.">
+<Layout title="Virel Blueprints — Full Trip Planner | Virel">
 
-  <!-- HERO -->
-  <section class="tb-hero">
-    <div class="tbh-bg"></div>
-    <div class="tbh-glow g1"></div>
-    <div class="tbh-glow g2"></div>
-    <div class="container tbh-inner">
-      <span class="section-label" style="background:rgba(255,255,255,.1);color:white;border-color:rgba(255,255,255,.2);margin-bottom:16px">✨ AI-Powered Trip Planning</span>
-      <h1 class="tbh-title">Your travel <span class="tbh-grad">Blueprints.</span></h1>
-      <p class="tbh-sub">Tell us your destination and travel style. Virel builds the perfect day-by-day blueprint — hotels, activities, experiences, and the best card to use at every stop.</p>
-
-      <!-- Search Box -->
-      <div class="search-box">
-        <div class="search-row">
-          <div class="search-field sf-dest">
-            <span class="sf-icon">🌍</span>
-            <input id="destInput" type="text" placeholder="Where do you want to go?" class="sf-input" list="dest-list" />
-            <datalist id="dest-list">
-              {destinations.map(d => <option value={d.name + ', ' + d.country} />)}
-            </datalist>
-          </div>
-          <div class="search-field sf-dates">
-            <span class="sf-icon">📅</span>
-            <input id="dateInput" type="date" class="sf-input" />
-          </div>
-          <div class="search-field sf-type">
-            <span class="sf-icon">👤</span>
-            <select id="tripTypeInput" class="sf-input sf-select">
-              <option value="">Trip Type</option>
-              {tripTypes.map(t => <option value={t}>{t}</option>)}
-            </select>
-          </div>
-          <button id="planBtn" class="search-btn">✨ Build Blueprint</button>
-        </div>
-        <div class="search-chips">
-          <span class="sc-label">Popular:</span>
-          {['Goa', 'Bali', 'Dubai', 'Jaipur', 'Maldives', 'Kerala'].map(d => (
-            <button class="sc-chip" onclick={`quickPlan('${d}')`}>{d}</button>
-          ))}
-        </div>
-      </div>
-
-      <div class="tbh-stats">
-        {[['16+','Destinations'],['AI','Blueprints'],['50+','Activities'],['30%','Cashback']].map(([v,l]) => (
-          <div class="tbhs"><span class="tbhs-val">{v}</span><span class="tbhs-lbl">{l}</span></div>
-        ))}
-      </div>
+<!-- TOP BAR -->
+<div class="bp-topbar">
+  <div class="bp-topbar-inner">
+    <div class="bp-tb-left">
+      <span class="bp-logo">✨ Virel Blueprints</span>
+      <span class="bp-badge">AI-Powered</span>
     </div>
-  </section>
-
-  <!-- AI ITINERARY RESULT -->
-  <section id="itinerary-section" class="itinerary-sec" style="display:none">
-    <div class="container">
-      <div class="itin-header">
-        <div>
-          <h2 class="itin-title" id="itin-title">Your Blueprint</h2>
-          <p class="itin-sub" id="itin-sub">Personalised just for you</p>
-        </div>
-        <a href="/travel" class="itin-book-btn">Book This Trip →</a>
-      </div>
-      <div id="itin-content" class="itin-grid"></div>
+    <div class="bp-tb-center">
+      <input type="text" id="globalSearch" placeholder="Search destination…" class="bp-search" />
     </div>
-  </section>
-
-  <!-- DESTINATION EXPLORER -->
-  <section class="dest-explorer">
-    <div class="container">
-      <div class="sec-hdr">
-        <span class="section-label">🗺️ Explore Destinations</span>
-        <h2 class="section-title">Pick your next Blueprint</h2>
-        <p class="section-sub" style="margin:0 auto">Each destination comes with curated activities, top stays, and the best card to use.</p>
-      </div>
-
-      <!-- Tag Filters -->
-      <div class="filters">
-        <div class="filter-chips" id="tag-filters">
-          {tags.map((t, i) => (
-            <button class:list={['filter-chip', { active: i === 0 }]} data-tag={t}>{t}</button>
-          ))}
-        </div>
-      </div>
-
-      <!-- Destination Cards with Real Images -->
-      <div class="dest-grid" id="dest-grid">
-        {destinations.map(d => (
-          <div class="dest-card" data-tag={d.tag} data-name={d.name}>
-            <!-- Photo header -->
-            <div class="dest-img-wrap">
-              <img
-                src={d.img}
-                alt={d.name}
-                class="dest-photo"
-                loading="lazy"
-                onerror={`this.style.display='none';this.nextElementSibling.style.display='flex'`}
-              />
-              <div class="dest-photo-fallback" style={`background:${d.grad};display:none`}></div>
-              <div class="dest-img-overlay"></div>
-              <span class="dest-tag-badge">{d.tag}</span>
-              <span class="dest-best-time">🗓️ {d.best}</span>
-              <div class="dest-country-chip">{d.emoji} {d.name}</div>
-            </div>
-
-            <!-- Card body -->
-            <div class="dest-body">
-              <div class="dest-meta-row">
-                <span class="dest-meta-item">📅 {d.days} days</span>
-                <span class="dest-meta-item">💰 {d.budget}</span>
-                <span class="dest-meta-item">📍 {d.country}</span>
-              </div>
-              <p class="dest-desc">{d.desc}</p>
-
-              <!-- Activities -->
-              <div class="dest-activities">
-                <span class="act-label">Top Activities</span>
-                <div class="act-list">
-                  {d.activities.map(a => (
-                    <span class="act-chip">{a}</span>
-                  ))}
-                </div>
-              </div>
-
-              <div class="dest-actions">
-                <button class="dest-plan-btn" onclick={`planTrip('${d.name}')`}>✨ Build Blueprint</button>
-                <a href="/travel" class="dest-book-btn">Book Flights →</a>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
+    <div class="bp-tb-right">
+      <button class="bp-mix-toggle" id="mixToggle" onclick="toggleMixMode()">🔀 Mix & Match</button>
+      <button class="bp-saved-btn" id="savedBtn" onclick="openSaved()">
+        📋 My Blueprints <span class="bp-saved-count" id="savedCount">0</span>
+      </button>
     </div>
-  </section>
+  </div>
+</div>
 
-  <!-- SMART FEATURES -->
-  <section class="smart-sec">
-    <div class="container">
-      <div class="sec-hdr">
-        <span class="section-label">🎯 What's in every Blueprint</span>
-        <h2 class="section-title">More than just itineraries</h2>
-      </div>
-      <div class="smart-grid">
-        {[
-          { icon:'🏨', title:'Smart Hotel Picks', desc:'AI recommends hotels based on your style, budget, and which credit card gives the best rewards.', grad:'linear-gradient(135deg,#8B5CF6,#7C3AED)' },
-          { icon:'🎭', title:'Curated Activities', desc:'Handpicked local tours, cooking classes, adventure sports, and cultural experiences at every destination.', grad:'linear-gradient(135deg,#EC4899,#FF6B35)' },
-          { icon:'💳', title:'Card Suggestions', desc:'At every hotel, restaurant, and activity — Virel tells you which card to pay with for maximum rewards.', grad:'linear-gradient(135deg,#FF6B35,#F59E0B)' },
-          { icon:'👥', title:'Group Planning', desc:'Split costs, share itineraries, and plan together with friends and family from a single dashboard.', grad:'linear-gradient(135deg,#10B981,#059669)' },
-          { icon:'📅', title:'Flexible Dates', desc:"Not sure when to go? Tell us your budget and we'll find the cheapest dates to fly and stay.", grad:'linear-gradient(135deg,#7C3AED,#A78BFA)' },
-          { icon:'✈️', title:'Flight + Hotel Bundles', desc:'Compare prices across Amadeus, Duffel, and Booking.com. Book the best deal in one click.', grad:'linear-gradient(135deg,#F59E0B,#EC4899)' },
-        ].map(f => (
-          <div class="smart-card">
-            <div class="smart-icon" style={`background:${f.grad}`}>{f.icon}</div>
-            <h3 class="smart-title">{f.title}</h3>
-            <p class="smart-desc">{f.desc}</p>
-          </div>
-        ))}
-      </div>
+<!-- MAIN LAYOUT -->
+<div class="bp-layout">
+
+  <!-- SIDEBAR -->
+  <aside class="bp-sidebar" id="sidebar">
+    <div class="sb-header">
+      <span class="sb-title">Destinations</span>
+      <span class="sb-count" id="sbCount">12</span>
     </div>
-  </section>
 
-  <!-- GROUP TRIP TEASER -->
-  <section class="group-sec">
-    <div class="gs-bg"></div>
-    <div class="container gs-inner">
-      <div class="gs-content">
-        <span class="section-label" style="background:rgba(255,255,255,.1);color:white;border-color:rgba(255,255,255,.2)">👥 Coming Soon</span>
-        <h2 class="section-title" style="color:white">Group Blueprints</h2>
-        <p class="section-sub" style="color:rgba(255,255,255,.72)">Plan trips with your friends and family. Shared blueprints, split costs, group rewards, and a dedicated family dashboard.</p>
-        <form class="gs-form" onsubmit="handleWaitlist(event)">
-          <input type="email" placeholder="your@email.com" class="gs-email" required />
-          <button type="submit" class="gs-submit">Join Waitlist ✨</button>
-        </form>
-        <div class="gs-features">
-          {['Shared Itineraries','Cost Splitting','Group Rewards','Family Dashboard'].map(f => (
-            <span class="gs-feat">✓ {f}</span>
-          ))}
+    <!-- Mix & Match multi-select info -->
+    <div class="mix-info" id="mixInfo" style="display:none">
+      <div class="mix-info-text">Select 2–4 cities to build a combined route</div>
+      <button class="mix-generate-btn" id="mixGenerateBtn" onclick="generateMixItinerary()" style="display:none">
+        🗺️ Build Combined Route
+      </button>
+    </div>
+
+    <div class="sb-list" id="sbList">
+      <!-- Filled by JS -->
+    </div>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="bp-main" id="bpMain">
+
+    <!-- IMAGE SLIDER -->
+    <div class="slider-wrap" id="sliderWrap">
+      <div class="slider-track" id="sliderTrack"></div>
+      <button class="slider-btn slider-prev" onclick="slidePrev()">‹</button>
+      <button class="slider-btn slider-next" onclick="slideNext()">›</button>
+      <div class="slider-dots" id="sliderDots"></div>
+      <div class="slider-overlay">
+        <div class="so-left">
+          <h1 class="so-name" id="soName">Goa</h1>
+          <div class="so-country" id="soCountry">🇮🇳 India · Beach</div>
         </div>
-      </div>
-      <div class="gs-visual">
-        <div class="gs-card">
-          <div class="gs-card-header">
-            <span style="font-weight:900;font-size:.9rem;color:#0F172A">Goa Trip · Dec 2025</span>
-            <span style="font-size:.68rem;background:#EDE9FE;color:#7C3AED;padding:3px 9px;border-radius:100px;font-weight:700">4 Members</span>
-          </div>
-          {[
-            { name:'You', avatar:'😎', status:'Confirmed', spend:'₹12,400' },
-            { name:'Priya', avatar:'👩', status:'Confirmed', spend:'₹11,800' },
-            { name:'Arjun', avatar:'👨', status:'Pending', spend:'₹0' },
-            { name:'Neha', avatar:'👩‍🦱', status:'Confirmed', spend:'₹9,600' },
-          ].map(m => (
-            <div class="gs-member">
-              <span style="font-size:1.2rem">{m.avatar}</span>
-              <div style="flex:1">
-                <div style="font-size:.75rem;font-weight:700;color:#1E293B">{m.name}</div>
-                <div style={`font-size:.62rem;font-weight:600;color:${m.status==='Confirmed'?'#10B981':'#F59E0B'}`}>{m.status}</div>
-              </div>
-              <div style="font-size:.75rem;font-weight:800;color:#7C3AED">{m.spend}</div>
-            </div>
-          ))}
-          <div class="gs-total">
-            <span style="font-size:.72rem;font-weight:700;color:#64748B">Total Group Spend</span>
-            <span style="font-size:.85rem;font-weight:900;color:#0F172A">₹33,800</span>
-          </div>
-          <div class="gs-savings">🎁 Group earned 2,840 Virel Coins together</div>
+        <div class="so-right">
+          <div class="so-budget" id="soBudget">₹15K–35K</div>
+          <div class="so-days" id="soDays">3–5 days</div>
         </div>
       </div>
     </div>
-  </section>
+
+    <!-- DEST INFO BAR -->
+    <div class="dest-info-bar" id="destInfoBar">
+      <div class="dib-item"><span class="dib-label">Best Season</span><span class="dib-val" id="dibBest">Oct–Mar</span></div>
+      <div class="dib-sep"></div>
+      <div class="dib-item"><span class="dib-label">Currency</span><span class="dib-val" id="dibCurrency">₹ INR</span></div>
+      <div class="dib-sep"></div>
+      <div class="dib-item"><span class="dib-label">Visa</span><span class="dib-val" id="dibVisa">Not required</span></div>
+      <div class="dib-sep"></div>
+      <div class="dib-item"><span class="dib-label">Ideal Duration</span><span class="dib-val" id="dibDays">3–5 days</span></div>
+      <div class="dib-sep"></div>
+      <button class="theme-btn" id="themeBtn" onclick="applyTheme()">🎨 Apply Country Theme</button>
+    </div>
+
+    <!-- FLIGHT COSTS -->
+    <div class="section-card" id="flightCard">
+      <div class="sc-header">
+        <span class="sc-icon">✈️</span>
+        <h2 class="sc-title">Estimated Flights</h2>
+        <span class="sc-sub">One-way from India (Economy)</span>
+      </div>
+      <div class="flight-grid" id="flightGrid"></div>
+      <div class="sc-note">💳 Best card: <strong>Axis Magnus</strong> (12 RP/₹200) or <strong>HDFC Regalia</strong> (5x miles)</div>
+    </div>
+
+    <!-- PACKAGE SUMMARY -->
+    <div class="section-card pkg-summary" id="pkgSummary">
+      <div class="sc-header">
+        <span class="sc-icon">📦</span>
+        <h2 class="sc-title">Full Package Estimate</h2>
+        <span class="sc-sub">Per person · includes flights, hotel, activities</span>
+      </div>
+      <div class="pkg-grid" id="pkgGrid"></div>
+      <div class="pkg-cta">
+        <button class="build-btn" onclick="openBuilder()">✨ Build This Blueprint</button>
+        <button class="copy-btn" onclick="copyItinerary()">📋 Copy Itinerary</button>
+      </div>
+    </div>
+
+    <!-- HOTELS -->
+    <div class="section-card" id="hotelsCard">
+      <div class="sc-header">
+        <span class="sc-icon">🏨</span>
+        <h2 class="sc-title">Recommended Hotels</h2>
+        <span class="sc-sub">Sorted by best value · add to blueprint</span>
+      </div>
+      <div class="hotels-row" id="hotelsRow"></div>
+    </div>
+
+    <!-- ACTIVITIES -->
+    <div class="section-card" id="activitiesCard">
+      <div class="sc-header">
+        <span class="sc-icon">🎭</span>
+        <h2 class="sc-title">Top Activities & Experiences</h2>
+        <span class="sc-sub">Click to add to your blueprint</span>
+      </div>
+      <div class="acts-grid" id="actsGrid"></div>
+    </div>
+
+    <!-- DAY-BY-DAY ITINERARY PREVIEW -->
+    <div class="section-card" id="itinCard">
+      <div class="sc-header">
+        <span class="sc-icon">📅</span>
+        <h2 class="sc-title">Sample Day-by-Day Itinerary</h2>
+        <span class="sc-sub">Edit this in the Blueprint Builder →</span>
+      </div>
+      <div class="itin-days" id="itinDays"></div>
+      <div class="itin-cta">
+        <button class="build-btn" onclick="openBuilder()">✨ Open Blueprint Builder & Edit</button>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- BLUEPRINT BUILDER DRAWER -->
+<div class="builder-overlay" id="builderOverlay" onclick="if(event.target===this)closeBuilder()"></div>
+<div class="builder-drawer" id="builderDrawer">
+  <div class="bd-header">
+    <div class="bd-title-row">
+      <h2 class="bd-title" id="bdTitle">Blueprint Builder</h2>
+      <button class="bd-close" onclick="closeBuilder()">✕</button>
+    </div>
+    <div class="bd-dest-info" id="bdDestInfo"></div>
+    <div class="bd-cost-bar">
+      <span class="bd-cost-label">Running Total</span>
+      <span class="bd-cost-val" id="bdTotal">₹0</span>
+    </div>
+  </div>
+
+  <div class="bd-body">
+    <!-- Quick Add -->
+    <div class="bd-quick-add">
+      <span class="bq-label">Quick add:</span>
+      <div class="bq-chips" id="bqChips"></div>
+    </div>
+
+    <!-- Editable Days -->
+    <div class="bd-days" id="bdDays"></div>
+
+    <!-- Add Day -->
+    <button class="bd-add-day" onclick="addDay()">+ Add Day</button>
+  </div>
+
+  <div class="bd-footer">
+    <button class="bd-save-btn" onclick="saveBlueprint()">💾 Save to My Blueprints</button>
+    <button class="bd-share-btn" onclick="copyItinerary()">📋 Copy Text</button>
+  </div>
+</div>
+
+<!-- SAVED BLUEPRINTS PANEL -->
+<div class="saved-overlay" id="savedOverlay" onclick="if(event.target===this)closeSaved()"></div>
+<div class="saved-panel" id="savedPanel">
+  <div class="sp-header">
+    <h2 class="sp-title">My Blueprints</h2>
+    <button class="bd-close" onclick="closeSaved()">✕</button>
+  </div>
+  <div class="sp-body" id="spBody"></div>
+</div>
+
+<!-- MIX & MATCH RESULT -->
+<div class="mix-result" id="mixResult" style="display:none">
+  <div class="container">
+    <div class="mr-header">
+      <h2 class="mr-title" id="mrTitle">Multi-City Blueprint</h2>
+      <button class="mr-build" onclick="openBuilderFromMix()">✨ Build This Route</button>
+    </div>
+    <div class="mr-itin" id="mrItin"></div>
+  </div>
+</div>
 
 </Layout>
 
 <script define:vars={{ destsJson }}>
-const destinations = JSON.parse(destsJson);
+const DESTS = JSON.parse(destsJson);
+let current = DESTS[0];
+let sliderIdx = 0;
+let sliderTimer;
+let builderDays = [];
+let builderDest = null;
+let builderHotel = null;
+let mixMode = false;
+let mixSelected = [];
 
-// Quick plan from hero chips
-function quickPlan(dest) {
-  document.getElementById('destInput').value = dest;
-  document.getElementById('planBtn').click();
-}
-window.quickPlan = quickPlan;
-
-// Plan trip from destination card
-function planTrip(dest) {
-  document.getElementById('destInput').value = dest;
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-  setTimeout(() => document.getElementById('planBtn').click(), 600);
-}
-window.planTrip = planTrip;
-
-// Tag filters
-document.getElementById('tag-filters')?.querySelectorAll('.filter-chip').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('#tag-filters .filter-chip').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    const tag = btn.dataset.tag;
-    document.querySelectorAll('#dest-grid .dest-card').forEach(card => {
-      card.style.display = (tag === 'All' || card.dataset.tag === tag) ? '' : 'none';
-    });
-  });
-});
-
-// AI Plan button
-document.getElementById('planBtn')?.addEventListener('click', () => {
-  const dest = document.getElementById('destInput')?.value;
-  if (!dest) { alert('Please enter a destination'); return; }
-  const btn = document.getElementById('planBtn');
-  btn.textContent = '⏳ Building...';
-  btn.disabled = true;
-  setTimeout(() => {
-    btn.textContent = '✨ Build Blueprint';
-    btn.disabled = false;
-    generateItinerary(dest);
-  }, 1500);
-});
-
-function generateItinerary(destRaw) {
-  const dest = destRaw.split(',')[0].trim();
-  const section = document.getElementById('itinerary-section');
-  const title   = document.getElementById('itin-title');
-  const sub     = document.getElementById('itin-sub');
-  const content = document.getElementById('itin-content');
-
-  const d = destinations.find(x => x.name.toLowerCase() === dest.toLowerCase());
-  const acts = d ? d.activities : ['🎯 Explore local highlights','🍽️ Try authentic cuisine','📸 Visit iconic landmarks'];
-
-  const itineraries = {
-    'Goa': [
-      { day:1, icon:'🛬', title:'Arrival & North Goa', activities:['Check in to beach resort', acts[0], 'Dinner at Thalassa'] },
-      { day:2, icon:'🏖️', title:'Beach Hopping', activities:['Anjuna flea market','Vagator cliff views', acts[1]] },
-      { day:3, icon:'🚤', title:'Water Sports & Heritage', activities:[acts[0],'Old Goa churches tour','Spice plantation lunch'] },
-      { day:4, icon:'🌅', title:'South Goa & Departure', activities:['Palolem beach walk',acts[2],'Evening flight home'] },
-    ],
-    'Bali': [
-      { day:1, icon:'🛬', title:'Arrival — Seminyak', activities:['Check in','Sunset at Tanah Lot', acts[2]] },
-      { day:2, icon:'🌿', title:'Ubud Cultural Day', activities:[acts[1],'Tirta Empul holy spring','Rice terrace walk'] },
-      { day:3, icon:'🏄', title:'Adventure & Surf', activities:[acts[0],'Uluwatu temple',acts[2]] },
-      { day:4, icon:'🤿', title:'Nusa Penida', activities:[acts[2],'Crystal Bay snorkeling','Kelingking Beach viewpoint'] },
-    ],
-    'Dubai': [
-      { day:1, icon:'🛬', title:'Arrival & Downtown', activities:[acts[0],'Dubai Fountain show', acts[2]] },
-      { day:2, icon:'🐪', title:'Desert Adventure', activities:[acts[1],'Camel riding','Bedouin BBQ dinner'] },
-      { day:3, icon:'🛍️', title:'Shopping & JBR', activities:['Dubai Marina walk',acts[2],'Gold & Spice Souk'] },
-    ],
-  };
-
-  const days = itineraries[dest] || [
-    { day:1, icon:'🛬', title:'Arrival & Orientation', activities:['Check in to hotel', acts[0] || 'Explore surroundings', 'Welcome dinner'] },
-    { day:2, icon:'🎯', title:'Main Highlights', activities:[acts[1] || 'City sightseeing', acts[0] || 'Local market visit', 'Best restaurant dinner'] },
-    { day:3, icon:'✨', title:'Experiences', activities:[acts[2] || 'Day trip', 'Sunset viewing', 'Souvenir shopping'] },
-    { day:4, icon:'🛫', title:'Departure Day', activities:['Breakfast at hotel','Last-minute shopping','Airport transfer'] },
-  ];
-
-  title.textContent  = `${dest} Blueprint`;
-  sub.textContent    = `${days.length}-day itinerary · Best card: HDFC Infinia or Axis Magnus`;
-
-  content.innerHTML = days.map(day => `
-    <div class="itin-day">
-      <div class="itin-day-header">
-        <span class="itin-day-num">Day ${day.day}</span>
-        <span class="itin-day-icon">${day.icon}</span>
-        <span class="itin-day-title">${day.title}</span>
+// ── SIDEBAR ─────────────────────────────────────────────────
+function buildSidebar(filter='') {
+  const list = document.getElementById('sbList');
+  const count = document.getElementById('sbCount');
+  const filtered = DESTS.filter(d => d.name.toLowerCase().includes(filter.toLowerCase()) || d.country.toLowerCase().includes(filter.toLowerCase()));
+  count.textContent = filtered.length;
+  list.innerHTML = filtered.map(d => `
+    <div class="sb-item ${current.name===d.name?'active':''} ${mixSelected.includes(d.name)?'mix-selected':''}"
+         data-name="${d.name}"
+         onclick="${mixMode?`toggleMixCity('${d.name}')`:`selectDest('${d.name}')`}"
+         style="--theme:${d.theme}">
+      <span class="sbi-flag">${d.flag}</span>
+      <div class="sbi-info">
+        <div class="sbi-name">${d.name}</div>
+        <div class="sbi-meta">${d.tag} · ${d.days}d</div>
       </div>
-      <ul class="itin-acts">
-        ${day.activities.map(a => `<li><span class="itin-dot">◆</span>${a}</li>`).join('')}
-      </ul>
+      <div class="sbi-right">
+        <span class="sbi-budget">₹${Math.round(d.totalMin/1000)}K+</span>
+        ${mixMode?`<span class="sbi-check ${mixSelected.includes(d.name)?'checked':''}">${mixSelected.includes(d.name)?'✓':''}</span>`:''}
+      </div>
+    </div>
+  `).join('');
+}
+
+// ── SELECT DESTINATION ───────────────────────────────────────
+function selectDest(name) {
+  current = DESTS.find(d => d.name === name) || DESTS[0];
+  buildSidebar(document.getElementById('globalSearch').value);
+  renderAll();
+  document.getElementById('bpMain').scrollTo({ top: 0, behavior:'smooth' });
+}
+window.selectDest = selectDest;
+
+// ── SLIDER ───────────────────────────────────────────────────
+function buildSlider() {
+  clearInterval(sliderTimer);
+  sliderIdx = 0;
+  const track = document.getElementById('sliderTrack');
+  const dots  = document.getElementById('sliderDots');
+  const imgs  = current.imgs;
+
+  track.innerHTML = imgs.map((id,i) => `
+    <div class="slide" style="background:${current.grad}">
+      <img src="https://images.unsplash.com/${id}?w=1200&q=80&auto=format&fit=crop"
+           alt="${current.name} ${i+1}"
+           class="slide-img"
+           loading="${i===0?'eager':'lazy'}"
+           onerror="this.style.display='none'" />
     </div>
   `).join('');
 
-  section.style.display = 'block';
-  section.scrollIntoView({ behavior:'smooth', block:'start' });
+  dots.innerHTML = imgs.map((_,i) => `<button class="sdot ${i===0?'active':''}" onclick="goSlide(${i})"></button>`).join('');
+
+  document.getElementById('soName').textContent = current.name;
+  document.getElementById('soCountry').textContent = `${current.flag} ${current.country} · ${current.tag}`;
+  document.getElementById('soBudget').textContent = `₹${Math.round(current.totalMin/1000)}K – ₹${Math.round(current.totalMax/1000)}K`;
+  document.getElementById('soDays').textContent = `${current.days} days`;
+
+  updateSlide();
+  sliderTimer = setInterval(slideNext, 3500);
 }
 
-function handleWaitlist(e) {
-  e.preventDefault();
-  const form = e.target;
-  form.innerHTML = '<div style="color:white;font-weight:700;text-align:center;padding:12px">✅ You\'re on the list! We\'ll notify you when Group Blueprints launches.</div>';
+function updateSlide() {
+  const track = document.getElementById('sliderTrack');
+  track.style.transform = `translateX(-${sliderIdx * 100}%)`;
+  document.querySelectorAll('.sdot').forEach((d,i) => d.classList.toggle('active', i===sliderIdx));
 }
-window.handleWaitlist = handleWaitlist;
+function slideNext() { sliderIdx = (sliderIdx+1) % current.imgs.length; updateSlide(); }
+function slidePrev() { sliderIdx = (sliderIdx-1+current.imgs.length) % current.imgs.length; updateSlide(); }
+function goSlide(i) { sliderIdx=i; updateSlide(); }
+window.slideNext=slideNext; window.slidePrev=slidePrev; window.goSlide=goSlide;
 
-// Pre-fill destination from URL param
-const urlParams = new URLSearchParams(window.location.search);
-const paramDest = urlParams.get('dest');
-if (paramDest) {
-  const input = document.getElementById('destInput');
-  if (input) { input.value = paramDest; }
+// ── FLIGHT COSTS ─────────────────────────────────────────────
+function buildFlights() {
+  const f = current.flights;
+  const grid = document.getElementById('flightGrid');
+  const pairs = [['✈️ Delhi (DEL)', f.DEL], ['✈️ Mumbai (BOM)', f.BOM], ['✈️ Bangalore (BLR)', f.BLR]];
+  grid.innerHTML = pairs.map(([label, price]) => `
+    <div class="flight-chip">
+      <div class="fc-route">${label}</div>
+      <div class="fc-price">₹${price?.toLocaleString() ?? 'N/A'}</div>
+      <div class="fc-note">one-way · economy</div>
+    </div>
+  `).join('');
 }
+
+// ── PACKAGE SUMMARY ──────────────────────────────────────────
+function buildPackage() {
+  const h = current.hotels[1]; // mid hotel
+  const actTotal = current.activities.slice(0,4).reduce((s,a)=>s+a.price,0);
+  const flightAvg = Math.round((current.flights.DEL+current.flights.BOM+current.flights.BLR)/3);
+  const days = parseInt(current.days.split('–')[1]) || 4;
+  const hotelTotal = h.price * days;
+  const grand = flightAvg*2 + hotelTotal + actTotal;
+
+  document.getElementById('pkgGrid').innerHTML = `
+    <div class="pkg-item">
+      <div class="pkg-icon">✈️</div>
+      <div class="pkg-label">Return Flights</div>
+      <div class="pkg-val">~₹${(flightAvg*2).toLocaleString()}</div>
+    </div>
+    <div class="pkg-item">
+      <div class="pkg-icon">🏨</div>
+      <div class="pkg-label">Hotel (${days}N · ${h.name})</div>
+      <div class="pkg-val">₹${hotelTotal.toLocaleString()}</div>
+    </div>
+    <div class="pkg-item">
+      <div class="pkg-icon">🎭</div>
+      <div class="pkg-label">Top 4 Activities</div>
+      <div class="pkg-val">₹${actTotal.toLocaleString()}</div>
+    </div>
+    <div class="pkg-item pkg-total">
+      <div class="pkg-icon">💰</div>
+      <div class="pkg-label">Estimated Total</div>
+      <div class="pkg-val pkg-val-total">₹${grand.toLocaleString()}</div>
+    </div>
+  `;
+}
+
+// ── HOTELS ───────────────────────────────────────────────────
+function buildHotels() {
+  document.getElementById('hotelsRow').innerHTML = current.hotels.map((h,i) => `
+    <div class="hotel-card">
+      <div class="hc-top" style="background:${['linear-gradient(135deg,#7C3AED,#EC4899)','linear-gradient(135deg,#FF6B35,#F59E0B)','linear-gradient(135deg,#10B981,#059669)'][i]}">
+        <span class="hc-type">${h.type}</span>
+        <span class="hc-rating">⭐ ${h.rating}</span>
+      </div>
+      <div class="hc-body">
+        <div class="hc-name">${h.name}</div>
+        <div class="hc-price">₹${h.price.toLocaleString()}<span class="hc-per">/night</span></div>
+        <div class="hc-amenities">${h.amenities.map(a=>`<span class="hc-am">${a}</span>`).join('')}</div>
+        <button class="hc-add-btn" onclick="addHotelToBuilder(${i})">+ Add to Blueprint</button>
+      </div>
+    </div>
+  `).join('');
+}
+function addHotelToBuilder(idx) {
+  builderHotel = current.hotels[idx];
+  updateBuilderCost();
+  openBuilder();
+}
+window.addHotelToBuilder = addHotelToBuilder;
+
+// ── ACTIVITIES ───────────────────────────────────────────────
+function buildActivities() {
+  document.getElementById('actsGrid').innerHTML = current.activities.map((a,i) => `
+    <div class="act-card ${builderDays.some(d=>d.items.some(it=>it.name===a.name))?'added':''}">
+      <div class="act-icon">${a.icon}</div>
+      <div class="act-body">
+        <div class="act-name">${a.name}</div>
+        <div class="act-meta">
+          <span class="act-type">${a.type}</span>
+          <span class="act-dur">⏱ ${a.dur}</span>
+        </div>
+        <div class="act-price">${a.price===0?'<span class="act-free">Free</span>':`₹${a.price.toLocaleString()}`}</div>
+      </div>
+      <button class="act-add-btn" onclick="addActivityToDay(${i})" title="Add to blueprint">+</button>
+    </div>
+  `).join('');
+}
+function addActivityToDay(actIdx) {
+  const act = current.activities[actIdx];
+  if (builderDays.length === 0) initBuilderDays();
+  const dayIdx = builderDays.findIndex(d => d.items.length < 3) ?? 0;
+  const target = builderDays[dayIdx >= 0 ? dayIdx : 0];
+  if (!target.items.some(it=>it.name===act.name)) {
+    target.items.push({ name: `${act.icon} ${act.name}`, price: act.price });
+  }
+  updateBuilderCost();
+  buildActivities();
+  openBuilder();
+}
+window.addActivityToDay = addActivityToDay;
+
+// ── DAY ITINERARY PREVIEW ────────────────────────────────────
+function buildItinPreview() {
+  document.getElementById('itinDays').innerHTML = current.itin.map(day => `
+    <div class="itin-day-card">
+      <div class="idc-num">Day ${day.day}</div>
+      <div class="idc-title">${day.title}</div>
+      <ul class="idc-items">
+        ${day.items.map(it=>`<li><span class="idc-dot">◆</span>${it}</li>`).join('')}
+      </ul>
+    </div>
+  `).join('');
+}
+
+// ── INFO BAR ─────────────────────────────────────────────────
+function buildInfoBar() {
+  document.getElementById('dibBest').textContent = current.best;
+  document.getElementById('dibCurrency').textContent = current.currency;
+  document.getElementById('dibVisa').textContent = current.visa;
+  document.getElementById('dibDays').textContent = current.days + ' days';
+}
+
+// ── RENDER ALL ───────────────────────────────────────────────
+function renderAll() {
+  buildSlider();
+  buildInfoBar();
+  buildFlights();
+  buildPackage();
+  buildHotels();
+  buildActivities();
+  buildItinPreview();
+  if (builderDest?.name !== current.name) {
+    builderDest = current;
+    initBuilderDays();
+  }
+}
+
+// ── BLUEPRINT BUILDER ────────────────────────────────────────
+function initBuilderDays() {
+  builderDays = current.itin.map(d => ({
+    day: d.day,
+    title: d.title,
+    items: d.items.map(it => ({ name: it, price: 0 })),
+  }));
+  builderHotel = current.hotels[1];
+}
+
+function openBuilder() {
+  if (!builderDest || builderDest.name !== current.name) { builderDest = current; initBuilderDays(); }
+  document.getElementById('builderOverlay').style.display = 'block';
+  document.getElementById('builderDrawer').classList.add('open');
+  renderBuilder();
+}
+function closeBuilder() {
+  document.getElementById('builderOverlay').style.display = 'none';
+  document.getElementById('builderDrawer').classList.remove('open');
+}
+window.openBuilder=openBuilder; window.closeBuilder=closeBuilder;
+
+function renderBuilder() {
+  document.getElementById('bdTitle').textContent = `${current.name} Blueprint`;
+  document.getElementById('bdDestInfo').textContent = `${current.flag} ${current.country} · ${current.days} days · ${current.best}`;
+
+  // Quick add chips
+  document.getElementById('bqChips').innerHTML = current.activities.map((a,i) => `
+    <button class="bq-chip" onclick="addActivityToDay(${i})">${a.icon} ${a.name.split(' ')[0]} (+₹${a.price===0?'Free':a.price})</button>
+  `).join('');
+
+  renderBuilderDays();
+  updateBuilderCost();
+}
+
+function renderBuilderDays() {
+  document.getElementById('bdDays').innerHTML = builderDays.map((d,di) => `
+    <div class="bd-day">
+      <div class="bdd-header">
+        <div class="bdd-num">Day ${d.day}</div>
+        <input class="bdd-title" value="${d.title}" onchange="builderDays[${di}].title=this.value" />
+        <button class="bdd-del" onclick="removeDay(${di})">✕</button>
+      </div>
+      <div class="bdd-items">
+        ${d.items.map((it,ii) => `
+          <div class="bddi">
+            <input class="bddi-text" value="${it.name}" onchange="builderDays[${di}].items[${ii}].name=this.value" />
+            <span class="bddi-price">${it.price>0?'₹'+it.price:''}</span>
+            <button class="bddi-del" onclick="removeItem(${di},${ii})">✕</button>
+          </div>
+        `).join('')}
+      </div>
+      <button class="bdd-add-item" onclick="addCustomItem(${di})">+ Add item</button>
+    </div>
+  `).join('');
+}
+
+function addDay() {
+  builderDays.push({ day: builderDays.length+1, title: 'New Day', items: [] });
+  renderBuilderDays();
+}
+function removeDay(di) {
+  builderDays.splice(di, 1);
+  builderDays.forEach((d,i)=>d.day=i+1);
+  renderBuilderDays();
+}
+function removeItem(di,ii) {
+  builderDays[di].items.splice(ii,1);
+  renderBuilderDays();
+  updateBuilderCost();
+}
+function addCustomItem(di) {
+  const name = prompt('Add item to Day '+(di+1)+':', '');
+  if (name) {
+    builderDays[di].items.push({ name, price: 0 });
+    renderBuilderDays();
+  }
+}
+window.addDay=addDay; window.removeDay=removeDay; window.removeItem=removeItem; window.addCustomItem=addCustomItem;
+
+function updateBuilderCost() {
+  const actCost = builderDays.flatMap(d=>d.items).reduce((s,it)=>s+(it.price||0),0);
+  const hotelCost = builderHotel ? builderHotel.price * builderDays.length : 0;
+  const flightAvg = Math.round((current.flights.DEL+current.flights.BOM+current.flights.BLR)/3);
+  const total = flightAvg*2 + hotelCost + actCost;
+  const el = document.getElementById('bdTotal');
+  if (el) el.textContent = '₹'+total.toLocaleString();
+}
+
+// ── SAVE / LOAD ───────────────────────────────────────────────
+function saveBlueprint() {
+  const saved = JSON.parse(localStorage.getItem('virel_blueprints') || '[]');
+  const bp = {
+    id: Date.now(),
+    dest: current.name,
+    flag: current.flag,
+    days: builderDays,
+    hotel: builderHotel?.name,
+    saved: new Date().toLocaleDateString(),
+  };
+  saved.unshift(bp);
+  localStorage.setItem('virel_blueprints', JSON.stringify(saved.slice(0,10)));
+  updateSavedCount();
+  alert(`✅ "${current.name} Blueprint" saved! View in My Blueprints.`);
+}
+
+function updateSavedCount() {
+  const saved = JSON.parse(localStorage.getItem('virel_blueprints') || '[]');
+  document.getElementById('savedCount').textContent = saved.length;
+}
+
+function openSaved() {
+  const saved = JSON.parse(localStorage.getItem('virel_blueprints') || '[]');
+  document.getElementById('savedOverlay').style.display = 'block';
+  document.getElementById('savedPanel').classList.add('open');
+  document.getElementById('spBody').innerHTML = saved.length === 0
+    ? '<div class="sp-empty">No blueprints saved yet. Build one!</div>'
+    : saved.map(bp => `
+      <div class="sp-item">
+        <div class="spi-flag">${bp.flag}</div>
+        <div class="spi-info">
+          <div class="spi-name">${bp.dest} Blueprint</div>
+          <div class="spi-meta">${bp.days?.length||0} days · Hotel: ${bp.hotel||'Not set'} · Saved ${bp.saved}</div>
+        </div>
+        <div class="spi-actions">
+          <button class="spi-open" onclick="loadBlueprint(${bp.id})">Open</button>
+          <button class="spi-del" onclick="deleteBlueprint(${bp.id})">✕</button>
+        </div>
+      </div>
+    `).join('');
+}
+function closeSaved() {
+  document.getElementById('savedOverlay').style.display = 'none';
+  document.getElementById('savedPanel').classList.remove('open');
+}
+function loadBlueprint(id) {
+  const saved = JSON.parse(localStorage.getItem('virel_blueprints') || '[]');
+  const bp = saved.find(b=>b.id===id);
+  if (!bp) return;
+  const dest = DESTS.find(d=>d.name===bp.dest);
+  if (dest) { selectDest(dest.name); }
+  closeSaved();
+  setTimeout(openBuilder, 400);
+}
+function deleteBlueprint(id) {
+  let saved = JSON.parse(localStorage.getItem('virel_blueprints') || '[]');
+  saved = saved.filter(b=>b.id!==id);
+  localStorage.setItem('virel_blueprints', JSON.stringify(saved));
+  updateSavedCount();
+  openSaved();
+}
+window.openSaved=openSaved; window.closeSaved=closeSaved; window.loadBlueprint=loadBlueprint; window.deleteBlueprint=deleteBlueprint;
+
+// ── COPY ITINERARY TEXT ──────────────────────────────────────
+function copyItinerary() {
+  const lines = [
+    `🗺️ ${current.name} Blueprint — Virel`,
+    `📍 ${current.country} · ${current.days} days · Best: ${current.best}`,
+    `💰 Budget: ₹${current.totalMin.toLocaleString()} – ₹${current.totalMax.toLocaleString()}`,
+    `🏨 Hotel: ${builderHotel?.name || current.hotels[1].name}`,
+    '',
+    ...builderDays.map(d => [`\nDay ${d.day}: ${d.title}`, ...d.items.map(it=>`  • ${it.name}`)].join('\n')),
+    '',
+    '📲 Built with Virel Blueprints · getvirel.co',
+  ].join('\n');
+  navigator.clipboard.writeText(lines).then(() => alert('📋 Itinerary copied to clipboard!')).catch(()=>{});
+}
+window.copyItinerary=copyItinerary;
+
+// ── COUNTRY THEME ────────────────────────────────────────────
+function applyTheme() {
+  document.documentElement.style.setProperty('--purple', current.theme);
+  document.documentElement.style.setProperty('--grad-primary', `linear-gradient(135deg,${current.theme},#EC4899,#FF6B35)`);
+  const btn = document.getElementById('themeBtn');
+  btn.textContent = `✓ ${current.name} theme applied`;
+  btn.style.background = current.theme;
+  btn.style.color = 'white';
+  setTimeout(() => { btn.textContent = '🎨 Apply Country Theme'; btn.style.background=''; btn.style.color=''; }, 3000);
+}
+window.applyTheme=applyTheme;
+
+// ── MIX & MATCH ──────────────────────────────────────────────
+function toggleMixMode() {
+  mixMode = !mixMode;
+  mixSelected = [];
+  const btn = document.getElementById('mixToggle');
+  const info = document.getElementById('mixInfo');
+  const result = document.getElementById('mixResult');
+  btn.classList.toggle('active', mixMode);
+  btn.textContent = mixMode ? '✕ Exit Mix & Match' : '🔀 Mix & Match';
+  info.style.display = mixMode ? 'block' : 'none';
+  result.style.display = 'none';
+  buildSidebar();
+}
+window.toggleMixMode=toggleMixMode;
+
+function toggleMixCity(name) {
+  if (mixSelected.includes(name)) {
+    mixSelected = mixSelected.filter(n=>n!==name);
+  } else if (mixSelected.length < 4) {
+    mixSelected.push(name);
+  }
+  const genBtn = document.getElementById('mixGenerateBtn');
+  genBtn.style.display = mixSelected.length >= 2 ? 'block' : 'none';
+  genBtn.textContent = `🗺️ Build Route (${mixSelected.join(' + ')})`;
+  buildSidebar();
+}
+window.toggleMixCity=toggleMixCity;
+
+function generateMixItinerary() {
+  const cities = mixSelected.map(n=>DESTS.find(d=>d.name===n)).filter(Boolean);
+  let dayCount = 0;
+  const allDays = cities.flatMap(city => {
+    return city.itin.map(d => ({
+      ...d,
+      day: ++dayCount,
+      city: city.name,
+      flag: city.flag,
+    }));
+  });
+  const totalMin = cities.reduce((s,c)=>s+c.totalMin,0);
+  const totalMax = cities.reduce((s,c)=>s+c.totalMax,0);
+
+  document.getElementById('mrTitle').textContent = `${cities.map(c=>c.flag+' '+c.name).join(' + ')} · ${dayCount} Days`;
+  document.getElementById('mrItin').innerHTML = `
+    <div class="mr-summary">
+      <span>💰 Estimated: ₹${totalMin.toLocaleString()} – ₹${totalMax.toLocaleString()}</span>
+      <span>📅 ${dayCount} days total</span>
+      <span>${cities.map(c=>c.flag+' '+c.name+' ('+c.days+'d)').join(' → ')}</span>
+    </div>
+    <div class="mr-days">
+      ${allDays.map(d=>`
+        <div class="mr-day">
+          <div class="mrd-hdr">
+            <span class="mrd-num">Day ${d.day}</span>
+            <span class="mrd-city">${d.flag} ${d.city}</span>
+            <span class="mrd-title">${d.title}</span>
+          </div>
+          <div class="mrd-items">${d.items.map(it=>`<span>◆ ${it}</span>`).join('')}</div>
+        </div>
+      `).join('')}
+    </div>
+  `;
+  document.getElementById('mixResult').style.display = 'block';
+  document.getElementById('mixResult').scrollIntoView({ behavior:'smooth' });
+}
+window.generateMixItinerary=generateMixItinerary;
+
+function openBuilderFromMix() {
+  const cities = mixSelected.map(n=>DESTS.find(d=>d.name===n)).filter(Boolean);
+  let dayCount = 0;
+  builderDays = cities.flatMap(city =>
+    city.itin.map(d => ({
+      day: ++dayCount,
+      title: `${city.flag} ${city.name}: ${d.title}`,
+      items: d.items.map(it=>({ name: it, price: 0 })),
+    }))
+  );
+  builderDest = cities[0];
+  current = cities[0];
+  openBuilder();
+}
+window.openBuilderFromMix=openBuilderFromMix;
+
+// ── SEARCH ───────────────────────────────────────────────────
+document.getElementById('globalSearch')?.addEventListener('input', e => {
+  buildSidebar(e.target.value);
+});
+
+// ── INIT ─────────────────────────────────────────────────────
+buildSidebar();
+renderAll();
+updateSavedCount();
 </script>
 
 <style>
-/* HERO */
-.tb-hero {
-  position:relative;overflow:hidden;
-  background:linear-gradient(135deg,#0F172A 0%,#2D1B69 40%,#4C1D95 100%);
-  padding:80px 0 60px;
+/* TOP BAR */
+.bp-topbar {
+  position:sticky;top:68px;z-index:180;
+  background:white;border-bottom:1px solid #E2E8F0;
+  box-shadow:0 2px 12px rgba(0,0,0,.06);
 }
-.tbh-bg {
-  position:absolute;inset:0;
-  background:radial-gradient(ellipse 70% 60% at 60% 50%,rgba(124,58,237,.45) 0%,transparent 70%),
-             radial-gradient(ellipse 40% 40% at 10% 80%,rgba(255,107,53,.25) 0%,transparent 60%);
+.bp-topbar-inner {
+  max-width:100%;display:flex;align-items:center;
+  gap:16px;padding:10px 20px;
 }
-.tbh-glow { position:absolute;border-radius:50%;filter:blur(80px);opacity:.5;animation:tg 7s ease-in-out infinite }
-.g1 { width:400px;height:400px;background:#7C3AED;top:-80px;right:-40px;animation-delay:0s }
-.g2 { width:300px;height:300px;background:#EC4899;bottom:-20px;left:10%;animation-delay:3.5s }
-@keyframes tg { 0%,100%{transform:translateY(0)}50%{transform:translateY(-20px)} }
-.tbh-inner { position:relative;z-index:2;text-align:center;padding:0 20px }
-.tbh-title {
-  font-size:clamp(2.4rem,5vw,3.8rem);font-weight:900;color:white;
-  letter-spacing:-.035em;margin:10px 0 18px;line-height:1.1;
+.bp-tb-left { display:flex;align-items:center;gap:10px;flex-shrink:0 }
+.bp-logo { font-size:.95rem;font-weight:900;color:#0F172A;letter-spacing:-.02em }
+.bp-badge {
+  font-size:.58rem;font-weight:800;background:linear-gradient(135deg,#7C3AED,#EC4899);
+  color:white;padding:2px 8px;border-radius:100px;
 }
-.tbh-grad {
-  background:linear-gradient(90deg,#FCD34D,#FF6B35,#EC4899);
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+.bp-tb-center { flex:1 }
+.bp-search {
+  width:100%;max-width:360px;padding:8px 14px;
+  background:#F8FAFC;border:1.5px solid #E2E8F0;border-radius:100px;
+  font-size:.85rem;font-family:inherit;outline:none;color:#0F172A;
 }
-.tbh-sub { font-size:1rem;color:rgba(255,255,255,.72);max-width:580px;margin:0 auto 36px;line-height:1.7 }
-
-/* SEARCH BOX */
-.search-box {
-  max-width:900px;margin:0 auto 32px;
-  background:rgba(255,255,255,.1);backdrop-filter:blur(20px);
-  border:1px solid rgba(255,255,255,.2);border-radius:20px;padding:16px;
+.bp-search:focus { border-color:#7C3AED;background:white }
+.bp-tb-right { display:flex;align-items:center;gap:8px;flex-shrink:0 }
+.bp-mix-toggle {
+  padding:7px 14px;border-radius:100px;border:1.5px solid #E2E8F0;
+  background:white;font-size:.78rem;font-weight:700;color:#475569;cursor:pointer;transition:all .15s;
 }
-.search-row { display:flex;gap:10px;flex-wrap:wrap }
-.search-field {
-  display:flex;align-items:center;gap:8px;flex:1;min-width:160px;
-  background:rgba(255,255,255,.15);border-radius:12px;padding:10px 14px;
-  border:1px solid rgba(255,255,255,.2);
-}
-.sf-icon { font-size:1rem;flex-shrink:0 }
-.sf-input {
-  flex:1;border:none;background:transparent;color:white;
-  font-size:.88rem;font-family:inherit;outline:none;
-}
-.sf-input::placeholder { color:rgba(255,255,255,.55) }
-.sf-select option { color:#0F172A;background:white }
-.search-btn {
-  background:linear-gradient(135deg,#FF6B35,#EC4899);color:white;
-  border:none;border-radius:12px;padding:12px 24px;
-  font-size:.92rem;font-weight:800;cursor:pointer;white-space:nowrap;
-  transition:all .2s;box-shadow:0 4px 20px rgba(236,72,153,.4);
-}
-.search-btn:hover { transform:translateY(-2px);box-shadow:0 8px 28px rgba(236,72,153,.5) }
-.search-chips { display:flex;align-items:center;gap:7px;margin-top:12px;flex-wrap:wrap }
-.sc-label { font-size:.72rem;color:rgba(255,255,255,.55);font-weight:700 }
-.sc-chip {
-  padding:5px 13px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);
-  border-radius:100px;color:white;font-size:.78rem;font-weight:700;cursor:pointer;transition:all .15s;
-}
-.sc-chip:hover { background:rgba(255,255,255,.22) }
-
-/* HERO STATS */
-.tbh-stats { display:flex;justify-content:center;gap:32px;flex-wrap:wrap }
-.tbhs { display:flex;flex-direction:column;align-items:center;gap:2px }
-.tbhs-val { font-size:1.5rem;font-weight:900;color:white }
-.tbhs-lbl { font-size:.65rem;color:rgba(255,255,255,.55);font-weight:700;text-transform:uppercase;letter-spacing:.08em }
-
-/* ITINERARY */
-.itinerary-sec { background:#F8FAFC;padding:60px 0 }
-.itin-header { display:flex;align-items:flex-start;justify-content:space-between;gap:20px;margin-bottom:28px;flex-wrap:wrap }
-.itin-title { font-size:1.8rem;font-weight:900;color:#0F172A;margin-bottom:4px }
-.itin-sub { color:#64748B;font-size:.9rem }
-.itin-book-btn {
-  padding:10px 22px;background:linear-gradient(135deg,#7C3AED,#EC4899);
-  color:white;border-radius:12px;font-weight:700;font-size:.85rem;white-space:nowrap;
-}
-.itin-grid { display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px }
-.itin-day {
-  background:white;border-radius:16px;padding:18px;
-  border:1px solid #E2E8F0;box-shadow:0 2px 12px rgba(0,0,0,.04);
-}
-.itin-day-header { display:flex;align-items:center;gap:8px;margin-bottom:14px }
-.itin-day-num { font-size:.65rem;font-weight:900;background:linear-gradient(135deg,#7C3AED,#EC4899);color:white;padding:3px 9px;border-radius:100px;text-transform:uppercase;letter-spacing:.06em }
-.itin-day-icon { font-size:1.1rem }
-.itin-day-title { font-weight:800;font-size:.9rem;color:#0F172A }
-.itin-acts { list-style:none;display:flex;flex-direction:column;gap:8px }
-.itin-acts li { display:flex;align-items:flex-start;gap:7px;font-size:.78rem;color:#475569;line-height:1.4 }
-.itin-dot { color:#7C3AED;font-size:.55rem;flex-shrink:0;margin-top:3px }
-
-/* EXPLORER */
-.dest-explorer { padding:60px 0 80px }
-.sec-hdr { text-align:center;margin-bottom:36px }
-
-.filters { display:flex;justify-content:center;margin-bottom:32px }
-.filter-chips { display:flex;gap:7px;flex-wrap:wrap;justify-content:center }
-.filter-chip {
-  padding:6px 15px;background:#F8FAFC;border:1.5px solid #E2E8F0;
-  border-radius:100px;font-size:.78rem;font-weight:700;color:#475569;cursor:pointer;transition:all .15s;
-}
-.filter-chip:hover { border-color:#7C3AED;color:#7C3AED }
-.filter-chip.active {
+.bp-mix-toggle:hover,.bp-mix-toggle.active {
   background:linear-gradient(135deg,#7C3AED,#EC4899);color:white;border-color:transparent;
-  box-shadow:0 3px 12px rgba(124,58,237,.3);
+}
+.bp-saved-btn {
+  padding:7px 14px;border-radius:100px;border:1.5px solid #E2E8F0;
+  background:white;font-size:.78rem;font-weight:700;color:#475569;cursor:pointer;
+  display:flex;align-items:center;gap:6px;transition:all .15s;
+}
+.bp-saved-btn:hover { border-color:#7C3AED;color:#7C3AED }
+.bp-saved-count {
+  width:18px;height:18px;border-radius:50%;
+  background:linear-gradient(135deg,#7C3AED,#EC4899);color:white;
+  font-size:.6rem;font-weight:800;display:inline-flex;align-items:center;justify-content:center;
 }
 
-/* DESTINATION CARDS */
-.dest-grid {
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
-  gap:24px;
-}
-.dest-card {
-  background:white;border-radius:20px;overflow:hidden;
-  border:1px solid #E2E8F0;transition:all .25s;display:flex;flex-direction:column;
-}
-.dest-card:hover { box-shadow:0 16px 50px rgba(0,0,0,.13);transform:translateY(-6px);border-color:transparent }
-
-.dest-img-wrap { position:relative;height:200px;overflow:hidden;flex-shrink:0 }
-.dest-photo { width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s }
-.dest-card:hover .dest-photo { transform:scale(1.06) }
-.dest-photo-fallback { width:100%;height:100%;align-items:center;justify-content:center }
-.dest-img-overlay {
-  position:absolute;inset:0;
-  background:linear-gradient(to bottom,rgba(0,0,0,.1) 0%,rgba(0,0,0,.55) 100%);
-}
-.dest-tag-badge {
-  position:absolute;top:12px;left:12px;
-  font-size:.65rem;font-weight:800;background:rgba(255,255,255,.92);
-  color:#0F172A;padding:4px 10px;border-radius:100px;text-transform:uppercase;letter-spacing:.05em;
-}
-.dest-best-time {
-  position:absolute;top:12px;right:12px;
-  font-size:.62rem;font-weight:700;background:rgba(0,0,0,.55);
-  color:white;padding:4px 10px;border-radius:100px;backdrop-filter:blur(4px);
-}
-.dest-country-chip {
-  position:absolute;bottom:12px;left:12px;
-  font-size:1rem;font-weight:900;color:white;
-  text-shadow:0 1px 8px rgba(0,0,0,.6);letter-spacing:-.01em;
+/* LAYOUT */
+.bp-layout {
+  display:flex;height:calc(100vh - 120px);overflow:hidden;
 }
 
-.dest-body { padding:16px;flex:1;display:flex;flex-direction:column;gap:10px }
-.dest-meta-row { display:flex;gap:8px;flex-wrap:wrap }
-.dest-meta-item {
-  font-size:.7rem;font-weight:700;color:#64748B;
-  background:#F8FAFC;border-radius:6px;padding:3px 8px;
+/* SIDEBAR */
+.bp-sidebar {
+  width:240px;flex-shrink:0;border-right:1px solid #E2E8F0;
+  display:flex;flex-direction:column;overflow:hidden;background:#FAFAFA;
 }
-.dest-desc { font-size:.8rem;color:#475569;line-height:1.55;flex:1 }
+.sb-header {
+  display:flex;align-items:center;justify-content:space-between;
+  padding:12px 16px;border-bottom:1px solid #E2E8F0;
+  font-size:.72rem;font-weight:800;color:#94A3B8;text-transform:uppercase;letter-spacing:.08em;
+}
+.sb-count {
+  background:#F1F5F9;color:#475569;font-size:.68rem;font-weight:800;
+  padding:2px 8px;border-radius:100px;
+}
+.mix-info { padding:10px 14px;background:#FDF4FF;border-bottom:1px solid #E9D5FF }
+.mix-info-text { font-size:.72rem;color:#7C3AED;font-weight:700;margin-bottom:8px }
+.mix-generate-btn {
+  width:100%;padding:8px;background:linear-gradient(135deg,#7C3AED,#EC4899);
+  color:white;border:none;border-radius:10px;font-size:.75rem;font-weight:800;cursor:pointer;
+}
+.sb-list { flex:1;overflow-y:auto;padding:6px }
+.sb-item {
+  display:flex;align-items:center;gap:8px;padding:9px 10px;border-radius:10px;
+  cursor:pointer;transition:all .15s;margin-bottom:2px;
+}
+.sb-item:hover { background:rgba(124,58,237,.06) }
+.sb-item.active { background:linear-gradient(135deg,rgba(124,58,237,.12),rgba(236,72,153,.08));border-left:3px solid var(--theme,#7C3AED) }
+.sb-item.mix-selected { background:rgba(124,58,237,.1);border-left:3px solid #7C3AED }
+.sbi-flag { font-size:1.2rem;flex-shrink:0 }
+.sbi-info { flex:1;min-width:0 }
+.sbi-name { font-size:.82rem;font-weight:800;color:#0F172A;truncate:ellipsis }
+.sbi-meta { font-size:.65rem;color:#94A3B8;font-weight:600 }
+.sbi-right { display:flex;flex-direction:column;align-items:flex-end;gap:3px }
+.sbi-budget { font-size:.65rem;font-weight:700;color:var(--theme,#7C3AED) }
+.sbi-check {
+  width:18px;height:18px;border-radius:50%;border:2px solid #E2E8F0;
+  display:flex;align-items:center;justify-content:center;font-size:.65rem;
+}
+.sbi-check.checked { background:#7C3AED;border-color:#7C3AED;color:white;font-weight:900 }
 
-/* Activities */
-.dest-activities { display:flex;flex-direction:column;gap:6px }
-.act-label { font-size:.62rem;font-weight:900;color:#94A3B8;text-transform:uppercase;letter-spacing:.08em }
-.act-list { display:flex;flex-direction:column;gap:4px }
-.act-chip {
-  font-size:.72rem;color:#475569;font-weight:600;
-  background:linear-gradient(135deg,#F3E8FF,#FDF4FF);
-  border:1px solid #E9D5FF;border-radius:8px;padding:5px 10px;
-  line-height:1.3;
+/* MAIN */
+.bp-main { flex:1;overflow-y:auto;background:#F8FAFC }
+
+/* SLIDER */
+.slider-wrap { position:relative;height:380px;overflow:hidden;flex-shrink:0 }
+.slider-track { display:flex;height:100%;transition:transform .5s cubic-bezier(.4,0,.2,1);will-change:transform }
+.slide { position:relative;min-width:100%;height:100%;flex-shrink:0;overflow:hidden }
+.slide-img { width:100%;height:100%;object-fit:cover;display:block }
+.slider-btn {
+  position:absolute;top:50%;transform:translateY(-50%);z-index:10;
+  width:44px;height:44px;border-radius:50%;background:rgba(0,0,0,.4);
+  border:none;color:white;font-size:1.5rem;cursor:pointer;backdrop-filter:blur(4px);
+  display:flex;align-items:center;justify-content:center;transition:background .15s;
+}
+.slider-btn:hover { background:rgba(0,0,0,.65) }
+.slider-prev { left:16px }
+.slider-next { right:16px }
+.slider-dots { position:absolute;bottom:80px;left:50%;transform:translateX(-50%);display:flex;gap:6px;z-index:10 }
+.sdot {
+  width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.5);border:none;cursor:pointer;transition:all .2s;
+}
+.sdot.active { width:24px;border-radius:4px;background:white }
+.slider-overlay {
+  position:absolute;bottom:0;left:0;right:0;z-index:10;
+  background:linear-gradient(to top,rgba(0,0,0,.75) 0%,transparent 100%);
+  padding:20px 24px;display:flex;align-items:flex-end;justify-content:space-between;
+}
+.so-name { font-size:2.2rem;font-weight:900;color:white;letter-spacing:-.03em;margin-bottom:4px }
+.so-country { font-size:.82rem;color:rgba(255,255,255,.8);font-weight:600 }
+.so-right { text-align:right }
+.so-budget { font-size:1.1rem;font-weight:900;color:#FCD34D;margin-bottom:4px }
+.so-days { font-size:.78rem;color:rgba(255,255,255,.7) }
+
+/* DEST INFO BAR */
+.dest-info-bar {
+  display:flex;align-items:center;gap:0;background:white;
+  border-bottom:1px solid #E2E8F0;padding:0 20px;overflow-x:auto;
+}
+.dib-item { display:flex;flex-direction:column;align-items:center;gap:2px;padding:12px 18px;flex-shrink:0 }
+.dib-label { font-size:.58rem;font-weight:700;color:#94A3B8;text-transform:uppercase;letter-spacing:.08em }
+.dib-val { font-size:.82rem;font-weight:800;color:#0F172A }
+.dib-sep { width:1px;height:28px;background:#E2E8F0;flex-shrink:0 }
+.theme-btn {
+  margin-left:auto;flex-shrink:0;padding:7px 14px;border-radius:100px;
+  border:1.5px solid #E2E8F0;background:white;font-size:.75rem;font-weight:700;
+  color:#475569;cursor:pointer;transition:all .2s;white-space:nowrap;
+}
+.theme-btn:hover { border-color:#7C3AED;color:#7C3AED }
+
+/* SECTION CARDS */
+.section-card {
+  background:white;border-radius:20px;margin:16px;
+  border:1px solid #E2E8F0;box-shadow:0 2px 12px rgba(0,0,0,.04);overflow:hidden;
+}
+.sc-header { display:flex;align-items:center;gap:10px;padding:18px 20px 14px;border-bottom:1px solid #F1F5F9 }
+.sc-icon { font-size:1.2rem }
+.sc-title { font-size:1rem;font-weight:900;color:#0F172A;flex:1 }
+.sc-sub { font-size:.7rem;color:#94A3B8;font-weight:600 }
+.sc-note { font-size:.72rem;color:#475569;padding:10px 20px;background:#F8FAFC;border-top:1px solid #F1F5F9 }
+
+/* FLIGHTS */
+.flight-grid { display:grid;grid-template-columns:repeat(3,1fr);gap:12px;padding:16px 20px }
+.flight-chip { background:#F8FAFC;border:1px solid #E2E8F0;border-radius:12px;padding:14px;text-align:center }
+.fc-route { font-size:.72rem;color:#64748B;font-weight:700;margin-bottom:6px }
+.fc-price { font-size:1.1rem;font-weight:900;color:#7C3AED }
+.fc-note { font-size:.62rem;color:#94A3B8;margin-top:3px }
+
+/* PACKAGE */
+.pkg-grid { display:grid;grid-template-columns:repeat(4,1fr);gap:0;padding:4px 0 }
+.pkg-item { display:flex;flex-direction:column;align-items:center;gap:5px;padding:16px;border-right:1px solid #F1F5F9 }
+.pkg-item:last-child { border-right:none }
+.pkg-item.pkg-total { background:#FDF4FF }
+.pkg-icon { font-size:1.4rem }
+.pkg-label { font-size:.68rem;color:#64748B;font-weight:700;text-align:center }
+.pkg-val { font-size:.95rem;font-weight:900;color:#0F172A }
+.pkg-val-total { font-size:1.1rem;color:#7C3AED }
+.pkg-cta { display:flex;gap:10px;padding:14px 20px;background:#F8FAFC;border-top:1px solid #F1F5F9 }
+.build-btn {
+  flex:1;padding:11px;background:linear-gradient(135deg,#7C3AED,#EC4899);
+  color:white;border:none;border-radius:12px;font-size:.85rem;font-weight:800;cursor:pointer;transition:all .2s;
+}
+.build-btn:hover { opacity:.9;transform:translateY(-1px) }
+.copy-btn {
+  padding:11px 18px;background:#F1F5F9;border:1px solid #E2E8F0;
+  border-radius:12px;font-size:.82rem;font-weight:700;color:#475569;cursor:pointer;transition:all .15s;
+}
+.copy-btn:hover { border-color:#7C3AED;color:#7C3AED }
+
+/* HOTELS */
+.hotels-row { display:grid;grid-template-columns:repeat(3,1fr);gap:14px;padding:16px 20px }
+.hotel-card { border:1.5px solid #E2E8F0;border-radius:14px;overflow:hidden;transition:all .2s }
+.hotel-card:hover { box-shadow:0 8px 24px rgba(0,0,0,.1);transform:translateY(-3px) }
+.hc-top { padding:14px;display:flex;justify-content:space-between;align-items:center }
+.hc-type { font-size:.65rem;font-weight:800;color:rgba(255,255,255,.9);text-transform:uppercase }
+.hc-rating { font-size:.75rem;font-weight:700;color:white }
+.hc-body { padding:12px }
+.hc-name { font-size:.85rem;font-weight:800;color:#0F172A;margin-bottom:4px }
+.hc-price { font-size:1.1rem;font-weight:900;color:#7C3AED;margin-bottom:8px }
+.hc-per { font-size:.65rem;color:#94A3B8;font-weight:600 }
+.hc-amenities { display:flex;flex-wrap:wrap;gap:4px;margin-bottom:10px }
+.hc-am { font-size:.6rem;background:#F8FAFC;border:1px solid #E2E8F0;border-radius:6px;padding:2px 7px;color:#475569;font-weight:600 }
+.hc-add-btn {
+  width:100%;padding:7px;background:#F3E8FF;border:1px solid #E9D5FF;
+  border-radius:9px;font-size:.72rem;font-weight:700;color:#7C3AED;cursor:pointer;transition:all .15s;
+}
+.hc-add-btn:hover { background:#7C3AED;color:white;border-color:#7C3AED }
+
+/* ACTIVITIES */
+.acts-grid { display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;padding:16px 20px }
+.act-card {
+  display:flex;align-items:flex-start;gap:10px;
+  background:#F8FAFC;border:1.5px solid #E2E8F0;border-radius:12px;padding:12px;
+  transition:all .15s;position:relative;
+}
+.act-card.added { border-color:#7C3AED;background:#FDF4FF }
+.act-card:hover { border-color:#7C3AED;box-shadow:0 4px 12px rgba(124,58,237,.1) }
+.act-icon { font-size:1.4rem;flex-shrink:0;margin-top:1px }
+.act-body { flex:1;min-width:0 }
+.act-name { font-size:.8rem;font-weight:800;color:#0F172A;margin-bottom:4px }
+.act-meta { display:flex;gap:8px;margin-bottom:4px }
+.act-type { font-size:.6rem;background:#EDE9FE;color:#7C3AED;padding:2px 7px;border-radius:6px;font-weight:700 }
+.act-dur { font-size:.62rem;color:#64748B;font-weight:600 }
+.act-price { font-size:.82rem;font-weight:800;color:#0F172A }
+.act-free { color:#10B981 }
+.act-add-btn {
+  width:28px;height:28px;border-radius:50%;border:none;flex-shrink:0;
+  background:linear-gradient(135deg,#7C3AED,#EC4899);color:white;
+  font-size:1.1rem;font-weight:700;cursor:pointer;transition:all .15s;
+  display:flex;align-items:center;justify-content:center;
+}
+.act-add-btn:hover { transform:scale(1.1) }
+
+/* ITINERARY PREVIEW */
+.itin-days { display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;padding:16px 20px }
+.itin-day-card {
+  background:#F8FAFC;border:1px solid #E2E8F0;border-radius:12px;padding:14px;
+}
+.idc-num { font-size:.62rem;font-weight:800;background:linear-gradient(135deg,#7C3AED,#EC4899);color:white;padding:2px 9px;border-radius:100px;display:inline-block;margin-bottom:6px }
+.idc-title { font-size:.85rem;font-weight:800;color:#0F172A;margin-bottom:8px }
+.idc-items { list-style:none }
+.idc-items li { display:flex;gap:6px;font-size:.72rem;color:#475569;margin-bottom:4px;line-height:1.4 }
+.idc-dot { color:#7C3AED;font-size:.5rem;flex-shrink:0;margin-top:3px }
+.itin-cta { padding:14px 20px;border-top:1px solid #F1F5F9 }
+
+/* BLUEPRINT BUILDER DRAWER */
+.builder-overlay { position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:400;display:none;backdrop-filter:blur(3px) }
+.builder-drawer {
+  position:fixed;right:-500px;top:0;bottom:0;width:480px;max-width:95vw;
+  background:white;z-index:401;transition:right .3s cubic-bezier(.4,0,.2,1);
+  display:flex;flex-direction:column;box-shadow:-8px 0 40px rgba(0,0,0,.15);
+}
+.builder-drawer.open { right:0 }
+.bd-header { padding:20px;border-bottom:1px solid #E2E8F0;flex-shrink:0 }
+.bd-title-row { display:flex;align-items:center;justify-content:space-between;margin-bottom:6px }
+.bd-title { font-size:1.2rem;font-weight:900;color:#0F172A }
+.bd-close {
+  width:30px;height:30px;border-radius:50%;border:1px solid #E2E8F0;
+  background:white;cursor:pointer;font-size:.85rem;color:#475569;
+  display:flex;align-items:center;justify-content:center;transition:all .15s;
+}
+.bd-close:hover { background:#F1F5F9 }
+.bd-dest-info { font-size:.78rem;color:#64748B;font-weight:600;margin-bottom:10px }
+.bd-cost-bar { display:flex;justify-content:space-between;align-items:center;background:#F3E8FF;border-radius:10px;padding:8px 14px }
+.bd-cost-label { font-size:.7rem;font-weight:700;color:#7C3AED }
+.bd-cost-val { font-size:1rem;font-weight:900;color:#7C3AED }
+.bd-body { flex:1;overflow-y:auto;padding:16px }
+.bd-quick-add { margin-bottom:16px }
+.bq-label { font-size:.65rem;font-weight:800;color:#94A3B8;text-transform:uppercase;letter-spacing:.08em;display:block;margin-bottom:8px }
+.bq-chips { display:flex;flex-wrap:wrap;gap:6px }
+.bq-chip {
+  padding:4px 10px;background:#F8FAFC;border:1px solid #E2E8F0;
+  border-radius:100px;font-size:.68rem;font-weight:700;color:#475569;cursor:pointer;transition:all .15s;white-space:nowrap;
+}
+.bq-chip:hover { border-color:#7C3AED;color:#7C3AED;background:#F3E8FF }
+.bd-day { background:#F8FAFC;border:1px solid #E2E8F0;border-radius:12px;margin-bottom:10px;overflow:hidden }
+.bdd-header { display:flex;align-items:center;gap:8px;padding:10px 12px;background:white;border-bottom:1px solid #F1F5F9 }
+.bdd-num { font-size:.6rem;font-weight:800;background:linear-gradient(135deg,#7C3AED,#EC4899);color:white;padding:2px 8px;border-radius:100px }
+.bdd-title { flex:1;border:none;background:transparent;font-size:.82rem;font-weight:700;color:#0F172A;font-family:inherit;outline:none }
+.bdd-del { width:20px;height:20px;border-radius:50%;border:none;background:#FEE2E2;color:#EF4444;font-size:.65rem;cursor:pointer;display:flex;align-items:center;justify-content:center }
+.bdd-items { padding:8px 12px }
+.bddi { display:flex;align-items:center;gap:6px;margin-bottom:6px }
+.bddi-text { flex:1;border:none;background:transparent;font-size:.75rem;color:#475569;font-family:inherit;outline:none;padding:3px 0 }
+.bddi-price { font-size:.68rem;color:#94A3B8;font-weight:600;white-space:nowrap }
+.bddi-del { width:18px;height:18px;border-radius:50%;border:none;background:#F1F5F9;color:#94A3B8;font-size:.6rem;cursor:pointer;flex-shrink:0 }
+.bdd-add-item { margin:6px 12px 10px;font-size:.72rem;color:#7C3AED;font-weight:700;background:none;border:1px dashed #DDD6FE;border-radius:8px;padding:5px 12px;cursor:pointer;width:calc(100% - 24px) }
+.bd-add-day { width:100%;padding:10px;border:2px dashed #E2E8F0;border-radius:12px;background:white;font-size:.82rem;font-weight:700;color:#94A3B8;cursor:pointer;transition:all .15s;margin-top:4px }
+.bd-add-day:hover { border-color:#7C3AED;color:#7C3AED }
+.bd-footer { padding:16px;border-top:1px solid #E2E8F0;display:flex;gap:10px;flex-shrink:0 }
+.bd-save-btn {
+  flex:1;padding:12px;background:linear-gradient(135deg,#7C3AED,#EC4899);
+  color:white;border:none;border-radius:12px;font-size:.85rem;font-weight:800;cursor:pointer;
+}
+.bd-share-btn {
+  padding:12px 16px;background:#F8FAFC;border:1px solid #E2E8F0;
+  border-radius:12px;font-size:.82rem;font-weight:700;color:#475569;cursor:pointer;
 }
 
-.dest-actions { display:flex;gap:8px;margin-top:auto;padding-top:4px }
-.dest-plan-btn {
-  flex:1;padding:9px;background:linear-gradient(135deg,#7C3AED,#EC4899);
-  color:white;border:none;border-radius:10px;font-size:.78rem;font-weight:800;cursor:pointer;transition:all .15s;
+/* SAVED PANEL */
+.saved-overlay { position:fixed;inset:0;background:rgba(0,0,0,.3);z-index:398;display:none }
+.saved-panel {
+  position:fixed;left:-380px;top:0;bottom:0;width:360px;max-width:90vw;
+  background:white;z-index:399;transition:left .3s;
+  display:flex;flex-direction:column;box-shadow:8px 0 40px rgba(0,0,0,.12);
 }
-.dest-plan-btn:hover { opacity:.9 }
-.dest-book-btn {
-  padding:9px 14px;background:#F8FAFC;border:1px solid #E2E8F0;
-  border-radius:10px;font-size:.78rem;font-weight:700;color:#475569;transition:all .15s;
-}
-.dest-book-btn:hover { border-color:#7C3AED;color:#7C3AED }
+.saved-panel.open { left:0 }
+.sp-header { display:flex;align-items:center;justify-content:space-between;padding:20px;border-bottom:1px solid #E2E8F0 }
+.sp-title { font-size:1.1rem;font-weight:900;color:#0F172A }
+.sp-body { flex:1;overflow-y:auto;padding:12px }
+.sp-empty { text-align:center;padding:40px;color:#94A3B8;font-size:.88rem }
+.sp-item { display:flex;align-items:center;gap:10px;padding:12px;background:#F8FAFC;border-radius:12px;margin-bottom:8px }
+.spi-flag { font-size:1.6rem;flex-shrink:0 }
+.spi-info { flex:1;min-width:0 }
+.spi-name { font-size:.85rem;font-weight:800;color:#0F172A }
+.spi-meta { font-size:.68rem;color:#94A3B8 }
+.spi-actions { display:flex;gap:6px }
+.spi-open { padding:5px 12px;background:linear-gradient(135deg,#7C3AED,#EC4899);color:white;border:none;border-radius:8px;font-size:.72rem;font-weight:700;cursor:pointer }
+.spi-del { padding:5px 8px;background:#FEE2E2;color:#EF4444;border:none;border-radius:8px;font-size:.72rem;cursor:pointer }
 
-/* SMART FEATURES */
-.smart-sec { background:#F8FAFC;padding:60px 0 }
-.smart-grid { display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px }
-.smart-card {
-  background:white;border-radius:18px;padding:24px;
-  border:1px solid #E2E8F0;transition:all .2s;
-}
-.smart-card:hover { box-shadow:0 8px 32px rgba(0,0,0,.08);transform:translateY(-3px) }
-.smart-icon {
-  width:48px;height:48px;border-radius:14px;font-size:1.4rem;
-  display:flex;align-items:center;justify-content:center;margin-bottom:14px;
-}
-.smart-title { font-size:.98rem;font-weight:900;color:#0F172A;margin-bottom:8px }
-.smart-desc { font-size:.8rem;color:#64748B;line-height:1.6 }
-
-/* GROUP */
-.group-sec { position:relative;overflow:hidden;padding:70px 0 }
-.gs-bg { position:absolute;inset:0;background:linear-gradient(135deg,#4C1D95,#2D1B69,#0F172A) }
-.gs-inner { position:relative;z-index:2;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center }
-.gs-content { color:white }
-.gs-form { display:flex;gap:10px;margin:20px 0;flex-wrap:wrap }
-.gs-email {
-  flex:1;min-width:200px;padding:12px 16px;background:rgba(255,255,255,.1);
-  border:1px solid rgba(255,255,255,.2);border-radius:12px;color:white;
-  font-size:.88rem;font-family:inherit;outline:none;
-}
-.gs-email::placeholder { color:rgba(255,255,255,.5) }
-.gs-submit {
-  padding:12px 22px;background:linear-gradient(135deg,#FF6B35,#EC4899);
-  color:white;border:none;border-radius:12px;font-size:.88rem;font-weight:800;cursor:pointer;white-space:nowrap;
-}
-.gs-features { display:flex;flex-wrap:wrap;gap:10px }
-.gs-feat { font-size:.78rem;color:rgba(255,255,255,.7);font-weight:600 }
-.gs-visual { display:flex;justify-content:center }
-.gs-card {
-  background:white;border-radius:20px;padding:20px;width:280px;
-  box-shadow:0 16px 60px rgba(0,0,0,.3);
-}
-.gs-card-header { display:flex;align-items:center;justify-content:space-between;margin-bottom:14px }
-.gs-member { display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid #F1F5F9 }
-.gs-total { display:flex;justify-content:space-between;padding:12px 0 8px }
-.gs-savings { font-size:.72rem;color:#7C3AED;font-weight:700;text-align:center;background:#EDE9FE;padding:7px;border-radius:8px }
+/* MIX & MATCH RESULT */
+.mix-result { background:#F8FAFC;padding:40px 0;border-top:2px solid #E2E8F0 }
+.mr-header { display:flex;align-items:center;justify-content:space-between;margin-bottom:24px }
+.mr-title { font-size:1.4rem;font-weight:900;color:#0F172A }
+.mr-build { padding:10px 22px;background:linear-gradient(135deg,#7C3AED,#EC4899);color:white;border:none;border-radius:12px;font-weight:800;cursor:pointer }
+.mr-summary { display:flex;flex-wrap:wrap;gap:16px;margin-bottom:20px;font-size:.82rem;color:#475569;font-weight:600 }
+.mr-days { display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px }
+.mr-day { background:white;border:1px solid #E2E8F0;border-radius:12px;padding:14px }
+.mrd-hdr { display:flex;align-items:center;gap:8px;margin-bottom:8px }
+.mrd-num { font-size:.6rem;font-weight:800;background:linear-gradient(135deg,#7C3AED,#EC4899);color:white;padding:2px 8px;border-radius:100px }
+.mrd-city { font-size:.68rem;font-weight:700;color:#7C3AED;background:#F3E8FF;padding:2px 8px;border-radius:100px }
+.mrd-title { font-size:.78rem;font-weight:700;color:#0F172A }
+.mrd-items { display:flex;flex-direction:column;gap:4px }
+.mrd-items span { font-size:.7rem;color:#475569 }
 
 @media (max-width:860px) {
-  .gs-inner { grid-template-columns:1fr }
-  .gs-visual { display:none }
-  .dest-grid { grid-template-columns:repeat(auto-fill,minmax(260px,1fr)) }
+  .bp-layout { flex-direction:column;height:auto }
+  .bp-sidebar { width:100%;height:auto;border-right:none;border-bottom:1px solid #E2E8F0 }
+  .sb-list { max-height:180px }
+  .slider-wrap { height:260px }
+  .flight-grid { grid-template-columns:repeat(3,1fr) }
+  .pkg-grid { grid-template-columns:repeat(2,1fr) }
+  .hotels-row { grid-template-columns:1fr }
+  .bp-tb-center { display:none }
 }
 @media (max-width:640px) {
-  .search-row { flex-direction:column }
-  .search-field { min-width:unset }
-  .dest-grid { grid-template-columns:1fr }
+  .flight-grid,.hotels-row { grid-template-columns:1fr }
+  .pkg-grid { grid-template-columns:1fr 1fr }
+  .builder-drawer { width:100vw }
+  .saved-panel { width:100vw }
 }
 </style>
